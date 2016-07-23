@@ -1,0 +1,38 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet"
+      href="{{url_for('static', filename='amu-style.css')}}">
+{% endblock %}
+
+{% block navbar %}
+<div class="navbar navbar-fixed-top">
+  <!-- ... -->
+</div>
+{% endblock %}
+
+
+{% block content %}
+<div class="container" role="main">
+	<h1 class="pull-right" id="mainheader"> <img src="{{url_for("static", filename="logo-amu.svg")}}" style="height: 20px; padding-right: 6px;">AMU</h1>
+	<div class="clearfix"></div>
+	{% with messages = get_flashed_messages(with_categories=True) %}
+		{% if messages %}
+				{% for cat, message in messages %}
+					{% with category = "success" if cat == "message" else cat %}
+						<div class="alert alert-{{category}} alert-dismissible fade in" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							{{ message }}
+						</div>
+					{% endwith %}
+				{% endfor %}
+		{% endif %}
+	{% endwith %}
+  {% block inner %}
+  {% endblock %}
+</div>
+{% endblock %}

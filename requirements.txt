@@ -1,0 +1,7 @@
+ndg-httpsclient
+Flask
+Flask-WTF
+Flask-Session
+flask-bootstrap
+enum34
+pytest
