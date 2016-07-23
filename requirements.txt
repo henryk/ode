@@ -1,7 +1,9 @@
 ndg-httpsclient
-Flask
+request[security]
+Flask>=0.11.1
 Flask-WTF
 Flask-Session
 flask-bootstrap
 enum34
 pytest
+Flask-LDAPConn

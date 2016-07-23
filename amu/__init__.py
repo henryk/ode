@@ -2,9 +2,13 @@ from flask import Flask
 
 from flask_bootstrap import Bootstrap
 from flask_session import Session
+from flask_ldapconn import LDAPConn
+
+
 
 bs = Bootstrap()
 _s = Session()
+ldap = LDAPConn()
 
 def create_app(configuration="amu.config.DevelopmentConfig", **kwargs):
     app = Flask(__name__)
@@ -15,10 +19,11 @@ def create_app(configuration="amu.config.DevelopmentConfig", **kwargs):
 
     bs.init_app(app)
     _s.init_app(app)
+    ldap.init_app(app)
 
     from amu.views import views
     app.register_blueprint(views)
 
     return app
 
-import amu.views
+import amu.views, amu.forms

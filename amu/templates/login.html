@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block titleinner %}Log in{% endblock %}
+
+{% block inner %}
+  <h2>Please log in</h2>
+  
+  {{ wtf.quick_form(form, method="POST", form_type="horizontal", extra_classes="col-xs-5 col-xs-offset-3") }}
+  
+{% endblock %}
