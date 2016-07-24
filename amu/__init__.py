@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, g, current_app
 
 from flask_bootstrap import Bootstrap
 from flask_session import Session
