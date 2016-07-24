@@ -24,6 +24,20 @@ def create_app(configuration="amu.config.DevelopmentConfig", **kwargs):
     from amu.views import views
     app.register_blueprint(views)
 
+    from amu.model import initialize as model_init
+    model_init(app)
+
     return app
 
-import amu.views, amu.forms
+def config_get(key, default=Ellipsis, config=None, **kwargs):
+	if config is None:
+		config = current_app.config
+	d = dict(config.items())
+	d.update(kwargs)
+	if default is Ellipsis:
+		return d[key] % d
+	else:
+		return d.get(key, default) % d
+
+import amu.views, amu.forms, amu.model
+

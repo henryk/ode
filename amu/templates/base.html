@@ -9,6 +9,7 @@
 
 {% block navbar %}
 <div class="navbar navbar-fixed-top">
+  {% if g.ldap_user %}Logged in as {{ g.ldap_user.name }}{% endif %}
   <!-- ... -->
 </div>
 {% endblock %}

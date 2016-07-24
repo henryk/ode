@@ -3,6 +3,11 @@
 
 {% block inner %}
   <h2>FIXME</h2>
+  <ul>
+    {% for user in users %}
+      <li>{{user.name}}</li>
+    {% endfor %}
+  </ul>
   
 {% endblock %}
 
