@@ -78,14 +78,22 @@ def mynavbar():
 def root():
 	return redirect(url_for('.users'))
 
-@views.route("/users/")
+@views.route("/user/")
 @login_required
 def users():
 	users = User.query.all()
 	groups = Group.query.all()
 	return render_template('users.html', users=users, groups=groups)
 
-@views.route("/groups/")
+@views.route("/user/<string:uid>")
+@login_required
+def user(uid):
+	user = User.query.filter("userid: %s" % uid).first()
+	group_list = Group.query.all()
+	form = forms.get_EditUserForm(group_list)(obj=user)
+	return render_template('user.html', user=user, groups=group_list, form=form)
+
+@views.route("/group/")
 @login_required
 def groups():
 	users = User.query.all()

@@ -13,7 +13,7 @@
     </thead>
     {% for user in users %}
       <tr>
-        <td>{{user.userid}}</td>
+        <td><a href="{{url_for('.user',uid=user.userid)}}">{{user.userid}}</a></td>
         <td>{{user.name}}</td>
         <td>
           {% for group in groups %}

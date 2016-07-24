@@ -14,11 +14,7 @@
       <tr>
         <td>{{group.name}}</td>
         <td>
-          {% for user in users %}
-            {% if user.dn in group.members %}
-              {{user.name}}
-            {% endif %}
-          {% endfor %}
+          {% for user in users if user.dn in group.members %}{% if loop.index0 %},{% endif %} {{user.name}}{% endfor %}
         </td>
       </tr>
     {% endfor %}

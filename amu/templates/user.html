@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block titleinner %}User '{{user.name}}'{% endblock %}
+
+{% block inner %}
+  <h2>User '{{user.name}}'</h2>
+
+  {{ wtf.quick_form(form, method="POST", form_type="horizontal") }}
+  
+{% endblock %}

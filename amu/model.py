@@ -8,6 +8,8 @@ class User(ldap.Entry):
     surname = ldap.Attribute('sn')
     givenname = ldap.Attribute('givenName')
 
+    groups = ldap.Attribute('memberOf')
+
 class Group(ldap.Entry):
 	object_classes = ['groupOfNames']
 
