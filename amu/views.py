@@ -1,9 +1,11 @@
 from functools import wraps
 from flask import Blueprint, current_app, render_template, request, redirect, url_for, session, g, flash
-from amu import forms, config_get
+from flask_nav.elements import Navbar, View, Subgroup
+from flask_bootstrap.nav import BootstrapRenderer
+from amu import forms, config_get, nav
 from ldap3 import LDAPBindError
 
-from amu.model import User
+from amu.model import User, Group
 
 views = Blueprint('views', __name__)
 
@@ -23,17 +25,72 @@ def login_required(f):
 				if "password" in session:
 					del session["password"]
 				session.modified = True
-				return redirect(url_for('.login', next=request.url))
+				return redirect(url_for('.login', next=request.url))  ## FIXME: Validate or remove, don't want open redirects
 			return f(*args, **kwargs)
 		else:
 			return redirect(url_for('.login', next=request.url))
 	return decorated_function
 
+class CustomRenderer(BootstrapRenderer):
+	# Right-aligns last item
+	def visit_Navbar(self, node):
+		result = super(CustomRenderer, self).visit_Navbar(node)
+		div = None
+		child = None
+		for _ in result.get("div"):
+			if "navbar-collapse" in _['class']:
+				div = _
+				break
+		if div:
+			import dominate
+
+			for bar in div:
+				pass
+			for child in bar:
+				pass
+			if child:
+				bar.remove(child)
+				rightbar = dominate.tags.ul()
+				rightbar['class'] = "nav navbar-nav navbar-right"
+				div.add(rightbar)
+				rightbar.add(child)
+
+		return result
+
+@nav.navigation()
+def mynavbar():
+	e = [
+		'AMU',
+	]
+	if hasattr(g, "ldap_user"):
+		e.extend( [
+			View('Users', '.users'),
+			View('Groups', '.groups'),
+			Subgroup('Logged in as %s' % g.ldap_user.name,
+				View('Log out', '.logout')
+			)
+		] )
+	return Navbar(*e)
+
+
 @views.route("/")
 @login_required
 def root():
+	return redirect(url_for('.users'))
+
+@views.route("/users/")
+@login_required
+def users():
 	users = User.query.all()
-	return render_template('index.html', users=users)
+	groups = Group.query.all()
+	return render_template('users.html', users=users, groups=groups)
+
+@views.route("/groups/")
+@login_required
+def groups():
+	users = User.query.all()
+	groups = Group.query.all()
+	return render_template('groups.html', users=users, groups=groups)
 
 @views.route('/login', methods=['GET', 'POST'])
 def login():

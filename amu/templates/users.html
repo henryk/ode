@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block titleinner %}User list{% endblock %}
+
+{% block inner %}
+  <h2>User list</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>uid</th>
+        <th>Name</th>
+        <th>Groups</th>
+      </tr>
+    </thead>
+    {% for user in users %}
+      <tr>
+        <td>{{user.userid}}</td>
+        <td>{{user.name}}</td>
+        <td>
+          {% for group in groups %}
+            {% if user.dn in group.members %}
+              {{group.name}}
+            {% endif %}
+          {% endfor %}
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+  
+{% endblock %}

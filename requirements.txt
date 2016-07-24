@@ -4,6 +4,7 @@ Flask>=0.11.1
 Flask-WTF
 Flask-Session
 flask-bootstrap
+flask-nav
 enum34
 pytest
 Flask-LDAPConn

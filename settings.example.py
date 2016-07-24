@@ -1,5 +1,6 @@
 AMU_BASE_DN = "dc=example,dc=com"
 AMU_USER_BASE = "ou=Users,%(AMU_BASE_DN)s"
+AMU_GROUP_BASE = "ou=Groups,%(AMU_BASE_DN)s"
 AMU_BIND_DN = "uid=%(username)s,ou=Users,%(AMU_BASE_DN)s"
 LDAP_SERVER = 'localhost'
 LDAP_PORT = 389
