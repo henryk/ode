@@ -40,6 +40,29 @@ $(function(){
 	$('#surname').bind("change keyup paste input", fullname_change_handler);
 	$('#givenname').bind("change keyup paste input", username_change_handler);
 
+	var password_generated = false;
+	$('#password').on("focus", function() {
+		if(!password_generated) {
+			if(typeof window.crypto !== 'undefined' && typeof window.crypto.getRandomValues !== 'undefined') {
+				var array = new Uint32Array(5);
+				crypto.getRandomValues(array);
+				var pass = "";
+				for(var i=0; i<array.length; i++) {
+					if(i > 0) {
+						pass = pass + " ";
+					}
+					var rnd = ((1.0*array[i])/Math.pow( 2, 32 ));
+					pass = pass + words_de[Math.floor(rnd*words_de.length)];
+				}
+				$(this).val(pass).change().select();
+			}
+		}
+		password_generated = true;
+
+	});
+
+	$('#password').attr("autocomplete", "off");
+
 	var meter_inserted = false;
 	$('#password').bind("change keyup paste input", function(){
 		if(typeof zxcvbn !== 'undefined') {
@@ -101,4 +124,5 @@ $(function(){
 
 }).call(this);
 </script>
+<script src="{{url_for('static',filename='wordlist/words_de.js')}}"></script>
 {% endblock %}

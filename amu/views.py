@@ -1,5 +1,5 @@
 from functools import wraps
-from flask import Blueprint, current_app, render_template, request, redirect, url_for, session, g, flash
+from flask import Blueprint, current_app, render_template, request, redirect, url_for, session, g, flash, abort
 from flask_nav.elements import Navbar, View, Subgroup
 from flask_bootstrap.nav import BootstrapRenderer
 from amu import forms, config_get, nav
@@ -10,9 +10,11 @@ from amu.model import User, Group
 views = Blueprint('views', __name__)
 
 def connect_and_load_ldap():
-	userdn = config_get("AMU_BIND_DN", username=session["username"])
+	userdn = config_get("AMU_USER_DN", username=session["username"])
 	g.ldap_conn = current_app.extensions.get('ldap_conn').connect(userdn, session['password'])
 	g.ldap_user = User.query.filter("userid: %s" % session["username"]).first()
+	if not g.ldap_user:
+		g.ldap_user = User(name="Unknown user")
 
 def login_required(f):
 	@wraps(f)
@@ -93,8 +95,11 @@ def users():
 @login_required
 def user(uid):
 	user = User.query.filter("userid: %s" % uid).first()
+	if not user:
+		abort(404)
 	group_list = Group.query.all()
 	form = forms.get_EditUserForm(group_list)(obj=user)
+	form.password.data = '' # Must manually delete this, since the password is not returned
 	return render_template('user.html', user=user, form=form)
 
 @views.route("/user/_new", methods=['GET','POST'])
@@ -102,6 +107,13 @@ def user(uid):
 def new_user():
 	group_list = Group.query.all()
 	form = forms.get_NewUserForm(group_list)()
+	if request.method == 'POST' and form.validate_on_submit():
+		if form.submit.data:
+			del form.submit # Delete this, is not in LDAP :)
+			user = User()
+			form.populate_obj(user)
+			current_app.logger.debug( user.save() )
+			return redirect(url_for('.user', uid=user.userid))
 	return render_template('new_user.html', form=form)
 
 
