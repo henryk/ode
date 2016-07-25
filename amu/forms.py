@@ -18,8 +18,8 @@ def get_EditUserForm(group_list):
 	class EditUserForm(Form):
 		givenname = StringField('Given Name')
 		surname = StringField('Last Name')
-		name = StringField('Full Name')
 		userid = HiddenField('Username', validators=[DataRequired()])
+		name = StringField('Full Name')
 
 		groups = MultiCheckboxField('Groups', choices = [ (_.dn,_.name) for _ in group_list ] )
 
@@ -31,10 +31,11 @@ def get_EditUserForm(group_list):
 
 def get_NewUserForm(group_list):
 	class NewUserForm(Form):
-		givenname = StringField('Given Name')
-		surname = StringField('Last Name')
-		name = StringField('Full Name')
+		givenname = StringField('Given Name', validators=[DataRequired()])
+		surname = StringField('Last Name', validators=[DataRequired()])
+		password = StringField('Password', validators=[DataRequired()])
 		userid = StringField('Username', validators=[DataRequired()])
+		name = StringField('Full Name', validators=[DataRequired()])
 
 		groups = MultiCheckboxField('Groups', choices = [ (_.dn,_.name) for _ in group_list ] )
 

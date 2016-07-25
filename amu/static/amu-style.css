@@ -2,3 +2,18 @@ label[for=groups] + div > ul { height: auto; }
 label[for=groups] + div > ul > li { list-style: none; }
 
 body { padding-top: 70px; }
+
+/**
+ * Progress bars with centered text
+ */
+
+.progress.progress-text-center {
+    position: relative;
+}
+
+.progress.progress-text-center span {
+    position: absolute;
+    display: block;
+    width: 100%;
+    color: black;
+ }
