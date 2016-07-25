@@ -11,9 +11,26 @@ views = Blueprint('views', __name__)
 
 def connect_and_load_ldap():
 	userdn = config_get("AMU_USER_DN", username=session["username"])
-	g.ldap_conn = current_app.extensions.get('ldap_conn').connect(userdn, session['password'])
+	ldc = current_app.extensions.get('ldap_conn')
+	try: 
+		# First try the AMU_USER_DN format
+		g.ldap_conn = ldc.connect(userdn, session['password'])
+	except LDAPBindError as e:
+		if current_app.config["AMU_ALLOW_DIRECT_DN"]:
+			try: 
+				# If that didn't work, try the "username" directly
+				g.ldap_conn = ldc.connect(session["username"], session['password'])
+			except LDAPBindError:
+				# That didn't work either. For cosmetic purposes, re-raise the first exception
+				current_app.logger.info("Couldn't login with either %s or %s", userdn, session["username"])
+				raise e
+		else:
+			# Retry not allowed by AMU_ALLOW_DIRECT_DN, re-raise directly
+			raise e
+
 	g.ldap_user = User.query.filter("userid: %s" % session["username"]).first()
 	if not g.ldap_user:
+		# Fallback case
 		g.ldap_user = User(name="Unknown user")
 
 def login_required(f):
