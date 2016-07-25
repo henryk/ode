@@ -33,6 +33,7 @@ def login_required(f):
 
 class CustomRenderer(BootstrapRenderer):
 	# Right-aligns last item
+	# Fix to top
 	def visit_Navbar(self, node):
 		result = super(CustomRenderer, self).visit_Navbar(node)
 		div = None
@@ -55,6 +56,8 @@ class CustomRenderer(BootstrapRenderer):
 				div.add(rightbar)
 				rightbar.add(child)
 
+		result['class'] += " navbar-fixed-top"
+
 		return result
 
 @nav.navigation()
@@ -65,6 +68,7 @@ def mynavbar():
 	if hasattr(g, "ldap_user"):
 		e.extend( [
 			View('Users', '.users'),
+			View('New user', '.new_user'),
 			View('Groups', '.groups'),
 			Subgroup('Logged in as %s' % g.ldap_user.name,
 				View('Log out', '.logout')
@@ -91,7 +95,15 @@ def user(uid):
 	user = User.query.filter("userid: %s" % uid).first()
 	group_list = Group.query.all()
 	form = forms.get_EditUserForm(group_list)(obj=user)
-	return render_template('user.html', user=user, groups=group_list, form=form)
+	return render_template('user.html', user=user, form=form)
+
+@views.route("/user/_new", methods=['GET','POST'])
+@login_required
+def new_user():
+	group_list = Group.query.all()
+	form = forms.get_NewUserForm(group_list)()
+	return render_template('new_user.html', form=form)
+
 
 @views.route("/group/")
 @login_required

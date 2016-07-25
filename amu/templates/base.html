@@ -73,3 +73,8 @@
 {% endblock %}
 
 {% block title %}{% block titleinner %}{% endblock %} &mdash; AMU{% endblock %}
+
+{% block scripts %}
+{{super()}}
+<script src="{{url_for('static', filename='amu-scripts.js')}}"></script>
+{% endblock %}

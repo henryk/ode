@@ -12,7 +12,7 @@
       </tr>
     </thead>
     {% for user in users %}
-      <tr>
+      <tr data-href="{{url_for('.user',uid=user.userid)}}">
         <td><a href="{{url_for('.user',uid=user.userid)}}">{{user.userid}}</a></td>
         <td>{{user.name}}</td>
         <td>
@@ -27,3 +27,4 @@
   </table>
   
 {% endblock %}
+

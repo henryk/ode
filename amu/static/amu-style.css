@@ -1,3 +1,4 @@
 label[for=groups] + div > ul { height: auto; }
 label[for=groups] + div > ul > li { list-style: none; }
 
+body { padding-top: 70px; }

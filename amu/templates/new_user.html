@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block titleinner %}Create new user{% endblock %}
+
+{% block inner %}
+  <h2>Create new user</h2>
+
+  {{ wtf.quick_form(form, method="POST", action=url_for('.new_user'), form_type="horizontal") }}
+  
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+<script>
+$(function(){
+	var fullname_changed = false;
+	var username_changed = false;
+	var computed_fullname = function() {
+		return $.trim($('#givenname').val() + " " + $('#surname').val());
+	};
+	var computed_username = function() {
+		return $.trim($('#givenname').val().toLowerCase());
+	};
+	var fullname_change_handler = function() {
+		if(!fullname_changed) {
+			$('#name').val(computed_fullname());
+		}
+	};
+	var username_change_handler = function() {
+		if(!username_changed) {
+			$('#userid').val(computed_username());
+		}
+	}
+	$('#name').change(function(){
+		fullname_changed = ($('#name').val() != computed_fullname());
+	});
+	$('#userid').change(function(){
+		username_changed = ($('#userid').val() != computed_username());
+	});
+	$('#givenname').change(fullname_change_handler);
+	$('#surname').change(fullname_change_handler);
+	$('#givenname').change(username_change_handler);
+	
+});
+</script>
+{% endblock %}
