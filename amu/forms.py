@@ -24,7 +24,7 @@ def get_EditUserForm(group_list):
 
 		groups = MultiCheckboxField('Groups', choices = [ (_.dn,_.name) for _ in group_list ] )
 
-		submit = SubmitField('Update!')
+		update = SubmitField('Update!')
 
 		delete_confirm = BooleanField('Confirm deletion')
 		delete = SubmitField('Delete!')

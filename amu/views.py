@@ -3,7 +3,7 @@ from flask import Blueprint, current_app, render_template, request, redirect, ur
 from flask_nav.elements import Navbar, View, Subgroup
 from flask_bootstrap.nav import BootstrapRenderer
 from amu import forms, config_get, nav, session_box
-from ldap3 import LDAPBindError
+from ldap3 import LDAPBindError, LDAPEntryError
 
 from amu.model import User, Group
 
@@ -126,7 +126,20 @@ def users():
 	groups = Group.query.all()
 	return render_template('users.html', users=users, groups=groups)
 
-@views.route("/user/<string:uid>")
+def save_ldap_attributes(form, obj):
+	"""Only stores existing LDAP attributes.
+	Does not store empty attributes named 'password'.
+	Does not change existing attributes named 'userid'."""
+	for name, field in form._fields.items():
+		if name == "password" and not field.data: continue
+		if name == "userid" and getattr(obj, "userid", None): continue
+
+		try:
+			setattr(obj, name, field.data)
+		except LDAPEntryError:
+			continue
+
+@views.route("/user/<string:uid>", methods=['GET','POST'])
 @login_required
 def user(uid):
 	user = User.query.filter("userid: %s" % uid).first()
@@ -134,6 +147,19 @@ def user(uid):
 		abort(404)
 	group_list = Group.query.all()
 	form = forms.get_EditUserForm(group_list)(obj=user)
+	if request.method == 'POST' and form.validate_on_submit():
+		if form.userid.data != uid:
+			abort(400)
+
+		if form.update.data:
+			save_ldap_attributes(form, user)
+
+			if user.save():
+				flash("Successfully saved", category="success")
+				return redirect(url_for('.user', uid=user.userid))
+			else:
+				flash("Saving was unsuccessful", category="danger")
+
 	form.password.data = '' # Must manually delete this, since the password is not returned
 	return render_template('user.html', user=user, form=form)
 
@@ -144,11 +170,14 @@ def new_user():
 	form = forms.get_NewUserForm(group_list)()
 	if request.method == 'POST' and form.validate_on_submit():
 		if form.submit.data:
-			del form.submit # Delete this, is not in LDAP :)
 			user = User()
-			form.populate_obj(user)
-			current_app.logger.debug( user.save() )
-			return redirect(url_for('.user', uid=user.userid))
+			save_ldap_attributes(form, user)
+
+			if user.save():
+				flash("User created", category="success")
+				return redirect(url_for('.user', uid=user.userid))
+			else:
+				flash("Error while creating user", category="danger")
 	return render_template('new_user.html', form=form)
 
 
