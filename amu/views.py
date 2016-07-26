@@ -129,13 +129,16 @@ def users():
 def save_ldap_attributes(form, obj):
 	"""Only stores existing LDAP attributes.
 	Does not store empty attributes named 'password'.
-	Does not change existing attributes named 'userid'."""
+	Does not change existing attributes named 'userid'.
+	Does not change attributes named 'groups'."""
 	for name, field in form._fields.items():
 		if name == "password" and not field.data: continue
 		if name == "userid" and getattr(obj, "userid", None): continue
+		if name == "groups": continue
 
 		try:
-			setattr(obj, name, field.data)
+			if(getattr(obj, name) != field.data):
+				setattr(obj, name, field.data)
 		except LDAPEntryError:
 			continue
 
