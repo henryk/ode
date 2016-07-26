@@ -7,3 +7,12 @@
   {{ wtf.quick_form(form, method="POST", form_type="horizontal") }}
   
 {% endblock %}
+
+{% block scripts %}
+{{super()}}
+<script>
+{{ load_zxcvbn() }}
+amu_user_enhancements(false);
+</script>
+<script src="{{url_for('static',filename='wordlist/words_de.js')}}"></script>
+{% endblock %}
