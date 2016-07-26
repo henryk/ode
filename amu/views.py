@@ -131,6 +131,9 @@ def save_ldap_attributes(form, obj):
 	Does not store empty attributes named 'password'.
 	Does not change existing attributes named 'userid'.
 	Does not change attributes named 'groups'."""
+
+	changed = False
+
 	for name, field in form._fields.items():
 		if name == "password" and not field.data: continue
 		if name == "userid" and getattr(obj, "userid", None): continue
@@ -139,8 +142,12 @@ def save_ldap_attributes(form, obj):
 		try:
 			if(getattr(obj, name) != field.data):
 				setattr(obj, name, field.data)
+				changed = True
+
 		except LDAPEntryError:
 			continue
+
+	return changed
 
 @views.route("/user/<string:uid>", methods=['GET','POST'])
 @login_required
@@ -155,10 +162,12 @@ def user(uid):
 			abort(400)
 
 		if form.update.data:
-			save_ldap_attributes(form, user)
+			changed = save_ldap_attributes(form, user)
 
-			if user.save():
+			if not changed or user.save():
 				flash("Successfully saved", category="success")
+				if not user.save_groups(form.groups.data, group_list):
+					flash("Some or all of the group changes were not successful", category="danger")
 				return redirect(url_for('.user', uid=user.userid))
 			else:
 				flash("Saving was unsuccessful", category="danger")
@@ -189,6 +198,8 @@ def new_user():
 
 			if user.save():
 				flash("User created", category="success")
+				if not user.save_groups(form.groups.data, group_list):
+					flash("Some or all of the groups could not be assigned", category="danger")
 				return redirect(url_for('.user', uid=user.userid))
 			else:
 				flash("Error while creating user", category="danger")

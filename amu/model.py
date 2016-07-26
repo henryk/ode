@@ -28,6 +28,19 @@ class User(ldap.Entry):
 
 	groups = ldap.Attribute('memberOf')
 
+	def save_groups(self, new_groups, group_list):
+		add_list = [group for group in group_list if group.dn in new_groups and self.dn not in group.members]
+		del_list = [group for group in group_list if group.dn not in new_groups and self.dn in group.members]
+
+		result = True
+		for g in add_list:
+			g.members.append(self.dn)
+			result = g.save() and result
+		for g in del_list:
+			g.members = [e for e in g.members if e != self.dn]
+			result = g.save() and result
+		return result
+
 class Group(ldap.Entry):
 	object_classes = ['groupOfNames']
 
