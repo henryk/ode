@@ -29,9 +29,11 @@ def create_app(configuration="amu.config.DevelopmentConfig", **kwargs):
     app.register_blueprint(views)
     register_renderer(app, 'custom', CustomRenderer)
 
-
     from amu.model import initialize as model_init
     model_init(app)
+
+    import amu.session_box
+    amu.session_box.init_box(app)
 
     return app
 

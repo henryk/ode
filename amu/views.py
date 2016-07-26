@@ -2,21 +2,21 @@ from functools import wraps
 from flask import Blueprint, current_app, render_template, request, redirect, url_for, session, g, flash, abort
 from flask_nav.elements import Navbar, View, Subgroup
 from flask_bootstrap.nav import BootstrapRenderer
-from amu import forms, config_get, nav
+from amu import forms, config_get, nav, session_box
 from ldap3 import LDAPBindError
 
 from amu.model import User, Group
 
 views = Blueprint('views', __name__)
 
-def connect_and_load_ldap():
+def connect_and_load_ldap(password):
 	done = False
 	ldc = current_app.extensions.get('ldap_conn')
 
 	if "binddn" in session:
 		try: 
 			# First, try the stored bind dn
-			g.ldap_conn = ldc.connect(session['binddn'], session['password'])
+			g.ldap_conn = ldc.connect(session['binddn'], password)
 			done = True
 		except LDAPBindError:
 			# If that didn't work, invalidate binddn cache and fall back to regular behaviour
@@ -27,14 +27,14 @@ def connect_and_load_ldap():
 		userdn = config_get("AMU_USER_DN", username=session["username"])
 		try: 
 			# First try the AMU_USER_DN format
-			g.ldap_conn = ldc.connect(userdn, session['password'])
+			g.ldap_conn = ldc.connect(userdn, password)
 			session["binddn"] = userdn
 			session.modified = True
 		except LDAPBindError as e:
 			if current_app.config["AMU_ALLOW_DIRECT_DN"]:
 				try: 
 					# If that didn't work, try the "username" directly
-					g.ldap_conn = ldc.connect(session["username"], session['password'])
+					g.ldap_conn = ldc.connect(session["username"], password)
 					session["binddn"] = session["username"]
 					session.modified = True
 				except LDAPBindError:
@@ -53,9 +53,10 @@ def connect_and_load_ldap():
 def login_required(f):
 	@wraps(f)
 	def decorated_function(*args, **kwargs):
-		if "username" in session and "password" in session:
+		password = session_box.retrieve_unboxed("password", None)
+		if "username" in session and password is not None:
 			try:
-				connect_and_load_ldap()
+				connect_and_load_ldap(password)
 			except LDAPBindError:
 				flash("Invalid credentials", category="danger")
 				if "password" in session:
@@ -163,7 +164,7 @@ def login():
 	form = forms.LoginForm()
 	if request.method == 'POST' and form.validate_on_submit():
 		session['username'] = request.form['username']
-		session['password'] = request.form['password']
+		session_box.store_boxed("password", request.form['password'])
 		session.modified = True
 		return redirect(request.args.get("next", url_for('.root')))
 	return render_template("login.html", form=form)
