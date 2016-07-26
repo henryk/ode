@@ -162,8 +162,19 @@ def user(uid):
 				return redirect(url_for('.user', uid=user.userid))
 			else:
 				flash("Saving was unsuccessful", category="danger")
+		elif form.delete.data:
+			if form.delete_confirm.data:
+				## Warning: flask_ldapconn doesn't give any status, so we implement this from scratch here
+				if user.connection.connection.delete(user.dn):
+					flash("User deleted", category="success")
+					return redirect(url_for('.users'))
+				else:
+					flash("Deletion was unsuccessful", category="danger")
+			else:
+				flash("Please confirm user deletion", category="danger")
 
 	form.password.data = '' # Must manually delete this, since the password is not returned
+	form.delete_confirm.data = False # Always reset this
 	return render_template('user.html', user=user, form=form)
 
 @views.route("/user/_new", methods=['GET','POST'])
