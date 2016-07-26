@@ -10,23 +10,40 @@ from amu.model import User, Group
 views = Blueprint('views', __name__)
 
 def connect_and_load_ldap():
-	userdn = config_get("AMU_USER_DN", username=session["username"])
+	done = False
 	ldc = current_app.extensions.get('ldap_conn')
-	try: 
-		# First try the AMU_USER_DN format
-		g.ldap_conn = ldc.connect(userdn, session['password'])
-	except LDAPBindError as e:
-		if current_app.config["AMU_ALLOW_DIRECT_DN"]:
-			try: 
-				# If that didn't work, try the "username" directly
-				g.ldap_conn = ldc.connect(session["username"], session['password'])
-			except LDAPBindError:
-				# That didn't work either. For cosmetic purposes, re-raise the first exception
-				current_app.logger.info("Couldn't login with either %s or %s", userdn, session["username"])
+
+	if "binddn" in session:
+		try: 
+			# First, try the stored bind dn
+			g.ldap_conn = ldc.connect(session['binddn'], session['password'])
+			done = True
+		except LDAPBindError:
+			# If that didn't work, invalidate binddn cache and fall back to regular behaviour
+			del session["binddn"]
+			session.modified = True
+
+	if not done:
+		userdn = config_get("AMU_USER_DN", username=session["username"])
+		try: 
+			# First try the AMU_USER_DN format
+			g.ldap_conn = ldc.connect(userdn, session['password'])
+			session["binddn"] = userdn
+			session.modified = True
+		except LDAPBindError as e:
+			if current_app.config["AMU_ALLOW_DIRECT_DN"]:
+				try: 
+					# If that didn't work, try the "username" directly
+					g.ldap_conn = ldc.connect(session["username"], session['password'])
+					session["binddn"] = session["username"]
+					session.modified = True
+				except LDAPBindError:
+					# That didn't work either. For cosmetic purposes, re-raise the first exception
+					current_app.logger.info("Couldn't login with either %s or %s", userdn, session["username"])
+					raise e
+			else:
+				# Retry not allowed by AMU_ALLOW_DIRECT_DN, re-raise directly
 				raise e
-		else:
-			# Retry not allowed by AMU_ALLOW_DIRECT_DN, re-raise directly
-			raise e
 
 	g.ldap_user = User.query.filter("userid: %s" % session["username"]).first()
 	if not g.ldap_user:
