@@ -229,9 +229,7 @@ def group(cn):
 	form = forms.get_EditGroupForm(user_list)(obj=group)
 	if request.method == 'POST' and form.validate_on_submit():
 		if form.update.data:
-			group.members = form.members.data
-
-			if group.save():
+			if group.set_members(form.members.data):
 				flash("Successfully saved", category="success")
 				return redirect(url_for('.group', cn=group.name))
 			else:
