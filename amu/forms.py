@@ -43,3 +43,23 @@ def get_NewUserForm(group_list):
 		submit = SubmitField('Create!')
 
 	return NewUserForm
+
+def get_EditGroupForm(user_list):
+	class EditGroupForm(Form):
+		members = MultiCheckboxField('Members', choices = [ (_.dn,_.name) for _ in user_list ] )
+
+		update = SubmitField('Update!')
+
+		delete_confirm = BooleanField('Confirm deletion')
+		delete = SubmitField('Delete!')
+	return EditGroupForm
+
+def get_NewGroupForm(user_list):
+	class NewGroupForm(Form):
+		name = StringField('Group Name', validators=[DataRequired()])
+
+		members = MultiCheckboxField('Members', choices = [ (_.dn,_.name) for _ in user_list ] )
+
+		submit = SubmitField('Create!')
+
+	return NewGroupForm

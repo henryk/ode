@@ -32,20 +32,36 @@ class User(ldap.Entry):
 		add_list = [group for group in group_list if group.dn in new_groups and self.dn not in group.members]
 		del_list = [group for group in group_list if group.dn not in new_groups and self.dn in group.members]
 
+		## Since flask_ldapconn sucks with respect to these kinds of modifications
+		## we do them ourselves through ldap3
+
 		result = True
-		for g in add_list:
-			g.members.append(self.dn)
-			result = g.save() and result
-		for g in del_list:
-			g.members = [e for e in g.members if e != self.dn]
-			result = g.save() and result
+		for group in add_list:
+			result = group.add_member(self.dn) and result
+		for group in del_list:
+			result = group.remove_member(self.dn) and result
 		return result
 
 class Group(ldap.Entry):
 	object_classes = ['groupOfNames']
+	entry_rdn = ['cn', 'base_dn']
 
 	name = ldap.Attribute('cn')
 	members = ldap.Attribute('member')
+
+	def remove_member(self, dn):
+		return self.connection.connection.modify(self.dn, {
+			"member": [
+				("MODIFY_DELETE", [dn])
+			]
+		})
+
+	def add_member(self, dn):
+		return self.connection.connection.modify(self.dn, {
+			"member": [
+				("MODIFY_ADD", [dn])
+			]
+		})
 
 def initialize(app):
 	User.base_dn = config_get("AMU_USER_BASE", config=app.config)

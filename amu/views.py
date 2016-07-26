@@ -107,6 +107,7 @@ def mynavbar():
 			View('Users', '.users'),
 			View('New user', '.new_user'),
 			View('Groups', '.groups'),
+			View('New group', '.new_group'),
 			Subgroup('Logged in as %s' % g.ldap_user.name,
 				View('Log out', '.logout')
 			)
@@ -130,7 +131,8 @@ def save_ldap_attributes(form, obj):
 	"""Only stores existing LDAP attributes.
 	Does not store empty attributes named 'password'.
 	Does not change existing attributes named 'userid'.
-	Does not change attributes named 'groups'."""
+	Does not change attributes named 'groups'.
+	Does not change attributes named 'members'."""
 
 	changed = False
 
@@ -138,15 +140,19 @@ def save_ldap_attributes(form, obj):
 		if name == "password" and not field.data: continue
 		if name == "userid" and getattr(obj, "userid", None): continue
 		if name == "groups": continue
+		if name == "members": continue
 
 		try:
-			if(getattr(obj, name) != field.data):
+			if getattr(getattr(obj, name), 'value', None) != field.data:
+				current_app.logger.debug("Setting %s because it was %r and should be %r", name, 
+					getattr(getattr(obj,name), 'value', None), field.data)
 				setattr(obj, name, field.data)
 				changed = True
 
 		except LDAPEntryError:
 			continue
 
+	current_app.logger.debug("Change status is %s", changed)
 	return changed
 
 @views.route("/user/<string:uid>", methods=['GET','POST'])
@@ -212,6 +218,59 @@ def groups():
 	users = User.query.all()
 	groups = Group.query.all()
 	return render_template('groups.html', users=users, groups=groups)
+
+@views.route("/group/<string:cn>", methods=['GET','POST'])
+@login_required
+def group(cn):
+	group = Group.query.filter("name: %s" % cn).first()
+	if not group:
+		abort(404)
+	user_list = User.query.all()
+	form = forms.get_EditGroupForm(user_list)(obj=group)
+	if request.method == 'POST' and form.validate_on_submit():
+		if form.update.data:
+			group.members = form.members.data
+
+			if group.save():
+				flash("Successfully saved", category="success")
+				return redirect(url_for('.group', cn=group.name))
+			else:
+				flash("Saving was unsuccessful", category="danger")
+
+		elif form.delete.data:
+			if form.delete_confirm.data:
+				## Warning: flask_ldapconn doesn't give any status, so we implement this from scratch here
+				if group.connection.connection.delete(group.dn):
+					flash("Group deleted", category="success")
+					return redirect(url_for('.groups'))
+				else:
+					flash("Deletion was unsuccessful", category="danger")
+			else:
+				flash("Please confirm group deletion", category="danger")
+
+	form.delete_confirm.data = False # Always reset this
+	return render_template('group.html', group=group, form=form)
+
+@views.route("/group/_new", methods=['GET','POST'])
+@login_required
+def new_group():
+	user_list = User.query.all()
+	form = forms.get_NewGroupForm(user_list)()
+	if request.method == 'POST' and form.validate_on_submit():
+		if form.submit.data:
+			group = Group()
+			save_ldap_attributes(form, group)
+			group.members = form.members.data
+
+			if group.save():
+				flash("Group created", category="success")
+				return redirect(url_for('.group', cn=group.name))
+			else:
+				flash("Error while creating group", category="danger")
+	return render_template('new_group.html', form=form)
+
+
+
 
 @views.route('/login', methods=['GET', 'POST'])
 def login():
