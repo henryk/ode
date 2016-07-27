@@ -3,10 +3,7 @@ from flask import session, current_app
 
 def init_box(app):
 	if not "SESSION_BOX" in app.config:
-		if app.config.get("DEBUG", False):
-			key = "!"*nacl.secret.SecretBox.KEY_SIZE
-		else:
-			key = nacl.utils.random(nacl.secret.SecretBox.KEY_SIZE)
+		key = nacl.utils.random(nacl.secret.SecretBox.KEY_SIZE)
 		box = nacl.secret.SecretBox(key)
 		app.config["SESSION_BOX"] = box
 
