@@ -9,3 +9,4 @@ enum34
 pytest
 Flask-LDAPConn
 pynacl
+Flask-Mail

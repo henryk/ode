@@ -19,6 +19,8 @@ def get_EditUserForm(group_list):
 		givenname = StringField('Given Name', validators=[DataRequired()])
 		surname = StringField('Last Name', validators=[DataRequired()])
 		mail = StringField('Preferred E-Mail address', validators=[DataRequired(),Email()])
+		send_password = BooleanField('Generate and send new password to user')
+
 		password = StringField('New Password')
 		userid = HiddenField('Username', validators=[DataRequired()])
 		name = StringField('Full Name', validators=[DataRequired()])
@@ -36,6 +38,7 @@ def get_NewUserForm(group_list):
 		givenname = StringField('Given Name', validators=[DataRequired()])
 		surname = StringField('Last Name', validators=[DataRequired()])
 		mail = StringField('Preferred E-Mail address', validators=[DataRequired(),Email()])
+		send_password = BooleanField('Generate password and send to user', default=True)
 
 		password = StringField('Password', validators=[DataRequired()])
 		userid = StringField('Username', validators=[DataRequired()])

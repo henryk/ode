@@ -46,7 +46,11 @@ function amu_user_enhancements(password_is_required) {
         $('#givenname').bind("change keyup paste input", username_change_handler);
 
         if(typeof window.crypto !== 'undefined' && typeof window.crypto.getRandomValues !== 'undefined') {
+            var password_generated = false;
             var generate_password = function(do_focus) {
+                if(password_generated) {
+                    return
+                };
                 var array = new Uint32Array(5);
                 crypto.getRandomValues(array);
                 var pass = "";
@@ -60,7 +64,9 @@ function amu_user_enhancements(password_is_required) {
                 $('#password').val(pass).change();
                 if(do_focus) {
                     $('#password').select();
-                }
+                };
+                $('#generate_password').prop("disabled", true);
+                password_generated = true;
             }
 
             if(password_is_required) {
@@ -74,10 +80,23 @@ function amu_user_enhancements(password_is_required) {
                 new_div.prepend(pass_orig);
                 $('#generate_password').on('click', function(){
                     generate_password(true);
-                    $(this).prop("disabled", true);
                 });
             }
-        }
+
+
+            var update_password_visibility = function() {
+                $('#password').removeAttr('type');
+                if($('#send_password').prop('checked')) {
+                    $('#password').prop('type', 'password');
+                    generate_password(false);
+                } else {
+                    $('#password').prop('type', 'text');
+                }
+            };
+            $('#send_password').bind("change",  update_password_visibility);
+            $(update_password_visibility);
+        
+        } // end-if password generation is available
 
         $('#password').attr("autocomplete", "off");
 
@@ -120,7 +139,7 @@ function amu_user_enhancements(password_is_required) {
                     .addClass("progress-bar-" + display_class);
             }
         });
-        
+
     });
 
 };

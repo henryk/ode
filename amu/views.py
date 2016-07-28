@@ -2,7 +2,7 @@ from functools import wraps
 from flask import Blueprint, current_app, render_template, request, redirect, url_for, session, g, flash, abort
 from flask_nav.elements import Navbar, View, Subgroup
 from flask_bootstrap.nav import BootstrapRenderer
-from amu import forms, config_get, nav, session_box
+from amu import forms, config_get, nav, session_box, mail
 from ldap3 import LDAPBindError, LDAPEntryError
 
 from amu.model import User, Group
@@ -174,6 +174,15 @@ def user(uid):
 				flash("Successfully saved", category="success")
 				if not user.save_groups(form.groups.data, group_list):
 					flash("Some or all of the group changes were not successful", category="danger")
+
+				if form.send_password.data:
+					try:
+						mail.send_user_mail("%s <%s>" % (user.name, user.mail), form=form)
+						flash("User confirmation mail sent")
+					except Exception:
+						current_app.logger.debug("Exception while sending mail", exc_info=True)
+						flash("Couldn't send mail to user", category="danger")
+
 				return redirect(url_for('.user', uid=user.userid))
 			else:
 				flash("Saving was unsuccessful", category="danger")
@@ -206,6 +215,15 @@ def new_user():
 				flash("User created", category="success")
 				if not user.save_groups(form.groups.data, group_list):
 					flash("Some or all of the groups could not be assigned", category="danger")
+
+				if form.send_password.data:
+					try:
+						mail.send_user_mail("%s <%s>" % (user.name, user.mail), form=form)
+						flash("User confirmation mail sent")
+					except Exception:
+						current_app.logger.debug("Exception while sending mail", exc_info=True)
+						flash("Couldn't send mail to user", category="danger")
+
 				return redirect(url_for('.user', uid=user.userid))
 			else:
 				flash("Error while creating user", category="danger")

@@ -35,6 +35,9 @@ def create_app(configuration="amu.config.DevelopmentConfig", **kwargs):
     import amu.session_box
     amu.session_box.init_box(app)
 
+    from amu.mail import mailer
+    mailer.init_app(app)
+
     app.wsgi_app = ReverseProxied(app.wsgi_app)
 
     return app
@@ -49,7 +52,7 @@ def config_get(key, default=Ellipsis, config=None, **kwargs):
 	else:
 		return d.get(key, default) % d
 
-import amu.views, amu.forms, amu.model
+import amu.views, amu.forms, amu.model, amu.mail
 
 # From http://flask.pocoo.org/snippets/35/
 class ReverseProxied(object):
