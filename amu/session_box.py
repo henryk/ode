@@ -1,9 +1,12 @@
-import nacl.utils, nacl.secret, nacl.exceptions
+import nacl.utils, nacl.secret, nacl.exceptions, nacl.hash, nacl.encoding
 from flask import session, current_app
 
 def init_box(app):
 	if not "SESSION_BOX" in app.config:
-		key = nacl.utils.random(nacl.secret.SecretBox.KEY_SIZE)
+		if app.config.get("DEBUG", False):
+			key = nacl.hash.sha256("SESSION_BOX %s" % app.config.get("SECRET_KEY"), nacl.encoding.RawEncoder)
+		else:
+			key = nacl.utils.random(nacl.secret.SecretBox.KEY_SIZE)
 		box = nacl.secret.SecretBox(key)
 		app.config["SESSION_BOX"] = box
 
