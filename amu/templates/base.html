@@ -40,7 +40,11 @@
 <script src="{{url_for('static', filename='amu-scripts.js')}}"></script>
 {% endblock %}
 
-{% macro load_zxcvbn() %}
+{% macro load_zxcvbn(do_sync) %}
+  {% if do_sync %}
+    <script src="{{url_for('static',filename='zxcvbn/zxcvbn.js')}}"></script>
+  {% else %}
+    <script>
     // cross-browser asynchronous script loading for zxcvbn.
     // adapted from http://friendlybit.com/js/lazy-loading-asyncronous-javascript/
 
@@ -65,5 +69,7 @@
       }
 
     }).call(this);
+    </script>
+  {% endif %}
 
 {% endmacro %}

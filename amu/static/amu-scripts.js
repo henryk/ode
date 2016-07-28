@@ -46,7 +46,7 @@ function amu_user_enhancements(password_is_required) {
         $('#givenname').bind("change keyup paste input", username_change_handler);
 
         if(typeof window.crypto !== 'undefined' && typeof window.crypto.getRandomValues !== 'undefined') {
-            var generate_password = function() {
+            var generate_password = function(do_focus) {
                 var array = new Uint32Array(5);
                 crypto.getRandomValues(array);
                 var pass = "";
@@ -57,17 +57,15 @@ function amu_user_enhancements(password_is_required) {
                     var rnd = ((1.0*array[i])/Math.pow( 2, 32 ));
                     pass = pass + words_de[Math.floor(rnd*words_de.length)];
                 }
-                $('#password').val(pass).change().select();
+                $('#password').val(pass).change();
+                if(do_focus) {
+                    $('#password').select();
+                }
             }
 
             if(password_is_required) {
-                var password_generated = ($('#password').val() != "");
-                $('#password').on("focus", function() {
-                    if(!password_generated) {
-                        generate_password();
-                    }
-                    password_generated = true;
-
+                $(function(){
+                    generate_password(false);
                 });
             } else {
                 var pass_orig = $('#password');
@@ -75,7 +73,7 @@ function amu_user_enhancements(password_is_required) {
                 $('#password').replaceWith(new_div);
                 new_div.prepend(pass_orig);
                 $('#generate_password').on('click', function(){
-                    generate_password();
+                    generate_password(true);
                     $(this).prop("disabled", true);
                 });
             }
