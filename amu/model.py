@@ -17,7 +17,7 @@ class LDAPSSHAPasswordAttribute(ldap.Attribute):
 		super(LDAPSSHAPasswordAttribute, self).__setattr__(key, value)
 
 class User(ldap.Entry):
-	object_classes = ['inetOrgPerson']
+	object_classes = ['inetOrgPerson', 'CC-person']
 	entry_rdn = ['uid', 'base_dn']
 
 	name = ldap.Attribute('cn')
@@ -25,6 +25,8 @@ class User(ldap.Entry):
 	surname = ldap.Attribute('sn')
 	givenname = ldap.Attribute('givenName')
 	password = LDAPSSHAPasswordAttribute('userPassword')
+
+	mail = ldap.Attribute('CC-preferredMail')
 
 	groups = ldap.Attribute('memberOf')
 

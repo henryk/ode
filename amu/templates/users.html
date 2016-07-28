@@ -8,6 +8,7 @@
       <tr>
         <th>uid</th>
         <th>Name</th>
+        <th>E-Mail</th>
         <th>Groups</th>
       </tr>
     </thead>
@@ -15,6 +16,7 @@
       <tr data-href="{{url_for('.user',uid=user.userid)}}">
         <td><a href="{{url_for('.user',uid=user.userid)}}">{{user.userid}}</a></td>
         <td>{{user.name}}</td>
+        <td>{{user.mail}}</td>
         <td>
           {% for group in groups %}
             {% if user.dn in group.members %}
