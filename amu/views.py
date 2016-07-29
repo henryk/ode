@@ -139,7 +139,7 @@ def mynavbar():
 
 
 @views.route("/")
-@login_required
+@login_required(False)
 def root():
 	if session["is_admin"]:
 		return redirect(url_for('.users'))
