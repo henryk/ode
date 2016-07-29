@@ -13,6 +13,15 @@ $(function(){
     });
 });
 
+$(function() {
+    if($("*[autofocus]").length == 0) {
+        var mod = $("form *.has-error input").first().attr('autofocus', 'autofocus').focus();
+        if(mod.length == 0) {
+            $('form input:text[value=""]:visible:enabled:first').first().attr('autofocus', 'autofocus').focus();
+        }
+    }
+});
+
 
 function amu_user_enhancements(password_is_required) {
 
