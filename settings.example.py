@@ -20,8 +20,8 @@ AMU_USERMODMAIL = dict(
 	subject = u"Your account at example.com",
 	body = u"""Your account at example.com has been created or changed:
 
- Benutzername: {{ form.userid }}
- Passwort:     {{ form.password }}
+ Benutzername: {{ user.userid }}
+ Passwort:     {{ form.password.data }}
 
 You can, and should, change your password at
   https://example.com/selfservice/

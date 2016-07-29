@@ -149,7 +149,7 @@ def root():
 def mail_user_password(user, form):
 	if form.send_password.data:
 		try:
-			mail.send_user_mail("%s <%s>" % (user.name, user.mail), form=form)
+			mail.send_user_mail("%s <%s>" % (user.name, user.mail), user=user, form=form)
 			flash("User confirmation mail sent")
 		except Exception:
 			current_app.logger.debug("Exception while sending mail", exc_info=True)
