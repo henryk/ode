@@ -13,7 +13,7 @@ ldap = LDAPConn()
 
 nav = Nav()
 
-def create_app(configuration="amu.config.DevelopmentConfig", **kwargs):
+def create_app(configuration="amu.config.Config", **kwargs):
     app = Flask(__name__)
 
     app.config.from_object(configuration)
