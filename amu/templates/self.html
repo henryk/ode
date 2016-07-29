@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block titleinner %}My profile{% endblock %}
+
+{% block inner %}
+  <h2>User '{{g.ldap_user.name}}'</h2>
+
+  {{ wtf.quick_form(form, method="POST", form_type="horizontal") }}
+  
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+<script>
+amu_user_enhancements(false);
+</script>
+<script src="{{url_for('static',filename='wordlist/words_de.js')}}"></script>
+{{ load_zxcvbn(true) }}
+{% endblock %}

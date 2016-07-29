@@ -14,6 +14,18 @@ class LoginForm(Form):
 	password = PasswordField('password', validators=[DataRequired()])
 	submit = SubmitField('Log in!')
 
+class EditSelfForm(Form):
+	givenname = StringField('Given Name', validators=[DataRequired()])
+	surname = StringField('Last Name', validators=[DataRequired()])
+	mail = StringField('Preferred E-Mail address', validators=[DataRequired(),Email()])
+	send_password = BooleanField('Generate and send new password to user')
+
+	password = StringField('New Password')
+	name = StringField('Full Name', validators=[DataRequired()])
+
+	update = SubmitField('Update!')
+
+
 def get_EditUserForm(group_list):
 	class EditUserForm(Form):
 		givenname = StringField('Given Name', validators=[DataRequired()])

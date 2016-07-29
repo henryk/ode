@@ -50,7 +50,16 @@ def connect_and_load_ldap(password):
 		# Fallback case
 		g.ldap_user = User(name="Unknown user")
 
-def login_required(f):
+def determine_admin_status():
+	"""Try to query a group. If that succeeds -> Admin, otherwise normal user. Cache the result in the session."""
+	if "is_admin" in session:
+		return
+	else:
+		group = Group.query.first()
+		session["is_admin"] = not not group
+		session.modified = True
+
+def _login_required_int(needs_admin, f):
 	@wraps(f)
 	def decorated_function(*args, **kwargs):
 		password = session_box.retrieve_unboxed("password", None)
@@ -59,14 +68,24 @@ def login_required(f):
 				connect_and_load_ldap(password)
 			except LDAPBindError:
 				flash("Invalid credentials", category="danger")
-				if "password" in session:
-					del session["password"]
-				session.modified = True
+				logout()
 				return redirect(url_for('.login', next=request.url))  ## FIXME: Validate or remove, don't want open redirects
+			determine_admin_status()
+			if needs_admin and not session["is_admin"]:
+				abort(404)
 			return f(*args, **kwargs)
 		else:
 			return redirect(url_for('.login', next=request.url))
 	return decorated_function
+
+def login_required(argument):
+	if hasattr(argument, "__call__"):
+		return _login_required_int(True, argument)
+	else:
+		def decorator(f):
+			return _login_required_int(argument, f)
+		return decorator
+
 
 class CustomRenderer(BootstrapRenderer):
 	# Right-aligns last item
@@ -103,12 +122,16 @@ def mynavbar():
 		'AMU',
 	]
 	if hasattr(g, "ldap_user"):
+		if session.get("is_admin", False):
+			e.extend( [
+				View('Users', '.users'),
+				View('New user', '.new_user'),
+				View('Groups', '.groups'),
+				View('New group', '.new_group'),
+			] )
 		e.extend( [
-			View('Users', '.users'),
-			View('New user', '.new_user'),
-			View('Groups', '.groups'),
-			View('New group', '.new_group'),
 			Subgroup('Logged in as %s' % g.ldap_user.name,
+				View('My profile', '.self'),
 				View('Log out', '.logout')
 			)
 		] )
@@ -118,7 +141,40 @@ def mynavbar():
 @views.route("/")
 @login_required
 def root():
-	return redirect(url_for('.users'))
+	if session["is_admin"]:
+		return redirect(url_for('.users'))
+	else:
+		return redirect(url_for('.self'))
+
+def mail_user_password(user, form):
+	if form.send_password.data:
+		try:
+			mail.send_user_mail("%s <%s>" % (user.name, user.mail), form=form)
+			flash("User confirmation mail sent")
+		except Exception:
+			current_app.logger.debug("Exception while sending mail", exc_info=True)
+			flash("Couldn't send mail to user", category="danger")
+
+
+@views.route("/self", methods=['GET','POST'])
+@login_required(False)
+def self():
+	form = forms.EditSelfForm(obj=g.ldap_user)
+
+	if request.method == 'POST' and form.validate_on_submit():
+		if form.update.data:
+			changed = save_ldap_attributes(form, g.ldap_user)
+
+			if not changed or g.ldap_user.save():
+				flash("Successfully saved", category="success")
+				mail_user_password(g.ldap_user, form)
+
+				return redirect(url_for('.self'))
+			else:
+				flash("Saving was unsuccessful", category="danger")
+
+	form.password.data = '' # Must manually delete this, since the password is not returned
+	return render_template("self.html", form=form)
 
 @views.route("/user/")
 @login_required
@@ -175,13 +231,7 @@ def user(uid):
 				if not user.save_groups(form.groups.data, group_list):
 					flash("Some or all of the group changes were not successful", category="danger")
 
-				if form.send_password.data:
-					try:
-						mail.send_user_mail("%s <%s>" % (user.name, user.mail), form=form)
-						flash("User confirmation mail sent")
-					except Exception:
-						current_app.logger.debug("Exception while sending mail", exc_info=True)
-						flash("Couldn't send mail to user", category="danger")
+				mail_user_password(user, form)
 
 				return redirect(url_for('.user', uid=user.userid))
 			else:
@@ -216,13 +266,7 @@ def new_user():
 				if not user.save_groups(form.groups.data, group_list):
 					flash("Some or all of the groups could not be assigned", category="danger")
 
-				if form.send_password.data:
-					try:
-						mail.send_user_mail("%s <%s>" % (user.name, user.mail), form=form)
-						flash("User confirmation mail sent")
-					except Exception:
-						current_app.logger.debug("Exception while sending mail", exc_info=True)
-						flash("Couldn't send mail to user", category="danger")
+				mail_user_password(user, form)
 
 				return redirect(url_for('.user', uid=user.userid))
 			else:
@@ -300,8 +344,8 @@ def login():
 
 @views.route("/logout")
 def logout():
-	if "password" in session:
-		del session["password"]
+	session.pop("password", None)
+	session.pop("is_admin", None)
 	session.modified = True
 	return redirect(url_for(".root"))
 
