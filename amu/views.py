@@ -169,6 +169,11 @@ def self():
 				flash("Successfully saved", category="success")
 				mail_user_password(g.ldap_user, form)
 
+				if form.password.data:
+					# Need to update the session
+					session_box.store_boxed("password", form.password.data)
+					session.modified = True
+
 				return redirect(url_for('.self'))
 			else:
 				flash("Saving was unsuccessful", category="danger")
@@ -336,8 +341,8 @@ def new_group():
 def login():
 	form = forms.LoginForm()
 	if request.method == 'POST' and form.validate_on_submit():
-		session['username'] = request.form['username']
-		session_box.store_boxed("password", request.form['password'])
+		session['username'] = form.username.data
+		session_box.store_boxed("password", form.password.data)
 		session.modified = True
 		return redirect(request.args.get("next", url_for('.root')))
 	return render_template("login.html", form=form)
