@@ -4,6 +4,7 @@ from flask import session, current_app
 def init_box(app):
 	if not "SESSION_BOX" in app.config:
 		if app.config.get("DEBUG", False):
+			app.logger.warning("Choosing static session_box encryption key for debugging")
 			key = nacl.hash.sha256("SESSION_BOX %s" % app.config.get("SECRET_KEY"), nacl.encoding.RawEncoder)
 		else:
 			key = nacl.utils.random(nacl.secret.SecretBox.KEY_SIZE)
