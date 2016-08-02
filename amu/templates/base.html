@@ -5,6 +5,12 @@
 {{super()}}
 <link rel="stylesheet"
       href="{{url_for('static', filename='amu-style.css')}}">
+<link rel="stylesheet"
+      href="{{url_for('static', filename='jquery-ui.min.css')}}">
+<link rel="stylesheet"
+      href="{{url_for('static', filename='jquery-ui.structure.min.css')}}">
+<link rel="stylesheet"
+      href="{{url_for('static', filename='jquery-ui.theme.min.css')}}">
 {% endblock %}
 
 {% block navbar %}
@@ -38,6 +44,7 @@
 {% block scripts %}
 {{super()}}
 <script src="{{url_for('static', filename='amu-scripts.js')}}"></script>
+<script src="{{url_for('static', filename='jquery-ui.min.js')}}"></script>
 {% endblock %}
 
 {% macro load_zxcvbn(do_sync) %}
