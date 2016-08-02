@@ -27,7 +27,7 @@ class User(ldap.Entry):
 	password = LDAPSSHAPasswordAttribute('userPassword')
 
 	mail = ldap.Attribute('CC-preferredMail')
-
+	_aliases = ldap.Attribute('CC-mailAlias')
 	groups = ldap.Attribute('memberOf')
 
 	def save_groups(self, new_groups, group_list):
@@ -43,6 +43,17 @@ class User(ldap.Entry):
 		for group in del_list:
 			result = group.remove_member(self.dn) and result
 		return result
+
+	@property
+	def aliases(self):
+		try:
+			return ", ".join(self._aliases or [])
+		except TypeError:
+			return ""
+	
+
+	def set_aliases(self, new_aliases):
+		self._aliases = [_.strip() for _ in new_aliases.split(",")]
 
 class Group(ldap.Entry):
 	object_classes = ['groupOfNames']

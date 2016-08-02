@@ -193,7 +193,8 @@ def save_ldap_attributes(form, obj):
 	Does not store empty attributes named 'password'.
 	Does not change existing attributes named 'userid'.
 	Does not change attributes named 'groups'.
-	Does not change attributes named 'members'."""
+	Does not change attributes named 'members'.
+	For the following attributes a set_* method is called: aliases"""
 
 	changed = False
 
@@ -204,13 +205,20 @@ def save_ldap_attributes(form, obj):
 		if name == "members": continue
 
 		try:
-			if getattr(getattr(obj, name), 'value', None) != field.data:
+			old_value = getattr(getattr(obj, name), 'value', getattr(obj, name))
+			if old_value != field.data:
 				current_app.logger.debug("Setting %s because it was %r and should be %r", name, 
-					getattr(getattr(obj,name), 'value', None), field.data)
-				setattr(obj, name, field.data)
+					old_value, field.data)
+				setter = None
+				if name in ["aliases"]:
+					setter = getattr(obj, "set_%s" % name, None)
+				if setter:
+					setter(field.data)
+				else:
+					setattr(obj, name, field.data)
 				changed = True
 
-		except LDAPEntryError:
+		except LDAPEntryError as e:
 			continue
 
 	current_app.logger.debug("Change status is %s", changed)
