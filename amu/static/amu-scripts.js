@@ -149,6 +149,10 @@ function amu_user_enhancements(password_is_required) {
             }
         });
 
+        $('#aliases').tagit({
+            removeConfirmation: true,
+        });
+
     });
 
 };

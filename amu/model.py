@@ -47,7 +47,7 @@ class User(ldap.Entry):
 	@property
 	def aliases(self):
 		try:
-			return ", ".join(self._aliases or [])
+			return ",".join(self._aliases or [])
 		except TypeError:
 			return ""
 	
