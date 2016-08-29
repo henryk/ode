@@ -5,7 +5,7 @@ from flask_bootstrap.nav import BootstrapRenderer
 from amu import forms, config_get, nav, session_box, mail
 from ldap3 import LDAPBindError, LDAPEntryError
 
-from amu.model import User, Group
+from amu.model import User, Group, MailingList
 
 views = Blueprint('views', __name__)
 
@@ -128,6 +128,7 @@ def mynavbar():
 				View('New user', '.new_user'),
 				View('Groups', '.groups'),
 				View('New group', '.new_group'),
+				View('Mailing Lists', '.mailing_lists'),
 			] )
 		e.extend( [
 			Subgroup('Logged in as %s' % g.ldap_user.name,
@@ -343,6 +344,17 @@ def new_group():
 	return render_template('new_group.html', form=form)
 
 
+@views.route("/mailing_list/")
+@login_required
+def mailing_lists():
+	lists = MailingList.query.all()
+	return render_template('mailing_lists.html', lists=lists)
+
+
+@views.route("/mailing_list/<string:cn>", methods=['GET','POST'])
+@login_required
+def mailing_list(cn):
+	abort(404)
 
 
 @views.route('/login', methods=['GET', 'POST'])

@@ -3,6 +3,7 @@
 AMU_BASE_DN = "dc=example,dc=com"
 AMU_USER_BASE = "ou=Users,%(AMU_BASE_DN)s"
 AMU_GROUP_BASE = "ou=Groups,%(AMU_BASE_DN)s"
+AMU_MAILING_LIST_BASE = "ou=Mailing Lists,%(AMU_BASE_DN)s"
 AMU_USER_DN = "uid=%(username)s,ou=Users,%(AMU_BASE_DN)s"
 AMU_ALLOW_DIRECT_DN = True
 LDAP_SERVER = 'localhost'

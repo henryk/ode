@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block titleinner %}Mailing list list{% endblock %}
+
+{% block inner %}
+  <h2>Mailing list list</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Members</th>
+      </tr>
+    </thead>
+    {% for list in lists %}
+      <tr data-href="{{url_for('.mailing_list',cn=list.name)}}">
+        <td><a href="{{url_for('.mailing_list',cn=list.name)}}">{{list.name}}</a></td>
+        <td>{{list.members|length + list.additional_addresses|length}} total
+          ({{list.members|length}} user(s), via {{list.member_urls_group|length}} group(s) and {{list.member_urls_user|length}} direct asignment(s), {{list.additional_addresses|length}} additional addresses)
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+  
+{% endblock %}

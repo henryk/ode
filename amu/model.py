@@ -91,6 +91,25 @@ class Group(ldap.Entry):
 			"member": changes
 		})
 
+class MailingList(ldap.Entry):
+	object_classes = ['CC-mailingList']
+	entry_rdn = ['cn', 'base_dn']
+
+	name = ldap.Attribute('cn')
+	members = ldap.Attribute('member')
+	additional_addresses = ldap.Attribute('CC-fullMailAddress')
+	member_urls = ldap.Attribute('CC-memberURL')
+
+	@property
+	def member_urls_group(self):
+		return [_ for _ in self.member_urls if "memberOf=" in _] # FIXME: Can this be more elegant?
+
+	@property
+	def member_urls_user(self):
+		return [_ for _ in self.member_urls if "memberOf=" not in _] # FIXME: Can this be more elegant?
+	
+
 def initialize(app):
 	User.base_dn = config_get("AMU_USER_BASE", config=app.config)
 	Group.base_dn = config_get("AMU_GROUP_BASE", config=app.config)
+	MailingList.base_dn = config_get("AMU_MAILING_LIST_BASE", config=app.config)
