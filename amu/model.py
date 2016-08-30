@@ -122,10 +122,7 @@ class MailingList(ldap.Entry):
 		return [e.dn for e in self.member_users + self.member_groups] + list(self.additional_addresses)
 
 	def set_list_members(self, new_list_members):
-		old_m = set(self.list_members)
 		new_m = set(new_list_members)
-		add_m = new_m.difference(old_m)
-		del_m = old_m.difference(new_m)
 
 		def is_group(dn):
 			return dn.endswith(Group.base_dn) \
@@ -150,28 +147,15 @@ class MailingList(ldap.Entry):
 			else:
 				return dn
 
-		add_additional = set(_ for _ in add_m if not is_either(_))
-		add_url = set(format_either(_) for _ in add_m if not _ in add_additional)
+		new_additional = set(_ for _ in new_m if not is_either(_))
+		new_url = set(format_either(_) for _ in new_m if not _ in new_additional)
 
-		del_additional = set(_ for _ in del_m if not is_either(_))
-		del_url = set(format_either(_) for _ in del_m if not _ in del_additional)
-
-		changes_additional = []
-		changes_url = []
 		changes = {}
 
-		if add_additional: changes_additional.append( ("MODIFY_ADD", list(add_additional)) )
-		if del_additional: changes_additional.append( ("MODIFY_DELETE", list(del_additional)) )
-		if changes_additional:
-			changes["CC-fullMailAddress"] = changes_additional
-
-		if add_url: changes_url.append( ("MODIFY_ADD", list(add_url)) )
-		if del_url: changes_url.append( ("MODIFY_DELETE", list(del_url)) )
-		if changes_url:
-			changes["CC-memberURL"] = changes_url
+		changes["CC-fullMailAddress"] = [ ("MODIFY_REPLACE", list(new_additional)) ]
+		changes["CC-memberURL"] = [ ("MODIFY_REPLACE", list(new_url)) ]
 
 
-		current_app.logger.debug("%s", changes)
 		if not changes: 
 			return True
 
