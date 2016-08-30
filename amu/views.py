@@ -383,6 +383,25 @@ def mailing_list(cn):
 	user_list = User.query.all()
 	form = forms.get_EditMailingListForm(user_list, group_list)(obj=mlist)
 
+	if request.method == 'POST' and form.validate_on_submit():
+		if form.update.data:
+			if mlist.set_list_members(form.list_members.data):
+				flash("Successfully saved", category="success")
+				return redirect(url_for('.mailing_list', cn=mlist.name))
+			else:
+				flash("Saving was unsuccessful", category="danger")
+
+		elif form.delete.data:
+			if form.delete_confirm.data:
+				## Warning: flask_ldapconn doesn't give any status, so we implement this from scratch here
+				if mlist.connection.connection.delete(mlist.dn):
+					flash("Mailing list deleted", category="success")
+					return redirect(url_for('.mailing_lists'))
+				else:
+					flash("Deletion was unsuccessful", category="danger")
+			else:
+				flash("Please confirm mailing list deletion", category="danger")
+
 	form.delete_confirm.data = False # Always reset this
 	return render_template('mailing_list.html', list=mlist, group_list=group_list, user_list=user_list, form=form)
 

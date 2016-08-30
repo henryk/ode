@@ -119,10 +119,65 @@ class MailingList(ldap.Entry):
 
 	@property
 	def list_members(self):
-		return [e.dn for e in self.member_users + self.member_groups] + self.additional_addresses
+		return [e.dn for e in self.member_users + self.member_groups] + list(self.additional_addresses)
 
 	def set_list_members(self, new_list_members):
-		pass
+		old_m = set(self.list_members)
+		new_m = set(new_list_members)
+		add_m = new_m.difference(old_m)
+		del_m = old_m.difference(new_m)
+
+		def is_group(dn):
+			return dn.endswith(Group.base_dn) \
+				and ( self.GROUP_FORMAT % {"group_dn":dn} in self.member_urls \
+					or Group.query.get(dn) is not None
+				)
+
+		def is_user(dn):
+			return dn.endswith(User.base_dn) \
+				and ( self.USER_FORMAT % {"user_dn":dn} in self.member_urls \
+					or User.query.get(dn) is not None
+				)
+
+		def is_either(dn):
+			return is_group(dn) or is_user(dn)
+
+		def format_either(dn):
+			if is_group(dn):
+				return self.GROUP_FORMAT % {"group_dn":dn}
+			elif is_user(dn):
+				return self.USER_FORMAT % {"user_dn":dn}
+			else:
+				return dn
+
+		add_additional = set(_ for _ in add_m if not is_either(_))
+		add_url = set(format_either(_) for _ in add_m if not _ in add_additional)
+
+		del_additional = set(_ for _ in del_m if not is_either(_))
+		del_url = set(format_either(_) for _ in del_m if not _ in del_additional)
+
+		changes_additional = []
+		changes_url = []
+		changes = {}
+
+		if add_additional: changes_additional.append( ("MODIFY_ADD", list(add_additional)) )
+		if del_additional: changes_additional.append( ("MODIFY_DELETE", list(del_additional)) )
+		if changes_additional:
+			changes["CC-fullMailAddress"] = changes_additional
+
+		if add_url: changes_url.append( ("MODIFY_ADD", list(add_url)) )
+		if del_url: changes_url.append( ("MODIFY_DELETE", list(del_url)) )
+		if changes_url:
+			changes["CC-memberURL"] = changes_url
+
+
+		current_app.logger.debug("%s", changes)
+		if not changes: 
+			return True
+
+		return self.connection.connection.modify(self.dn, changes)
+
+		return False
 	
 	
 
@@ -130,7 +185,16 @@ def initialize(app):
 	User.base_dn = config_get("AMU_USER_BASE", config=app.config)
 	Group.base_dn = config_get("AMU_GROUP_BASE", config=app.config)
 	MailingList.base_dn = config_get("AMU_MAILING_LIST_BASE", config=app.config)
+
+	def re_to_format(r):
+		return re.sub('(^\^)|(\$$)', '', re.sub( '\(\?P<([^>]+)>[^)]+\)', '%(\\1)s', re.sub('\\\\(.)', '\\1', r)) )
+
 	MailingList.USER_RE = re.compile( app.config["MAILING_LIST_MEMBER_USER_TEMPLATE"] )
 	MailingList.GROUP_RE = re.compile( app.config["MAILING_LIST_MEMBER_GROUP_TEMPLATE"] % {
+		"user_base": re.escape(config_get("AMU_USER_BASE", config=app.config))
+	})
+
+	MailingList.USER_FORMAT = re_to_format( app.config["MAILING_LIST_MEMBER_USER_TEMPLATE"] )
+	MailingList.GROUP_FORMAT = re_to_format( app.config["MAILING_LIST_MEMBER_GROUP_TEMPLATE"] % {
 		"user_base": re.escape(config_get("AMU_USER_BASE", config=app.config))
 	})
