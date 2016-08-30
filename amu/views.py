@@ -90,7 +90,10 @@ def login_required(argument):
 class CustomRenderer(BootstrapRenderer):
 	# Right-aligns last item
 	# Fix to top
+	# Change "New " to + icons
 	def visit_Navbar(self, node):
+		import dominate
+
 		result = super(CustomRenderer, self).visit_Navbar(node)
 		div = None
 		child = None
@@ -99,7 +102,6 @@ class CustomRenderer(BootstrapRenderer):
 				div = _
 				break
 		if div:
-			import dominate
 
 			for bar in div:
 				pass
@@ -113,6 +115,21 @@ class CustomRenderer(BootstrapRenderer):
 				rightbar.add(child)
 
 		result['class'] += " navbar-fixed-top"
+
+		for _ in div.get("ul"):
+			ul = _
+			break
+		for li in ul.get("li"):
+			a = None
+			for a in li.get("a"):
+				pass
+			if a is not None:
+				if a[0].startswith("New "):
+					old_text = a[0]
+					del a[0]
+					a += dominate.tags.span(_class="glyphicon glyphicon-plus-sign")
+					a += dominate.tags.span(old_text, _class="sr-only")
+					a.parentNode['class'] = getattr(a.parentNode,'class', '') + " navigation-add-object"
 
 		return result
 

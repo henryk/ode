@@ -12,6 +12,11 @@ body { padding-top: 70px; }
 
 .nowrap { white-space: nowrap; }
 
+.nav > li > a { padding-right: 20px; }
+.nav > li.navigation-add-object > a { margin-left: -30px; }
+.nav > li.navigation-add-object.active > a { background-color: inherit; color: #000;}
+.nav > li.navigation-add-object.active > a:hover { background-color: inherit; color: #555;}
+
 /**
  * Progress bars with centered text
  */
