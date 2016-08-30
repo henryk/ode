@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block titleinner %}Create new mailing list {% endblock %}
+
+{% block inner %}
+  <h2>Create new mailing list</h2>
+
+  {{ wtf.quick_form(form, method="POST", form_type="horizontal") }}
+  
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+<script>
+var all_users = [
+	{% for user in user_list %}
+		[{{user.dn|tojson|safe}}, {{user.name|force_str|tojson|safe}} ],
+	{% endfor %}
+];
+var all_groups = [
+	{% for group in group_list %}
+		[{{group.dn|tojson|safe}}, {{group.name|force_str|tojson|safe}} ],
+	{% endfor %}
+];
+amu_mailing_list_enhancements();
+</script>
+{% endblock %}

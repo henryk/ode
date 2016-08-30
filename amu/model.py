@@ -97,9 +97,9 @@ class MailingList(ldap.Entry):
 	entry_rdn = ['cn', 'base_dn']
 
 	name = ldap.Attribute('cn')
-	members = ldap.Attribute('member')
-	additional_addresses = ldap.Attribute('CC-fullMailAddress')
-	member_urls = ldap.Attribute('CC-memberURL')
+	members = ldap.Attribute('member', default=[])
+	additional_addresses = ldap.Attribute('CC-fullMailAddress', default=[])
+	member_urls = ldap.Attribute('CC-memberURL', default=[])
 
 	@property
 	def member_urls_group(self):
@@ -119,7 +119,10 @@ class MailingList(ldap.Entry):
 
 	@property
 	def list_members(self):
-		return [e.dn for e in self.member_users + self.member_groups] + list(self.additional_addresses)
+		return [e.dn for e in self.member_users + self.member_groups] + self.additional_addresses
+
+	def set_list_members(self, new_list_members):
+		pass
 	
 	
 

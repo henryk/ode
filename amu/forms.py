@@ -88,13 +88,20 @@ def get_NewGroupForm(user_list):
 
 def get_EditMailingListForm(user_list, group_list):
 	class EditMailingListForm(Form):
-		#members = MultiCheckboxField('Members', choices = [ (_.dn,_.name) for _ in user_list ] )
-		#member_urls = FieldList(StringField('Member URLs'))
-		#additional_addresses = FieldList(StringField('Additional address'))
 		list_members = FieldList(StringField(''))
 
 		update = SubmitField('Update!')
 
 		delete_confirm = BooleanField('Confirm deletion')
 		delete = SubmitField('Delete!')
+	return EditMailingListForm
+
+def get_NewMailingListForm(user_list, group_list):
+	class EditMailingListForm(Form):
+		name = StringField('Mailing List Name', validators=[DataRequired()])
+
+		list_members = FieldList(StringField(''))
+
+		submit = SubmitField('Create!')
+	
 	return EditMailingListForm

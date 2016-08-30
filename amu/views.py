@@ -129,6 +129,7 @@ def mynavbar():
 				View('Groups', '.groups'),
 				View('New group', '.new_group'),
 				View('Mailing Lists', '.mailing_lists'),
+				View('New mailing list', '.new_mailing_list'),
 			] )
 		e.extend( [
 			Subgroup('Logged in as %s' % g.ldap_user.name,
@@ -199,7 +200,7 @@ def save_ldap_attributes(form, obj):
 	Does not change existing attributes named 'userid'.
 	Does not change attributes named 'groups'.
 	Does not change attributes named 'members'.
-	For the following attributes a set_* method is called: aliases"""
+	For the following attributes a set_* method is called: aliases, list_members"""
 
 	changed = False
 
@@ -215,7 +216,7 @@ def save_ldap_attributes(form, obj):
 				current_app.logger.debug("Setting %s because it was %r and should be %r", name, 
 					old_value, field.data)
 				setter = None
-				if name in ["aliases"]:
+				if name in ["aliases", "list_members"]:
 					setter = getattr(obj, "set_%s" % name, None)
 				if setter:
 					setter(field.data)
@@ -367,6 +368,24 @@ def mailing_list(cn):
 
 	form.delete_confirm.data = False # Always reset this
 	return render_template('mailing_list.html', list=mlist, group_list=group_list, user_list=user_list, form=form)
+
+@views.route("/mailing_list/_new", methods=['GET','POST'])
+@login_required
+def new_mailing_list():
+	group_list = Group.query.all()
+	user_list = User.query.all()
+	form = forms.get_NewMailingListForm(user_list, group_list)()
+	if request.method == 'POST' and form.validate_on_submit():
+		if form.submit.data:
+			mlist = MailingList()
+			save_ldap_attributes(form, mlist)
+
+			if mlist.save():
+				flash("Mailing list created", category="success")
+				return redirect(url_for('.mailing_list', cn=mlist.name))
+			else:
+				flash("Error while creating mailing list", category="danger")
+	return render_template('new_mailing_list.html', group_list=group_list, user_list=user_list, form=form)
 
 
 @views.route('/login', methods=['GET', 'POST'])
