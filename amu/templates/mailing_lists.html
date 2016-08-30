@@ -7,14 +7,49 @@
     <thead>
       <tr>
         <th>Name</th>
-        <th>Members</th>
+        <th colspan="2">Members</th>
       </tr>
     </thead>
     {% for list in lists %}
       <tr data-href="{{url_for('.mailing_list',cn=list.name)}}">
         <td><a href="{{url_for('.mailing_list',cn=list.name)}}">{{list.name}}</a></td>
-        <td>{{list.members|length + list.additional_addresses|length}} total
-          ({{list.members|length}} user(s), via {{list.member_urls_group|length}} group(s) and {{list.member_urls_user|length}} direct asignment(s), {{list.additional_addresses|length}} additional addresses)
+        <td class="nowrap">{{list.members|length + list.additional_addresses|length}} total</td>
+        <td>
+          {% set groups = list.member_groups %}
+          {% set users = list.member_users %}
+          <dl>
+            {% if groups %}
+              <dt>{{groups|length}} Group{{"s" if groups|length > 1 else ""}}</dt>
+              <dd>
+                <ul>
+                  {% for group in groups %}
+                    <li>{{group.name}} ({{group.members|length}} members)</li>
+                  {% endfor %}
+                </ul>
+              </dd>
+            {% endif %}
+            {% if users %}
+              <dt>{{users|length}} User{{"s" if users|length > 1 else ""}}</dt>
+              <dd>
+                <ul>
+                  {% for user in users %}
+                    <li>{{user.name}}</li>
+                  {% endfor %}
+                </ul>
+              </dd>
+            {% endif %}
+            {% if list.additional_addresses %}
+              <dt>{{list.additional_addresses|length}} Additional address{{"s" if list.additional_addresses|length > 1 else ""}}</dt>
+              <dd>
+                <ul>
+                  {% for address in list.additional_addresses %}
+                    <li>{{address}}</li>
+                  {% endfor %}
+                </ul>
+              </dd>
+            {% endif %}
+          </dl>
+          
         </td>
       </tr>
     {% endfor %}

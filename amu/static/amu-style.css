@@ -4,7 +4,11 @@ label[for=groups] + div > ul > li { list-style: none; }
 label[for=members] + div > ul { height: auto; }
 label[for=members] + div > ul > li { list-style: none; }
 
+ul#list_members { height: auto; }
+
 body { padding-top: 70px; }
+
+.nowrap { white-space: nowrap; }
 
 /**
  * Progress bars with centered text

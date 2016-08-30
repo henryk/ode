@@ -1,6 +1,7 @@
 from amu import config_get, ldap
 from flask import current_app
 from ldap3 import STRING_TYPES
+import re
 
 # Hashes the password value into an {SSHA} password upon setting
 class LDAPSSHAPasswordAttribute(ldap.Attribute):
@@ -102,14 +103,31 @@ class MailingList(ldap.Entry):
 
 	@property
 	def member_urls_group(self):
-		return [_ for _ in self.member_urls if "memberOf=" in _] # FIXME: Can this be more elegant?
+		return [_ for _ in self.member_urls if self.GROUP_RE.match(_)]
 
 	@property
 	def member_urls_user(self):
-		return [_ for _ in self.member_urls if "memberOf=" not in _] # FIXME: Can this be more elegant?
+		return [_ for _ in self.member_urls if self.USER_RE.match(_)]
+
+	@property
+	def member_groups(self):
+		return [Group.query.get(self.GROUP_RE.match(m).group("group_dn")) for m in self.member_urls_group]
+	
+	@property
+	def member_users(self):
+		return [User.query.get(self.USER_RE.match(m).group("user_dn")) for m in self.member_urls_user]
+
+	@property
+	def list_members(self):
+		return [e.dn for e in self.member_users + self.member_groups] + list(self.additional_addresses)
+	
 	
 
 def initialize(app):
 	User.base_dn = config_get("AMU_USER_BASE", config=app.config)
 	Group.base_dn = config_get("AMU_GROUP_BASE", config=app.config)
 	MailingList.base_dn = config_get("AMU_MAILING_LIST_BASE", config=app.config)
+	MailingList.USER_RE = re.compile( app.config["MAILING_LIST_MEMBER_USER_TEMPLATE"] )
+	MailingList.GROUP_RE = re.compile( app.config["MAILING_LIST_MEMBER_GROUP_TEMPLATE"] % {
+		"user_base": re.escape(config_get("AMU_USER_BASE", config=app.config))
+	})

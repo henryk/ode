@@ -1,7 +1,7 @@
 
 from flask import session
 from flask_wtf import Form
-from wtforms import StringField, PasswordField, SubmitField, HiddenField, SelectMultipleField, BooleanField, widgets, FieldList
+from wtforms import StringField, PasswordField, SubmitField, HiddenField, SelectMultipleField, BooleanField, widgets, FieldList, TextField
 from wtforms.validators import DataRequired, Email
 
 class MultiCheckboxField(SelectMultipleField):
@@ -85,3 +85,16 @@ def get_NewGroupForm(user_list):
 		submit = SubmitField('Create!')
 
 	return NewGroupForm
+
+def get_EditMailingListForm(user_list, group_list):
+	class EditMailingListForm(Form):
+		#members = MultiCheckboxField('Members', choices = [ (_.dn,_.name) for _ in user_list ] )
+		#member_urls = FieldList(StringField('Member URLs'))
+		#additional_addresses = FieldList(StringField('Additional address'))
+		list_members = FieldList(StringField(''))
+
+		update = SubmitField('Update!')
+
+		delete_confirm = BooleanField('Confirm deletion')
+		delete = SubmitField('Delete!')
+	return EditMailingListForm

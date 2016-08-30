@@ -156,3 +156,41 @@ function amu_user_enhancements(password_is_required) {
     });
 
 };
+
+function amu_mailing_list_enhancements() {
+    var tags = all_groups.map(function(i){return { value: i[0], label: "Group: "+i[1] };}).concat(
+        all_users.map(function(i){return { value: i[0], label: "User: "+i[1] };})
+    );
+    console.log(tags);
+    $(function(){
+        $('#list_members > li').replaceWith(function(){ return $("<li>").text( $("input", this).attr("value") ); });
+        $('#list_members').tagit({
+            removeConfirmation: true,
+            showAutocompleteOnFocus: true,
+            allowSpaces: true,
+            fieldName: 'list_members',
+            availableTags: tags.map(function(i){ return i.label; }),
+            beforeTagAdded: function(event, ui) {
+                var input=$("input", $(ui.tag));
+                console.log(input.attr("value"));
+                input.attr("value", tags.reduce(function(prev, cur){
+                    
+                    if(cur.value==ui.tagLabel) {
+                        console.log(cur.value + ", "+ ui.tagLabel);
+                        return cur.label;
+                    }
+                    return prev;
+                }, ui.tagLabel));
+                console.log(input.attr("value"));
+                return true;
+            },
+        });
+        $('div[role=main] > form').submit(function(){
+            var i=0;
+            $("input[name=list_members]", this).each(function(){
+                $(this).attr("name", $(this).attr("name")+"-"+i);
+                i=i+1;
+            });
+        });
+    });
+};

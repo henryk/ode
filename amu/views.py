@@ -139,6 +139,10 @@ def mynavbar():
 	return Navbar(*e)
 
 
+@views.app_template_filter()
+def force_str(s):
+	return unicode(s)
+
 @views.route("/")
 @login_required(False)
 def root():
@@ -354,7 +358,15 @@ def mailing_lists():
 @views.route("/mailing_list/<string:cn>", methods=['GET','POST'])
 @login_required
 def mailing_list(cn):
-	abort(404)
+	mlist = MailingList.query.filter("name: %s" % cn).first()
+	if not mlist:
+		abort(404)
+	group_list = Group.query.all()
+	user_list = User.query.all()
+	form = forms.get_EditMailingListForm(user_list, group_list)(obj=mlist)
+
+	form.delete_confirm.data = False # Always reset this
+	return render_template('mailing_list.html', list=mlist, group_list=group_list, user_list=user_list, form=form)
 
 
 @views.route('/login', methods=['GET', 'POST'])
