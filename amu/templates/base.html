@@ -5,6 +5,10 @@
 {{super()}}
 <link rel="stylesheet"
       href="{{url_for('static', filename='amu-style.css')}}">
+<link rel="stylesheet"
+      href="{{url_for('static', filename='select2.min.css')}}">
+<link rel="stylesheet"
+      href="{{url_for('static', filename='select2-bootstrap.min.css')}}">
 {% endblock %}
 
 {% block navbar %}
@@ -38,6 +42,7 @@
 {% block scripts %}
 {{super()}}
 <script src="{{url_for('static', filename='amu-scripts.js')}}"></script>
+<script src="{{url_for('static', filename='select2.full.min.js')}}"></script>
 {% endblock %}
 
 {% macro load_zxcvbn(do_sync) %}

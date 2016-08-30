@@ -149,7 +149,27 @@ function amu_user_enhancements(password_is_required) {
             }
         });
 
-
+        var aliases = $('#aliases').val().split(",").map(function(i){return i.trim();});
+        if(aliases[0]=="") {aliases.pop()};
+        $('#aliases').replaceWith(function(){
+            var result = $("<select id='aliases' multiple='multiple'/>");
+            result.attr('class', $(this).attr('class'));
+            return result;
+        });
+        $('#aliases').select2({
+            theme: 'bootstrap',
+            tags: aliases,
+            tokenSeparators: [',', ' '],
+        });
+        $('#aliases').val(aliases).trigger("change");
+        $('div[role=main] > form').submit(function(){
+            $('#aliases').replaceWith(function(){
+                var result = $('<input type="hidden" name="aliases">');
+                var thisval = $(this).val();
+                result.val(thisval ? thisval.join(",") : "");
+                return result;
+            });
+        });
     });
 
 };
