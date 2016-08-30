@@ -23,6 +23,15 @@ $(function() {
 });
 
 
+function replace_with_select2(element_id)
+{
+    $('#' + element_id).replaceWith(function(){
+        var result = $("<select id='"+element_id+"' multiple='multiple'/>");
+        result.attr('class', $(this).attr('class'));
+        return result;
+    });
+}
+
 function amu_user_enhancements(password_is_required) {
 
     $(function(){
@@ -151,11 +160,7 @@ function amu_user_enhancements(password_is_required) {
 
         var aliases = $('#aliases').val().split(",").map(function(i){return i.trim();});
         if(aliases[0]=="") {aliases.pop()};
-        $('#aliases').replaceWith(function(){
-            var result = $("<select id='aliases' multiple='multiple'/>");
-            result.attr('class', $(this).attr('class'));
-            return result;
-        });
+        replace_with_select2('aliases');
         $('#aliases').select2({
             theme: 'bootstrap',
             tags: aliases,
@@ -175,39 +180,38 @@ function amu_user_enhancements(password_is_required) {
 };
 
 function amu_mailing_list_enhancements() {
-    var tags = all_groups.map(function(i){return { value: i[0], label: "Group: "+i[1] };}).concat(
-        all_users.map(function(i){return { value: i[0], label: "User: "+i[1] };})
+    var seen = {};
+    var tags = all_groups.map(
+            function(i){
+                seen[i[0]] = true;
+                return { "id": i[0], text: "Group: "+i[1] };
+            }).concat(all_users.map(
+                function(i){
+                    seen[i[0]] = true;
+                    return { "id": i[0], text: "User: "+i[1] };
+                })
     );
-    console.log(tags);
     $(function(){
-        $('#list_members > li').replaceWith(function(){ return $("<li>").text( $("input", this).attr("value") ); });
-        $('#list_members').tagit({
-            removeConfirmation: true,
-            showAutocompleteOnFocus: true,
-            allowSpaces: true,
-            fieldName: 'list_members',
-            availableTags: tags.map(function(i){ return i.label; }),
-            beforeTagAdded: function(event, ui) {
-                var input=$("input", $(ui.tag));
-                console.log(input.attr("value"));
-                input.attr("value", tags.reduce(function(prev, cur){
-                    
-                    if(cur.value==ui.tagLabel) {
-                        console.log(cur.value + ", "+ ui.tagLabel);
-                        return cur.label;
-                    }
-                    return prev;
-                }, ui.tagLabel));
-                console.log(input.attr("value"));
-                return true;
-            },
+        var list_members = $('#list_members > li input').map(function(i, obj){return $(obj).val()}).get();
+        var additional_members = list_members.filter(function(i){return !seen.hasOwnProperty(i)});
+        replace_with_select2('list_members');
+        $('#list_members').select2({
+            theme: 'bootstrap',
+            tags: tags.concat(additional_members.map(
+                function(i){
+                    return { "id": i, "text": i };
+                }
+            )),
         });
+
+        $('#list_members').val(list_members).trigger("change");
         $('div[role=main] > form').submit(function(){
-            var i=0;
-            $("input[name=list_members]", this).each(function(){
-                $(this).attr("name", $(this).attr("name")+"-"+i);
-                i=i+1;
+            var new_members = $('#list_members').val();
+            var new_inputs = $();
+            $.each(new_members, function(i, obj){
+                new_inputs = new_inputs.add( $('<input type="hidden" name="list_members-'+i+'">').val(obj) );
             });
+            $('#list_members').replaceWith(new_inputs);
         });
     });
 };
