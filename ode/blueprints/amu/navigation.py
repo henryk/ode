@@ -5,7 +5,7 @@ from flask import g, session
 from flask_nav.elements import Navbar, View, Subgroup
 
 from ode import nav
-from ode.navigation import ODENavbarRenderer
+from ode.navigation import UserMenu, ODENavbarRenderer
 
 @nav.navigation("amu")
 def amu_navbar():
@@ -22,12 +22,7 @@ def amu_navbar():
 				View('Mailing Lists', '.mailing_lists'),
 				View('New mailing list', '.new_mailing_list'),
 			] )
-		e.extend( [
-			Subgroup('Logged in as %s' % g.ldap_user.name,
-				View('My profile', '.self'),
-				View('Log out', 'logout')
-			)
-		] )
+	e.append(UserMenu())
 	return Navbar(*e)
 
 class AMUNavbarRenderer(ODENavbarRenderer):

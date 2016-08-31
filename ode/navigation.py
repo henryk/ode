@@ -3,7 +3,7 @@ from __future__ import absolute_import
 from flask import g, session
 
 from flask_bootstrap.nav import BootstrapRenderer
-from flask_nav.elements import Navbar, View, Subgroup
+from flask_nav.elements import Navbar, View, Subgroup, Text
 
 from ode import nav
 
@@ -11,15 +11,28 @@ from ode import nav
 def top_navbar():
 	e = [
 		'ODE',
+		UserMenu(),
 	]
-	if hasattr(g, "ldap_user"):
-		e.extend( [
-			Subgroup('Logged in as %s' % g.ldap_user.name,
-				View('My profile', 'amu.self'),
-				View('Log out', 'logout')
-			)
-		] )
 	return Navbar(*e)
+
+class UserMenu(object):
+	def __new__(cls, *args, **kwargs):
+		result = object.__new__(cls)
+		if hasattr(g, "ldap_user"):
+			result.__class__ = UserMenuLoggedIn
+		else:
+			result.__class__ = UserMenuLoggedOut
+		return result
+
+class UserMenuLoggedIn(UserMenu, Subgroup):
+	def __init__(self):
+		super(UserMenuLoggedIn, self).__init__('Logged in as %s' % g.ldap_user.name,
+			View('My profile', 'amu.self'),
+			View('Log out', 'logout'))
+
+class UserMenuLoggedOut(UserMenu, Text):
+	def __init__(self):
+		super(UserMenuLoggedOut, self).__init__('Not logged in')
 
 class ODENavbarRenderer(BootstrapRenderer):
 	# Right-aligns last item
