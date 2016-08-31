@@ -10,3 +10,5 @@ pytest
 Flask-LDAPConn
 pynacl
 Flask-Mail
+Flask-Migrate
+Flask-SQLAlchemy

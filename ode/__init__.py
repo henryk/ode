@@ -7,13 +7,17 @@ from flask import Flask, g, current_app, session, redirect, url_for, request, re
 from flask_bootstrap import Bootstrap
 from flask_session import Session
 from flask_ldapconn import LDAPConn
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate, MigrateCommand
+
 from flask_nav import Nav, register_renderer
 
 bs = Bootstrap()
 _s = Session()
 ldap = LDAPConn()
 nav = Nav()
-
+db = SQLAlchemy()
+migrate = Migrate()
 
 def create_app(configuration="ode.config.Config", **kwargs):
 	app = Flask(__name__)
@@ -26,6 +30,8 @@ def create_app(configuration="ode.config.Config", **kwargs):
 	_s.init_app(app)
 	ldap.init_app(app)
 	nav.init_app(app)
+	db.init_app(app)
+	migrate.init_app(app, db)
 
 	app.add_url_rule('/', 'root', root)
 	app.add_url_rule('/login', 'login', login, methods=['GET', 'POST'])
