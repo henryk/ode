@@ -150,18 +150,8 @@ class MailingList(ldap.Entry):
 		new_additional = set(_ for _ in new_m if not is_either(_))
 		new_url = set(format_either(_) for _ in new_m if not _ in new_additional)
 
-		changes = {}
-
-		changes["CC-fullMailAddress"] = [ ("MODIFY_REPLACE", list(new_additional)) ]
-		changes["CC-memberURL"] = [ ("MODIFY_REPLACE", list(new_url)) ]
-
-
-		if not changes: 
-			return True
-
-		return self.connection.connection.modify(self.dn, changes)
-
-		return False
+		self.additional_addresses = list(new_additional)
+		self.member_urls = list(new_url)
 	
 	
 

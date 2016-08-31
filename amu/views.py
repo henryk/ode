@@ -385,7 +385,9 @@ def mailing_list(cn):
 
 	if request.method == 'POST' and form.validate_on_submit():
 		if form.update.data:
-			if mlist.set_list_members(form.list_members.data):
+			mlist.set_list_members(form.list_members.data)
+
+			if mlist.save():
 				flash("Successfully saved", category="success")
 				return redirect(url_for('.mailing_list', cn=mlist.name))
 			else:
