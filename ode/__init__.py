@@ -133,13 +133,13 @@ def _login_required_int(needs_admin, f):
 			except LDAPBindError:
 				flash("Invalid credentials", category="danger")
 				logout()
-				return redirect(url_for('.login', next=request.url))  ## FIXME: Validate or remove, don't want open redirects
+				return redirect(url_for('login', next=request.url))  ## FIXME: Validate or remove, don't want open redirects
 			determine_admin_status()
 			if needs_admin and not session["is_admin"]:
 				abort(404)
 			return f(*args, **kwargs)
 		else:
-			return redirect(url_for('.login', next=request.url))
+			return redirect(url_for('login', next=request.url))
 	return decorated_function
 
 def login_required(argument):
@@ -163,14 +163,14 @@ def login():
 		session['username'] = form.username.data
 		session_box.store_boxed("password", form.password.data)
 		session.modified = True
-		return redirect(request.args.get("next", url_for('.root')))
+		return redirect(request.args.get("next", url_for('root')))
 	return render_template("login.html", form=form)
 
 def logout():
 	session.pop("password", None)
 	session.pop("is_admin", None)
 	session.modified = True
-	return redirect(url_for(".root"))
+	return redirect(url_for("root"))
 
 
 
