@@ -15,6 +15,9 @@ class Config(object):
 	MAILING_LIST_MEMBER_USER_TEMPLATE = r'^ldap:///(?P<user_dn>[^?]*?)$'
 	MAILING_LIST_MEMBER_GROUP_TEMPLATE = r'^ldap:///%(user_base)s\?\?one\?\(&\(objectClass=inetOrgPerson\)\(memberOf=(?P<group_dn>.*?)\)\)$'
 
+	SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
+	SQLALCHEMY_TRACK_MODIFICATIONS = False
+
 class DevelopmentConfig(Config):
 	DEBUG = True
 

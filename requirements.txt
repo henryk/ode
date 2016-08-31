@@ -12,3 +12,6 @@ pynacl
 Flask-Mail
 Flask-Migrate
 Flask-SQLAlchemy
+enum34
+SQLAlchemy-Enum34
+SQLAlchemy-Utils
