@@ -5,7 +5,7 @@ from flask import g, session
 from flask_nav.elements import Navbar, View, Subgroup
 
 from ode import nav
-from ode.navigation import UserMenu, ODENavbarRenderer
+from ode.navigation import ODENavbar, ODENavbarRenderer
 
 @nav.navigation("amu")
 def amu_navbar():
@@ -22,8 +22,7 @@ def amu_navbar():
 				View('Mailing Lists', '.mailing_lists'),
 				View('New mailing list', '.new_mailing_list'),
 			] )
-	e.append(UserMenu())
-	return Navbar(*e)
+	return ODENavbar(*e)
 
 class AMUNavbarRenderer(ODENavbarRenderer):
 	# Change "New " to + icons

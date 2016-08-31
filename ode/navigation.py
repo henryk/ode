@@ -9,11 +9,7 @@ from ode import nav
 
 @nav.navigation("top")
 def top_navbar():
-	e = [
-		'ODE',
-		UserMenu(),
-	]
-	return Navbar(*e)
+	return ODENavbar()
 
 class UserMenu(object):
 	def __new__(cls, *args, **kwargs):
@@ -33,6 +29,15 @@ class UserMenuLoggedIn(UserMenu, Subgroup):
 class UserMenuLoggedOut(UserMenu, Text):
 	def __init__(self):
 		super(UserMenuLoggedOut, self).__init__('Not logged in')
+
+class ODENavbar(Navbar):
+	def __init__(self, title=None, *args):
+		if title is not None:
+			title = 'ODE > %s' % title
+		else:
+			title = 'ODE'
+		super(ODENavbar, self).__init__(title, *args)
+		self.items = self.items + (UserMenu(),)
 
 class ODENavbarRenderer(BootstrapRenderer):
 	# Right-aligns last item

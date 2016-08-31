@@ -5,12 +5,8 @@ from flask import g, session
 from flask_nav.elements import Navbar, View, Subgroup
 
 from ode import nav
-from ode.navigation import UserMenu
+from ode.navigation import ODENavbar
 
 @nav.navigation("isi")
 def isi_navbar():
-	e = [
-		'ISI',
-	]
-	e.append(UserMenu())
-	return Navbar(*e)
+	return ODENavbar('ISI')
