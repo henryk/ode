@@ -40,6 +40,9 @@ def create_app(configuration="ode.config.Config", **kwargs):
 	from ode.blueprints import amu
 	app.register_blueprint(amu.blueprint, url_prefix='/amu')
 
+	from ode.blueprints import isi
+	app.register_blueprint(isi.blueprint, url_prefix='/isi')
+
 	import ode.session_box
 	ode.session_box.init_box(app)
 

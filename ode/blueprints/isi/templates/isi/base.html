@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+  {{nav.isi.render(renderer='ode_navbar')}}
+{% endblock %}
+
+{% block title %}{% block titleinner %}{% endblock %} &mdash; ISI{% endblock %}
