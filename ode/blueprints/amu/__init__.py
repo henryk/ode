@@ -8,11 +8,11 @@ blueprint = Blueprint('amu', __name__, static_folder='static', template_folder='
 
 @blueprint.record
 def setup_amu(state):
-	from .views import AMUNavbarRenderer
+	from .navigation import AMUNavbarRenderer
 	register_renderer(state.app, 'amu_navbar', AMUNavbarRenderer)
 
 	from .mail import mailer
 	mailer.init_app(state.app)
 
 
-from . import views, forms, mail
+from . import views, forms, mail, navigation

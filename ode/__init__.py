@@ -9,9 +9,6 @@ from flask_session import Session
 from flask_ldapconn import LDAPConn
 from flask_nav import Nav, register_renderer
 
-from flask_bootstrap.nav import BootstrapRenderer
-from flask_nav.elements import Navbar, View, Subgroup
-
 bs = Bootstrap()
 _s = Session()
 ldap = LDAPConn()
@@ -34,6 +31,7 @@ def create_app(configuration="ode.config.Config", **kwargs):
 	app.add_url_rule('/login', 'login', login, methods=['GET', 'POST'])
 	app.add_url_rule('/logout', 'logout', logout)
 
+	from ode.navigation import ODENavbarRenderer
 	register_renderer(app, 'ode_navbar', ODENavbarRenderer)
 
 	from ode.model import initialize as model_init
@@ -144,49 +142,6 @@ def login_required(argument):
 		return decorator
 
 
-@nav.navigation("top")
-def top_navbar():
-	e = [
-		'ODE',
-	]
-	if hasattr(g, "ldap_user"):
-		e.extend( [
-			Subgroup('Logged in as %s' % g.ldap_user.name,
-				View('My profile', 'amu.self'),
-				View('Log out', 'logout')
-			)
-		] )
-	return Navbar(*e)
-
-class ODENavbarRenderer(BootstrapRenderer):
-	# Right-aligns last item
-	# Fix to top
-	def visit_Navbar(self, node):
-		import dominate
-
-		result = super(ODENavbarRenderer, self).visit_Navbar(node)
-		div = None
-		child = None
-		for _ in result.get("div"):
-			if "navbar-collapse" in _['class']:
-				div = _
-				break
-		if div:
-
-			for bar in div:
-				pass
-			for child in bar:
-				pass
-			if child:
-				bar.remove(child)
-				rightbar = dominate.tags.ul()
-				rightbar['class'] = "nav navbar-nav navbar-right"
-				div.add(rightbar)
-				rightbar.add(child)
-
-		result['class'] += " navbar-fixed-top"
-
-		return result
 
 
 @login_required(False)
