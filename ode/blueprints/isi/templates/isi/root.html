@@ -2,10 +2,16 @@
 {% block titleinner %}Hello World{% endblock %}
 
 {% block inner %}
-  <h2>Hello World</h2>
+	<h2>Hello World</h2>
 
-  <p>Here would be a list of events if we had one.</p>
+	<p>Here's what we know:</p>
 
-  {{ wtf.quick_form(refresh_form, action=url_for('.refresh'), method="POST") }}
-  
+	{% for c in calendars %}
+		<pre>
+			{{ c }}
+		</pre>
+	{% endfor %}
+
+	{{ wtf.quick_form(refresh_form, action=url_for('.refresh'), method="POST") }}
+
 {% endblock %}

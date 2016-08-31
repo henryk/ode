@@ -6,6 +6,11 @@ ODE_GROUP_BASE = "ou=Groups,%(ODE_BASE_DN)s"
 ODE_MAILING_LIST_BASE = "ou=Mailing Lists,%(ODE_BASE_DN)s"
 ODE_USER_DN = "uid=%(username)s,ou=Users,%(ODE_BASE_DN)s"
 ODE_ALLOW_DIRECT_DN = True
+
+ISI_EVENT_SOURCES = {
+	"example-calendar": "https://example.com/calendar.ics"
+}
+
 LDAP_SERVER = 'localhost'
 LDAP_PORT = 389
 LDAP_TIMEOUT = 10
