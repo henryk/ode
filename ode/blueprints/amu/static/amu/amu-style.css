@@ -6,8 +6,6 @@ label[for=members] + div > ul > li { list-style: none; }
 
 ul#list_members { height: auto; }
 
-body { padding-top: 70px; }
-
 #select2-aliases-results { display: none; }
 
 .nowrap { white-space: nowrap; }

@@ -1,6 +1,17 @@
 {% extends "bootstrap/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
+{% block navbar %}
+  {{nav.top.render(renderer='ode_navbar')}}
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet"
+      href="{{url_for('.static', filename='ode-style.css')}}">
+{% endblock %}
+
+
 {% block content %}
 <div class="container" role="main">
   <div class="clearfix"></div>

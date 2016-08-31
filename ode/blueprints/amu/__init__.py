@@ -1,19 +1,15 @@
 from __future__ import absolute_import
 
 from flask import Blueprint
-from flask_nav import Nav, register_renderer
-
-nav = Nav()
+from flask_nav import register_renderer
 
 blueprint = Blueprint('amu', __name__, static_folder='static', template_folder='templates')
 
 
 @blueprint.record
 def setup_amu(state):
-	nav.init_app(state.app)
-
-	from .views import CustomRenderer
-	register_renderer(state.app, 'amu_custom', CustomRenderer)
+	from .views import AMUNavbarRenderer
+	register_renderer(state.app, 'amu_navbar', AMUNavbarRenderer)
 
 	from .mail import mailer
 	mailer.init_app(state.app)
