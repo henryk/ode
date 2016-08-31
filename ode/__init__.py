@@ -143,13 +143,9 @@ def login_required(argument):
 
 
 
-
 @login_required(False)
 def root():
-	if session["is_admin"]:
-		return redirect(url_for('amu.users'))
-	else:
-		return redirect(url_for('amu.self'))
+	return redirect(url_for('amu.root'))
 
 def login():
 	from ode.forms import LoginForm

@@ -19,6 +19,15 @@ def mail_user_password(user, form):
 			flash("Couldn't send mail to user", category="danger")
 
 
+
+@blueprint.route("/")
+@login_required(False)
+def root():
+	if session["is_admin"]:
+		return redirect(url_for('.users'))
+	else:
+		return redirect(url_for('.self'))
+
 @blueprint.route("/self", methods=['GET','POST'])
 @login_required(False)
 def self():
