@@ -1,4 +1,4 @@
-from amu import config_get, ldap
+from ode import config_get, ldap
 from flask import current_app
 from ldap3 import STRING_TYPES
 import re
@@ -156,19 +156,19 @@ class MailingList(ldap.Entry):
 	
 
 def initialize(app):
-	User.base_dn = config_get("AMU_USER_BASE", config=app.config)
-	Group.base_dn = config_get("AMU_GROUP_BASE", config=app.config)
-	MailingList.base_dn = config_get("AMU_MAILING_LIST_BASE", config=app.config)
+	User.base_dn = config_get("ODE_USER_BASE", config=app.config)
+	Group.base_dn = config_get("ODE_GROUP_BASE", config=app.config)
+	MailingList.base_dn = config_get("ODE_MAILING_LIST_BASE", config=app.config)
 
 	def re_to_format(r):
 		return re.sub('(^\^)|(\$$)', '', re.sub( '\(\?P<([^>]+)>[^)]+\)', '%(\\1)s', re.sub('\\\\(.)', '\\1', r)) )
 
 	MailingList.USER_RE = re.compile( app.config["MAILING_LIST_MEMBER_USER_TEMPLATE"] )
 	MailingList.GROUP_RE = re.compile( app.config["MAILING_LIST_MEMBER_GROUP_TEMPLATE"] % {
-		"user_base": re.escape(config_get("AMU_USER_BASE", config=app.config))
+		"user_base": re.escape(config_get("ODE_USER_BASE", config=app.config))
 	})
 
 	MailingList.USER_FORMAT = re_to_format( app.config["MAILING_LIST_MEMBER_USER_TEMPLATE"] )
 	MailingList.GROUP_FORMAT = re_to_format( app.config["MAILING_LIST_MEMBER_GROUP_TEMPLATE"] % {
-		"user_base": re.escape(config_get("AMU_USER_BASE", config=app.config))
+		"user_base": re.escape(config_get("ODE_USER_BASE", config=app.config))
 	})

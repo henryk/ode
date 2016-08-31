@@ -1,4 +1,4 @@
-# amu manages users
+# ode does everything
 
 ## Quickstart
 
@@ -10,12 +10,17 @@ virtualenv -p /path/to/python2.7 venv
 pip install -r requirements.txt
 cp settings.example.py settings.py
 # Edit and change settings.py
-export AMU_SETTINGS=$(pwd)/settings.py
+export ODE_SETTINGS=$(pwd)/settings.py
 ```
 
 For usage with gunicorn do
 
 ```
 pip install gunicorn
-gunicorn -w 4 --preload run_amu:app
+gunicorn -w 4 --preload run_ode:app
 ```
+
+
+## Contents
+
+### amu manages users

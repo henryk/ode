@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet"
+      href="{{url_for('.static', filename='amu/amu-style.css')}}">
+<link rel="stylesheet"
+      href="{{url_for('.static', filename='amu/select2.min.css')}}">
+<link rel="stylesheet"
+      href="{{url_for('.static', filename='amu/select2-bootstrap.min.css')}}">
+{% endblock %}
+
+{% block navbar %}
+  {{nav.mynavbar.render(renderer='amu_custom')}}
+{% endblock %}
+
+
+{% block title %}{% block titleinner %}{% endblock %} &mdash; AMU{% endblock %}
+
+{% block scripts %}
+{{super()}}
+<script src="{{url_for('.static', filename='amu/amu-scripts.js')}}"></script>
+<script src="{{url_for('.static', filename='amu/select2.full.min.js')}}"></script>
+{% endblock %}
+
+{% macro load_zxcvbn(do_sync) %}
+  {% if do_sync %}
+    <script src="{{url_for('.static',filename='amu/zxcvbn/zxcvbn.js')}}"></script>
+  {% else %}
+    <script>
+    // cross-browser asynchronous script loading for zxcvbn.
+    // adapted from http://friendlybit.com/js/lazy-loading-asyncronous-javascript/
+
+    (function() {
+
+      var ZXCVBN_SRC = '{{url_for('.static',filename='amu/zxcvbn/zxcvbn.js')}}';
+
+      var async_load = function() {
+        var first, s;
+        s = document.createElement('script');
+        s.src = ZXCVBN_SRC;
+        s.type = 'text/javascript';
+        s.async = true;
+        first = document.getElementsByTagName('script')[0];
+        return first.parentNode.insertBefore(s, first);
+      };
+
+      if (window.attachEvent != null) {
+        window.attachEvent('onload', async_load);
+      } else {
+        window.addEventListener('load', async_load, false);
+      }
+
+    }).call(this);
+    </script>
+  {% endif %}
+
+{% endmacro %}

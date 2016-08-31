@@ -9,11 +9,6 @@ class MultiCheckboxField(SelectMultipleField):
 	option_widget = widgets.CheckboxInput()
 
 
-class LoginForm(Form):
-	username = StringField('username', validators=[DataRequired()], default=lambda : session.get("username", ""))
-	password = PasswordField('password', validators=[DataRequired()])
-	submit = SubmitField('Log in!')
-
 class EditSelfForm(Form):
 	givenname = StringField('Given Name', validators=[DataRequired()])
 	surname = StringField('Last Name', validators=[DataRequired()])

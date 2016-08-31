@@ -6,7 +6,7 @@ class Config(object):
 	PERMANENT_SESSION_LIFETIME = 60*60*24*365*10
 	SESSION_TYPE = 'filesystem'
 	SESSION_FILE_DIR = './sessions'
-	SESSION_COOKIE_NAME = 'amu_session'
+	SESSION_COOKIE_NAME = 'ode_session'
 	SESSION_COOKIE_HTTPONLY = True
 	SESSION_USE_SIGNER = True
 

@@ -1,91 +1,10 @@
-from functools import wraps
-from flask import Blueprint, current_app, render_template, request, redirect, url_for, session, g, flash, abort
+from flask import current_app, render_template, request, redirect, url_for, session, g, flash, abort
 from flask_nav.elements import Navbar, View, Subgroup
 from flask_bootstrap.nav import BootstrapRenderer
-from amu import forms, config_get, nav, session_box, mail
-from ldap3 import LDAPBindError, LDAPEntryError
 
-from amu.model import User, Group, MailingList
-
-views = Blueprint('views', __name__)
-
-def connect_and_load_ldap(password):
-	done = False
-	ldc = current_app.extensions.get('ldap_conn')
-
-	if "binddn" in session:
-		try: 
-			# First, try the stored bind dn
-			g.ldap_conn = ldc.connect(session['binddn'], password)
-			done = True
-		except LDAPBindError:
-			# If that didn't work, invalidate binddn cache and fall back to regular behaviour
-			del session["binddn"]
-			session.modified = True
-
-	if not done:
-		userdn = config_get("AMU_USER_DN", username=session["username"])
-		try: 
-			# First try the AMU_USER_DN format
-			g.ldap_conn = ldc.connect(userdn, password)
-			session["binddn"] = userdn
-			session.modified = True
-		except LDAPBindError as e:
-			if current_app.config["AMU_ALLOW_DIRECT_DN"]:
-				try: 
-					# If that didn't work, try the "username" directly
-					g.ldap_conn = ldc.connect(session["username"], password)
-					session["binddn"] = session["username"]
-					session.modified = True
-				except LDAPBindError:
-					# That didn't work either. For cosmetic purposes, re-raise the first exception
-					current_app.logger.info("Couldn't login with either %s or %s", userdn, session["username"])
-					raise e
-			else:
-				# Retry not allowed by AMU_ALLOW_DIRECT_DN, re-raise directly
-				raise e
-
-	g.ldap_user = User.query.filter("userid: %s" % session["username"]).first()
-	if not g.ldap_user:
-		# Fallback case
-		g.ldap_user = User(name="Unknown user")
-
-def determine_admin_status():
-	"""Try to query a group. If that succeeds -> Admin, otherwise normal user. Cache the result in the session."""
-	if "is_admin" in session:
-		return
-	else:
-		group = Group.query.first()
-		session["is_admin"] = not not group
-		session.modified = True
-
-def _login_required_int(needs_admin, f):
-	@wraps(f)
-	def decorated_function(*args, **kwargs):
-		password = session_box.retrieve_unboxed("password", None)
-		if "username" in session and password is not None:
-			try:
-				connect_and_load_ldap(password)
-			except LDAPBindError:
-				flash("Invalid credentials", category="danger")
-				logout()
-				return redirect(url_for('.login', next=request.url))  ## FIXME: Validate or remove, don't want open redirects
-			determine_admin_status()
-			if needs_admin and not session["is_admin"]:
-				abort(404)
-			return f(*args, **kwargs)
-		else:
-			return redirect(url_for('.login', next=request.url))
-	return decorated_function
-
-def login_required(argument):
-	if hasattr(argument, "__call__"):
-		return _login_required_int(True, argument)
-	else:
-		def decorator(f):
-			return _login_required_int(argument, f)
-		return decorator
-
+from ode import config_get, session_box, login_required
+from ode.model import User, Group, MailingList
+from . import blueprint, forms, nav, mail
 
 class CustomRenderer(BootstrapRenderer):
 	# Right-aligns last item
@@ -151,23 +70,15 @@ def mynavbar():
 		e.extend( [
 			Subgroup('Logged in as %s' % g.ldap_user.name,
 				View('My profile', '.self'),
-				View('Log out', '.logout')
+				View('Log out', 'logout')
 			)
 		] )
 	return Navbar(*e)
 
 
-@views.app_template_filter()
+@blueprint.app_template_filter()
 def force_str(s):
 	return unicode(s)
-
-@views.route("/")
-@login_required(False)
-def root():
-	if session["is_admin"]:
-		return redirect(url_for('.users'))
-	else:
-		return redirect(url_for('.self'))
 
 def mail_user_password(user, form):
 	if form.send_password.data:
@@ -179,7 +90,7 @@ def mail_user_password(user, form):
 			flash("Couldn't send mail to user", category="danger")
 
 
-@views.route("/self", methods=['GET','POST'])
+@blueprint.route("/self", methods=['GET','POST'])
 @login_required(False)
 def self():
 	form = forms.EditSelfForm(obj=g.ldap_user)
@@ -202,14 +113,14 @@ def self():
 				flash("Saving was unsuccessful", category="danger")
 
 	form.password.data = '' # Must manually delete this, since the password is not returned
-	return render_template("self.html", form=form)
+	return render_template("amu/self.html", form=form)
 
-@views.route("/user/")
+@blueprint.route("/user/")
 @login_required
 def users():
 	users = User.query.all()
 	groups = Group.query.all()
-	return render_template('users.html', users=users, groups=groups)
+	return render_template('amu/users.html', users=users, groups=groups)
 
 def save_ldap_attributes(form, obj):
 	"""Only stores existing LDAP attributes.
@@ -218,6 +129,8 @@ def save_ldap_attributes(form, obj):
 	Does not change attributes named 'groups'.
 	Does not change attributes named 'members'.
 	For the following attributes a set_* method is called: aliases, list_members"""
+
+	from ldap3 import LDAPEntryError
 
 	changed = False
 
@@ -247,7 +160,7 @@ def save_ldap_attributes(form, obj):
 	current_app.logger.debug("Change status is %s", changed)
 	return changed
 
-@views.route("/user/<string:uid>", methods=['GET','POST'])
+@blueprint.route("/user/<string:uid>", methods=['GET','POST'])
 @login_required
 def user(uid):
 	user = User.query.filter("userid: %s" % uid).first()
@@ -285,9 +198,9 @@ def user(uid):
 
 	form.password.data = '' # Must manually delete this, since the password is not returned
 	form.delete_confirm.data = False # Always reset this
-	return render_template('user.html', user=user, form=form)
+	return render_template('amu/user.html', user=user, form=form)
 
-@views.route("/user/_new", methods=['GET','POST'])
+@blueprint.route("/user/_new", methods=['GET','POST'])
 @login_required
 def new_user():
 	group_list = Group.query.all()
@@ -307,17 +220,17 @@ def new_user():
 				return redirect(url_for('.user', uid=user.userid))
 			else:
 				flash("Error while creating user", category="danger")
-	return render_template('new_user.html', form=form)
+	return render_template('amu/new_user.html', form=form)
 
 
-@views.route("/group/")
+@blueprint.route("/group/")
 @login_required
 def groups():
 	users = User.query.all()
 	groups = Group.query.all()
-	return render_template('groups.html', users=users, groups=groups)
+	return render_template('amu/groups.html', users=users, groups=groups)
 
-@views.route("/group/<string:cn>", methods=['GET','POST'])
+@blueprint.route("/group/<string:cn>", methods=['GET','POST'])
 @login_required
 def group(cn):
 	group = Group.query.filter("name: %s" % cn).first()
@@ -345,9 +258,9 @@ def group(cn):
 				flash("Please confirm group deletion", category="danger")
 
 	form.delete_confirm.data = False # Always reset this
-	return render_template('group.html', group=group, form=form)
+	return render_template('amu/group.html', group=group, form=form)
 
-@views.route("/group/_new", methods=['GET','POST'])
+@blueprint.route("/group/_new", methods=['GET','POST'])
 @login_required
 def new_group():
 	user_list = User.query.all()
@@ -363,17 +276,17 @@ def new_group():
 				return redirect(url_for('.group', cn=group.name))
 			else:
 				flash("Error while creating group", category="danger")
-	return render_template('new_group.html', form=form)
+	return render_template('amu/new_group.html', form=form)
 
 
-@views.route("/mailing_list/")
+@blueprint.route("/mailing_list/")
 @login_required
 def mailing_lists():
 	lists = MailingList.query.all()
-	return render_template('mailing_lists.html', lists=lists)
+	return render_template('amu/mailing_lists.html', lists=lists)
 
 
-@views.route("/mailing_list/<string:cn>", methods=['GET','POST'])
+@blueprint.route("/mailing_list/<string:cn>", methods=['GET','POST'])
 @login_required
 def mailing_list(cn):
 	mlist = MailingList.query.filter("name: %s" % cn).first()
@@ -405,9 +318,9 @@ def mailing_list(cn):
 				flash("Please confirm mailing list deletion", category="danger")
 
 	form.delete_confirm.data = False # Always reset this
-	return render_template('mailing_list.html', list=mlist, group_list=group_list, user_list=user_list, form=form)
+	return render_template('amu/mailing_list.html', list=mlist, group_list=group_list, user_list=user_list, form=form)
 
-@views.route("/mailing_list/_new", methods=['GET','POST'])
+@blueprint.route("/mailing_list/_new", methods=['GET','POST'])
 @login_required
 def new_mailing_list():
 	group_list = Group.query.all()
@@ -423,23 +336,4 @@ def new_mailing_list():
 				return redirect(url_for('.mailing_list', cn=mlist.name))
 			else:
 				flash("Error while creating mailing list", category="danger")
-	return render_template('new_mailing_list.html', group_list=group_list, user_list=user_list, form=form)
-
-
-@views.route('/login', methods=['GET', 'POST'])
-def login():
-	form = forms.LoginForm()
-	if request.method == 'POST' and form.validate_on_submit():
-		session['username'] = form.username.data
-		session_box.store_boxed("password", form.password.data)
-		session.modified = True
-		return redirect(request.args.get("next", url_for('.root')))
-	return render_template("login.html", form=form)
-
-@views.route("/logout")
-def logout():
-	session.pop("password", None)
-	session.pop("is_admin", None)
-	session.modified = True
-	return redirect(url_for(".root"))
-
+	return render_template('amu/new_mailing_list.html', group_list=group_list, user_list=user_list, form=form)

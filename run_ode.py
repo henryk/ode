@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from amu import create_app
+from ode import create_app
 
 app = create_app()
 

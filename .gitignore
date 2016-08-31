@@ -2,4 +2,4 @@
 /sessions
 /*.sublime-workspace
 /settings.py
-/amu/static/wordlist/de*
+/ode/blueprints/amu/static/amu/wordlist/de*
