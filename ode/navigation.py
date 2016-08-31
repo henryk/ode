@@ -32,36 +32,37 @@ class UserMenuLoggedOut(UserMenu, Text):
 	def __init__(self):
 		super(UserMenuLoggedOut, self).__init__('Not logged in')
 
-class ActiveView(View):
-	@property
-	def active(self):
-		return True
+class ActiveModuleView(View):
+	def __init__(self, short, long, endpoint, *args, **kwargs):
+		super(ActiveModuleView, self).__init__(long, endpoint, *args, **kwargs)
+		self.short_title = short
+		self._active = False
 
-class InactiveView(View):
 	@property
 	def active(self):
-		return False
-	
+		return self._active
 
 class ActiveModuleBrand(Subgroup):
 	def __init__(self):
+		items = [ActiveModuleView(*_) for _ in current_app.config["ODE_MODULES"]]
+
 		super(ActiveModuleBrand, self).__init__('ODE', 
-			*[InactiveView(*_) for _ in current_app.config["ODE_MODULES"]]
+			*[_ for _ in items if _.text]
 		)
 
 		# Find active module by longest prefix match
 		active = None
 		longest = ""
 		url = request.path
-		for item in self.items:
+		for item in items:
 			module_url = item.get_url()
 			if url.startswith(module_url) and len(module_url) > len(longest):
 				active = item
 				longest = module_url
 
 		if active:
-			self.title = active.text
-			active.__class__ = ActiveView
+			self.title = active.short_title
+			active._active = True
 
 
 class ODENavbar(Navbar):

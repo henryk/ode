@@ -44,9 +44,9 @@ def create_app(configuration="ode.config.Config", **kwargs):
 	app.register_blueprint(isi.blueprint, url_prefix='/isi')
 
 	app.config["ODE_MODULES"] = [
-		('ODE', 'root'),
-		('AMU', 'amu.root'),
-		('ISI', 'isi.root'),
+		('ODE', '', 'root'),
+		('AMU', 'AMU Manages Users', 'amu.root'),
+		('ISI', 'ISI Sends Invitations', 'isi.root'),
 	]
 
 	import ode.session_box
