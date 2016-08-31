@@ -1,1 +1,3 @@
 body { padding-top: 70px; }
+.navbar-brand a { color: #777; }
+.navbar-brand a:hover { color: #333; text-decoration: none; }

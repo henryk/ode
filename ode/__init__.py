@@ -43,6 +43,12 @@ def create_app(configuration="ode.config.Config", **kwargs):
 	from ode.blueprints import isi
 	app.register_blueprint(isi.blueprint, url_prefix='/isi')
 
+	app.config["ODE_MODULES"] = [
+		('ODE', 'root'),
+		('AMU', 'amu.root'),
+		('ISI', 'isi.root'),
+	]
+
 	import ode.session_box
 	ode.session_box.init_box(app)
 

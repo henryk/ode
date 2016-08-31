@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+
 class Config(object):
 	DEBUG = False
 	TESTING = False

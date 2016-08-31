@@ -9,4 +9,4 @@ from ode.navigation import ODENavbar
 
 @nav.navigation("isi")
 def isi_navbar():
-	return ODENavbar('ISI')
+	return ODENavbar()

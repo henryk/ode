@@ -9,9 +9,7 @@ from ode.navigation import ODENavbar, ODENavbarRenderer
 
 @nav.navigation("amu")
 def amu_navbar():
-	e = [
-		'AMU',
-	]
+	e = []
 	if hasattr(g, "ldap_user"):
 		if session.get("is_admin", False):
 			e.extend( [
