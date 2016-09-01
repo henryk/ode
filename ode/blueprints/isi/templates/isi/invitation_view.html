@@ -1,0 +1,28 @@
+{% extends "isi/base.html" %}
+{% block titleinner %}Invitation view: '{{invitation.event.summary}}'{% endblock %}
+
+{% block inner %}
+	<h2>Event</h2>
+	<p class="lead">{{invitation.event.summary}}</p>
+
+	<p>{{invitation.event.description}}</p>
+
+	<h2>Invitation</h2>
+
+	<form method="POST" class="form" role="form">
+		<div style="display:none;">{{form.csrf_token()}}</div>
+		<textarea class="form-control" id="text_html" name="text_html" cols="160" rows="30">{{form.text_html.data|safe}}</textarea>
+		<input class="btn btn-default" id="save" name="save" type="submit" value="Save">
+	</form>
+
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+<script src="{{url_for('.static', filename='isi/ckeditor/ckeditor.js')}}"></script>
+<script>
+$(function(){
+	CKEDITOR.replace('text_html');
+});
+</script>
+{% endblock %}

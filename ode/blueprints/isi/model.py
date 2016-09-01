@@ -6,6 +6,7 @@ from ode import db
 from sqlalchemy_utils.types.uuid import UUIDType
 from sqlalchemy.sql.sqltypes import Unicode
 from sqlalchemy.orm import relationship, backref, reconstructor
+from sqlalchemy.sql.expression import and_
 
 # vobject loses the unicode property somewhere along the way so that properties are 'str' object
 # I *think* they are all UTF-8 encoded, since this is the iCalendar default, so for simple printing
@@ -13,14 +14,26 @@ from sqlalchemy.orm import relationship, backref, reconstructor
 def vobject_unicode(s):
 	return s if isinstance(s, unicode) else unicode(s, "UTF-8")
 
+class Invitation(db.Model):
+	id = db.Column('id', UUIDType, default=uuid.uuid4, primary_key=True)
+
+	event_id = db.Column(db.ForeignKey('event.id'))
+	event = relationship('Event', backref=backref('invitations', cascade='all, delete-orphan'))
+
+	text_html = db.Column(db.String)
 
 
 class Event(db.Model):
 	id = db.Column('id', UUIDType, default=uuid.uuid4, primary_key=True)
 
+	source = relationship('Source', uselist=False, backref=backref('events', cascade='all, delete-orphan'))
 	source_id = db.Column(db.ForeignKey('source.id'))
-	source_uid = db.Column(db.String, unique=True)
-	source = relationship('Source', backref=backref('events', cascade='all, delete-orphan'))
+
+	uid = db.Column(db.String, unique=True)
+
+	upstream_event = relationship('Event', uselist=False)
+	upstream_event_id = db.Column(db.ForeignKey('event.id'), nullable=True)
+
 	updated = db.Column(db.Float)
 
 	contents = db.Column(Unicode)
@@ -36,15 +49,32 @@ class Event(db.Model):
 
 	@classmethod
 	def refresh(cls, vevent):
-		retval = cls.query.filter(cls.source_uid == vevent.uid.value).first()
-		if not retval:
-			retval = cls(source_uid = vevent.uid.value)
+		if isinstance(vevent, cls):
+			retval = vevent
+			retval.contents = vevent.upstream_event.contents
+			retval.updated = vevent.upstream_event.updated
+			retval.reinit()
+		else:
+			retval = cls.query.filter(and_(cls.uid == vevent.uid.value, cls.upstream_event is None)).first()
+			if not retval:
+				retval = cls(uid = vevent.uid.value)
 
-		retval.contents = vevent.serialize().decode("UTF-8")
-		retval.updated = time.time()
+			retval.contents = vevent.serialize().decode("UTF-8")
+			retval.updated = time.time()
+			retval.reinit()
+
+		return retval
+
+	def linked_copy(self):
+		retval = self.__class__()
+		retval.upstream_event = self
+		retval.source = self.source
+		retval.contents = self.contents
+		retval.update = self.updated
 		retval.reinit()
 
 		return retval
+
 
 	@property
 	def summary(self): return vobject_unicode(self._vevent.summary.value)
