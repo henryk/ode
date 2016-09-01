@@ -19,6 +19,14 @@
 					{{e.start}} – {{e.end}}
 					<p class="lead"><a href="{{url_for('.event_view', event_id=e.id)}}">{{e.summary}}</a></p>
 					{{e.description}}
+					{% set invitations = e.child_invitations %}
+					{% if invitations %}
+						<ul>
+							{% for invitation in invitations %}
+								<li><a href="{{url_for('.invitation_view', invitation_id=invitation.id)}}">{{invitation.state.value}} invitation</a></li>
+							{% endfor %}
+						</ul>
+					{% endif %}
 				</td>
 			</tr>
 		{% endfor %}

@@ -1,18 +1,25 @@
 from __future__ import absolute_import
 
-import uuid, requests, time, vobject
+import uuid, requests, time, vobject, enum
 
 from ode import db
 from sqlalchemy_utils.types.uuid import UUIDType
 from sqlalchemy.sql.sqltypes import Unicode
 from sqlalchemy.orm import relationship, backref, reconstructor
 from sqlalchemy.sql.expression import and_
+from sqlalchemy_enum34 import EnumType
 
 # vobject loses the unicode property somewhere along the way so that properties are 'str' object
 # I *think* they are all UTF-8 encoded, since this is the iCalendar default, so for simple printing
 # do this:
 def vobject_unicode(s):
 	return s if isinstance(s, unicode) else unicode(s, "UTF-8")
+
+
+class InvitationState(enum.Enum):
+	PREPARING = "preparing"
+	OPEN = "open"
+
 
 class Invitation(db.Model):
 	id = db.Column('id', UUIDType, default=uuid.uuid4, primary_key=True)
@@ -21,6 +28,8 @@ class Invitation(db.Model):
 	event = relationship('Event', backref=backref('invitations', cascade='all, delete-orphan'))
 
 	text_html = db.Column(db.String)
+
+	state = db.Column(EnumType(InvitationState, name="invitation_state"), default=InvitationState.PREPARING)
 
 
 class Event(db.Model):
@@ -31,7 +40,7 @@ class Event(db.Model):
 
 	uid = db.Column(db.String, unique=False)
 
-	upstream_event = relationship('Event', uselist=False)
+	upstream_event = relationship('Event', backref=backref('children', remote_side=[id], uselist=True), uselist=False)
 	upstream_event_id = db.Column(db.ForeignKey('event.id'), nullable=True)
 
 	updated = db.Column(db.Float)
@@ -88,6 +97,9 @@ class Event(db.Model):
 	@property
 	def end(self): return self._vevent.dtend.value
 
+	@property
+	def child_invitations(self):
+		return [i for e in self.children for i in e.invitations]
 
 class Source(db.Model):
 	id = db.Column('id', UUIDType, default=uuid.uuid4, primary_key=True)
