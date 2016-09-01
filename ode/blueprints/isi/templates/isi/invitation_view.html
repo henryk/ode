@@ -2,27 +2,66 @@
 {% block titleinner %}Invitation view: '{{invitation.event.summary}}'{% endblock %}
 
 {% block inner %}
-	<h2>Event</h2>
-	<p class="lead">{{invitation.event.summary}}</p>
-
-	<p>{{invitation.event.description}}</p>
-
-	<h2>Invitation</h2>
-
 	<form method="POST" class="form" role="form">
 		<div style="display:none;">{{form.csrf_token()}}</div>
-		<textarea class="form-control" id="text_html" name="text_html" cols="160" rows="30">{{form.text_html.data|safe}}</textarea>
+		<div>
+			<ul class="nav nav-tabs" role="tablist">
+				<li role="presentation" class="active"><a href="#event" aria-controls="home" role="tab" data-toggle="tab">Event</a></li>
+				<li role="presentation"><a href="#invitation" aria-controls="profile" role="tab" data-toggle="tab">Invitation text</a></li>
+				<li role="presentation"><a href="#options" aria-controls="messages" role="tab" data-toggle="tab">Options</a></li>
+			</ul>
+
+			<!-- Tab panes -->
+			<div class="tab-content">
+				<div role="tabpanel" class="tab-pane active" id="event">
+					<p class="lead">{{invitation.event.summary}}</p>
+					<p>{{invitation.event.description}}</p>
+				</div>
+				<div role="tabpanel" class="tab-pane" id="invitation">
+					<textarea class="form-control" id="text_html" name="text_html" cols="160" rows="30">{{form.text_html.data|safe}}</textarea>
+					
+				</div>
+				<div role="tabpanel" class="tab-pane" id="options">
+					{{wtf.form_field(form.recipients_raw, form_type='horizontal')}}
+				</div>
+			</div>
+		</div>
 		<input class="btn btn-default" id="save" name="save" type="submit" value="Save">
 	</form>
 
 {% endblock %}
 
+{% block styles %}
+{{super()}}
+<link rel="stylesheet"
+      href="{{url_for('static', filename='select2/select2.min.css')}}">
+<link rel="stylesheet"
+      href="{{url_for('static', filename='select2/select2-bootstrap.min.css')}}">
+{% endblock %}
+
+
 {% block scripts %}
 {{super()}}
 <script src="{{url_for('.static', filename='isi/ckeditor/ckeditor.js')}}"></script>
+<script src="{{url_for('static', filename='select2/select2.full.min.js')}}"></script>
 <script>
 $(function(){
 	CKEDITOR.replace('text_html');
+
+    $('#recipients_raw').replaceWith(function(){
+        var result = $("<select id='recipients_raw' multiple='multiple'/>");
+        result.attr('class', $(this).attr('class'));
+        return result;
+    });
+
+	$('#recipients_raw').select2({
+		theme: 'bootstrap',
+		width: "100%",
+		tags: [
+			{% for list in mailing_lists %} { "id": {{list.dn|tojson|safe}}, "text": {{list.name|force_str|tojson|safe}} }, {% endfor %}
+		],
+	});
+
 });
 </script>
 {% endblock %}

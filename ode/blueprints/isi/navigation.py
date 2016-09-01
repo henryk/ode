@@ -9,4 +9,7 @@ from ode.navigation import ODENavbar
 
 @nav.navigation("isi")
 def isi_navbar():
-	return ODENavbar()
+	e = [
+		View('Event list', '.event_list')
+	]
+	return ODENavbar(*e)

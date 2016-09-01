@@ -3,6 +3,7 @@ from flask import current_app, render_template, request, redirect, url_for, sess
 from ode import config_get, session_box, login_required, db
 from . import blueprint, forms
 from .model import Event, Source, Invitation
+from ode.model import MailingList
 
 import pprint
 
@@ -61,12 +62,14 @@ def invitation_view(invitation_id):
 	if not invitation:
 		abort(404)
 
+	mlists = MailingList.query.all()
+
 	form = forms.EditInvitationForm(obj=invitation)
 	if request.method == 'POST' and form.validate_on_submit():
 		form.populate_obj(invitation)
 		db.session.commit()
 
-	return render_template("isi/invitation_view.html", invitation=invitation, form=form)
+	return render_template("isi/invitation_view.html", invitation=invitation, form=form, mailing_lists=mlists)
 
 @blueprint.route("/invitation/_new", methods=["POST"])
 @login_required

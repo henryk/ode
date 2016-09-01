@@ -29,7 +29,7 @@ class Event(db.Model):
 	source = relationship('Source', uselist=False, backref=backref('events', cascade='all, delete-orphan'))
 	source_id = db.Column(db.ForeignKey('source.id'))
 
-	uid = db.Column(db.String, unique=True)
+	uid = db.Column(db.String, unique=False)
 
 	upstream_event = relationship('Event', uselist=False)
 	upstream_event_id = db.Column(db.ForeignKey('event.id'), nullable=True)
@@ -55,7 +55,7 @@ class Event(db.Model):
 			retval.updated = vevent.upstream_event.updated
 			retval.reinit()
 		else:
-			retval = cls.query.filter(and_(cls.uid == vevent.uid.value, cls.upstream_event is None)).first()
+			retval = cls.query.filter(and_(cls.uid == vevent.uid.value, cls.upstream_event_id == None)).first()
 			if not retval:
 				retval = cls(uid = vevent.uid.value)
 
