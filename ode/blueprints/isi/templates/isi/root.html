@@ -6,9 +6,9 @@
 
 	<p>Here's what we know:</p>
 
-	{% for c in calendars %}
+	{% for e in events %}
 		<pre>
-			{{ c }}
+{{ e|pprint }}
 		</pre>
 	{% endfor %}
 
