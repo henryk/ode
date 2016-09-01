@@ -1,0 +1,11 @@
+{% extends "isi/base.html" %}
+{% block titleinner %}Event view: '{{event.summary}}'{% endblock %}
+
+{% block inner %}
+	<h2>{{event.summary}}</h2>
+
+	<p class="lead">Date: {{event.start}} – {{event.end}}</p>
+
+	<p>{{event.description}}</p>
+
+{% endblock %}

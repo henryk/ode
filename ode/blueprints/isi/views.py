@@ -2,16 +2,16 @@ from flask import current_app, render_template, request, redirect, url_for, sess
 
 from ode import config_get, session_box, login_required
 from . import blueprint, forms
-from .model import Source
+from .model import Event, Source
 
-import vobject, pprint
+import pprint
 
 @blueprint.app_template_filter("pprint")
 def pprint_string(s):
 	return pprint.pformat(s)
 
 @blueprint.route("/")
-@login_required(False)
+@login_required
 def root():
 	refresh_form = forms.RefreshForm()
 
@@ -19,26 +19,14 @@ def root():
 
 	events = []
 
-	# vobject loses the unicode property somewhere along the way so that properties are 'str' object
-	# I *think* they are all UTF-8 encoded, since this is the iCalendar default, so for simple printing
-	# do this:
-	def s_(s):
-		return s if isinstance(s, unicode) else unicode(s, "UTF-8")
-
 	for s in sources:
-		calendar = vobject.readOne(s.contents)
-		for event in calendar.vevent_list:
-			events.append({
-				"source": s.name,
-				"summary": s_(event.summary.value),
-				"description": s_(event.description.value),
-				"start": event.dtstart.value,
-				"end": event.dtend.value,
-			})
+		for e in s.events:
+			events.append(e)
 
 	return render_template("isi/root.html", events=events, refresh_form=refresh_form)
 
 @blueprint.route("/refresh", methods=["POST"])
+@login_required
 def refresh():
 	form = forms.RefreshForm()
 
@@ -51,3 +39,12 @@ def refresh():
 
 
 	return redirect(url_for('.root'))
+
+@blueprint.route("/event/<uuid:event_id>")
+@login_required
+def event_view(event_id):
+	event = Event.query.filter(Event.id==event_id).first()
+	if not event:
+		abort(404)
+
+	return render_template("isi/event_view.html", event=event)

@@ -5,6 +5,11 @@
   {{nav.top.render(renderer='ode_navbar')}}
 {% endblock %}
 
+{% block scripts %}
+{{super()}}
+<script src="{{url_for('static', filename='ode-scripts.js')}}"></script>
+{% endblock %}
+
 {% block styles %}
 {{super()}}
 <link rel="stylesheet"

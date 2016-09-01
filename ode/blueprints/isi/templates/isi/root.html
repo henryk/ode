@@ -6,11 +6,24 @@
 
 	<p>Here's what we know:</p>
 
-	{% for e in events %}
-		<pre>
-{{ e|pprint }}
-		</pre>
-	{% endfor %}
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Start</th>
+				<th>End</th>
+				<th>Summary / Description</th>
+			</tr>
+		</thead>
+		{% for e in events %}
+			<tr data-href="{{url_for('.event_view', event_id=e.id)}}">
+				<td>{{e.start}}</td>
+				<td>{{e.end}}</td>
+				<td><p class="lead"><a href="{{url_for('.event_view', event_id=e.id)}}">{{e.summary}}</a></p>
+				{{e.description}}</td>
+			</tr>
+		{% endfor %}
+	</table>
 
 	{{ wtf.quick_form(refresh_form, action=url_for('.refresh'), method="POST") }}
 
