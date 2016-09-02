@@ -11,6 +11,12 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
 from flask_migrate import Migrate, MigrateCommand
 
+try: 
+	from flask_debugtoolbar import DebugToolbarExtension
+	debug_toolbar = DebugToolbarExtension()
+except ImportError:
+	debug_toolbar = None
+
 from flask_nav import Nav, register_renderer
 
 bs = Bootstrap()
@@ -33,6 +39,9 @@ def create_app(configuration="ode.config.Config", **kwargs):
 	app.config.from_object(configuration)
 	app.config.from_envvar('ODE_SETTINGS', silent=True)
 	app.config.update(kwargs)
+
+	if debug_toolbar:
+		debug_toolbar.init_app(app)
 
 	bs.init_app(app)
 	_s.init_app(app)
