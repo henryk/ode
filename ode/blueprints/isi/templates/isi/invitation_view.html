@@ -52,7 +52,9 @@ $(function(){
 	CKEDITOR.config.height="30em";
 	CKEDITOR.replace('text_html');
 
-	var recipients = $('#recipients_raw > li input').map(function(i, obj){return $(obj).val()}).get();
+	var seen = { {% for list in mailing_lists %} {{list.dn|tojson|safe}}: true, {% endfor %} }
+	var recipients = $('#recipients_raw > li input').map(function(i, obj){return $(obj).val()}).get().filter(function(i){return !!i;});
+	var additional_recipients = recipients.filter(function(i){return !seen.hasOwnProperty(i)});
 	replace_with_select2('recipients_raw');
 
 	$('#recipients_raw').select2({
@@ -60,7 +62,11 @@ $(function(){
 		width: "100%",
 		tags: [
 			{% for list in mailing_lists %} { "id": {{list.dn|tojson|safe}}, "text": {{list.name|force_str|tojson|safe}} }, {% endfor %}
-		],
+		].concat(additional_recipients.map(
+			function(i){
+				return { "id": i, "text": i };
+			}
+		)),
 	});
 
 	$('#recipients_raw').val(recipients).trigger("change");
