@@ -18,3 +18,7 @@ class EditInvitationForm(Form):
 
 	save = SubmitField('Save')
 	send = SubmitField('Send')
+
+	def __init__(self, *args, **kwargs):
+		super(EditInvitationForm, self).__init__(*args, **kwargs)
+		self.recipients_raw.label.text = "Recipients"  # This should not just be the titlecased version of the variable name
