@@ -12,8 +12,9 @@ class CreateInvitationForm(Form):
 
 class EditInvitationForm(Form):
 	subject = StringField('Subject', validators=[DataRequired()])
-	recipients_raw = FieldList(StringField("Recipients"), min_entries=2)
+	recipients_raw = FieldList(StringField("Recipients"))
 	sender = TextField('Sender', validators=[DataRequired()])
 	text_html = TextField('Invitation text', widget=TextArea())
 
 	save = SubmitField('Save')
+	send = SubmitField('Send')

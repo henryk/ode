@@ -69,7 +69,28 @@ def invitation_view(invitation_id):
 		form.populate_obj(invitation)
 		db.session.commit()
 
+		if form.send.data:
+			return redirect(url_for('.invitation_send', invitation_id=invitation_id))
+
 	return render_template("isi/invitation_view.html", invitation=invitation, form=form, mailing_lists=mlists)
+
+@blueprint.route("/invitation/<uuid:invitation_id>/send", methods=["GET", "POST"])
+@login_required
+def invitation_send(invitation_id):
+	invitation = Invitation.query.filter(Invitation.id==invitation_id).first()
+	if not invitation:
+		abort(404)
+
+	recipients = []
+
+	for recipient in invitation.recipients_raw:
+		mlist = MailingList.query.get(recipient)
+		if mlist:
+			recipients.extend(mlist.expand())
+		elif recipient:
+			recipients.append(recipient)
+
+	return render_template("isi/invitation_send.html", invitation=invitation, recipients=recipients)
 
 @blueprint.route("/invitation/_new", methods=["POST"])
 @login_required

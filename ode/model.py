@@ -121,6 +121,15 @@ class MailingList(ldap.Entry):
 	def list_members(self):
 		return [e.dn for e in self.member_users + self.member_groups] + list(self.additional_addresses)
 
+	def expand(self):
+		result = []
+		for member in self.members:
+			u = User.query.get(member)
+			if u:
+				result.append("%s <%s>" % (u.name, u.mail))
+		result.extend(self.additional_addresses)
+		return result
+
 	def set_list_members(self, new_list_members):
 		new_m = set(new_list_members)
 
