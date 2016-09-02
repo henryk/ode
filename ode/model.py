@@ -56,6 +56,10 @@ class User(ldap.Entry):
 	def set_aliases(self, new_aliases):
 		self._aliases = [_.strip() for _ in new_aliases.split(",")]
 
+	@property
+	def mail_form(self):
+		return "%s <%s>" % (self.name, self.mail)
+
 class Group(ldap.Entry):
 	object_classes = ['groupOfNames']
 	entry_rdn = ['cn', 'base_dn']
@@ -120,15 +124,6 @@ class MailingList(ldap.Entry):
 	@property
 	def list_members(self):
 		return [e.dn for e in self.member_users + self.member_groups] + list(self.additional_addresses)
-
-	def expand(self):
-		result = []
-		for member in self.members:
-			u = User.query.get(member)
-			if u:
-				result.append("%s <%s>" % (u.name, u.mail))
-		result.extend(self.additional_addresses)
-		return result
 
 	def set_list_members(self, new_list_members):
 		new_m = set(new_list_members)

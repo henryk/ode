@@ -9,7 +9,13 @@
 
 <ul>
 	{% for recipient in recipients %}
-		<li>{{recipient}}</li>
+		<li>
+			{% if recipient.mail_form %}
+				{{recipient.mail_form}}
+			{% else %}
+				{{recipient}}
+			{% endif %}
+		</li>
 	{% endfor %}
 </ul>
 
