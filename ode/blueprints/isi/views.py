@@ -1,8 +1,8 @@
-from flask import current_app, render_template, request, redirect, url_for, session, g, flash, abort
+from flask import current_app, render_template, request, redirect, url_for, session, g, flash, abort, render_template_string
 
 from ode import config_get, session_box, login_required, db
 from . import blueprint, forms
-from .model import Event, Source, Invitation
+from .model import Event, Source, Invitation, Template
 from ode.model import MailingList
 
 import pprint
@@ -85,7 +85,17 @@ def create_invitation():
 			e = event.linked_copy()
 			i = Invitation(event=e)
 
-			i.text_html = "<h1>Invitation to '%s'</h1><p>Please come all</p>" % e.summary
+			tmpl = Template.query.filter(Template.category.in_(e.categories)).first()
+			if tmpl:
+				for a in ["sender", "recipients_raw"]:
+					setattr(i, a, getattr(tmpl, a))
+				for a in ["subject", "text_html"]:
+					setattr(i, a, 
+						render_template_string(getattr(tmpl, a), event=e)
+					)
+
+			else:
+				i.text_html = "<h1>Invitation to '%s'</h1><p>Please come all</p>" % e.summary
 
 			db.session.add(e)
 			db.session.add(i)

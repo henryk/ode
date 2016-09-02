@@ -1,3 +1,12 @@
+function replace_with_select2(element_id)
+{
+    $('#' + element_id).replaceWith(function(){
+        var result = $("<select id='"+element_id+"' multiple='multiple'/>");
+        result.attr('class', $(this).attr('class'));
+        return result;
+    });
+}
+
 $(function(){
     $('.table tr[data-href]').each(function(){
         $(this).css('cursor','pointer').hover(

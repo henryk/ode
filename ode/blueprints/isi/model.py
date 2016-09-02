@@ -1,9 +1,10 @@
 from __future__ import absolute_import
 
-import uuid, requests, time, vobject, enum
+import uuid, requests, time, vobject, enum, json
 
 from ode import db
 from sqlalchemy_utils.types.uuid import UUIDType
+from sqlalchemy.types import TypeDecorator
 from sqlalchemy.sql.sqltypes import Unicode
 from sqlalchemy.orm import relationship, backref, reconstructor
 from sqlalchemy.sql.expression import and_
@@ -15,10 +16,29 @@ from sqlalchemy_enum34 import EnumType
 def vobject_unicode(s):
 	return s if isinstance(s, unicode) else unicode(s, "UTF-8")
 
+# From http://stackoverflow.com/a/11915539
+class Json(TypeDecorator):
+	impl = db.String
+
+	def process_bind_param(self, value, dialect):
+		return json.dumps(value)
+
+	def process_result_value(self, value, dialect):
+		return json.loads(value)
 
 class InvitationState(enum.Enum):
 	PREPARING = "preparing"
 	OPEN = "open"
+
+class Template(db.Model):
+	id = db.Column('id', UUIDType, default=uuid.uuid4, primary_key=True)
+
+	category = db.Column(db.String)
+
+	subject = db.Column(db.String)
+	text_html = db.Column(db.String)
+	sender = db.Column(db.String)
+	recipients_raw = db.Column(Json())
 
 
 class Invitation(db.Model):
@@ -27,7 +47,10 @@ class Invitation(db.Model):
 	event_id = db.Column(db.ForeignKey('event.id'))
 	event = relationship('Event', backref=backref('invitations', cascade='all, delete-orphan'))
 
+	subject = db.Column(db.String)
 	text_html = db.Column(db.String)
+	sender = db.Column(db.String)
+	recipients_raw = db.Column(Json())
 
 	state = db.Column(EnumType(InvitationState, name="invitation_state"), default=InvitationState.PREPARING)
 
@@ -96,6 +119,9 @@ class Event(db.Model):
 
 	@property
 	def end(self): return self._vevent.dtend.value
+
+	@property
+	def categories(self): return map(vobject_unicode, self._vevent.categories.value)
 
 	@property
 	def child_invitations(self):

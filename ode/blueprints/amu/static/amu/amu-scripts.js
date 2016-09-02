@@ -1,12 +1,3 @@
-function replace_with_select2(element_id)
-{
-    $('#' + element_id).replaceWith(function(){
-        var result = $("<select id='"+element_id+"' multiple='multiple'/>");
-        result.attr('class', $(this).attr('class'));
-        return result;
-    });
-}
-
 function amu_user_enhancements(password_is_required) {
 
     $(function(){
