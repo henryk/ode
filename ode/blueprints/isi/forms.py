@@ -12,7 +12,8 @@ class CreateInvitationForm(Form):
 
 class EditInvitationForm(Form):
 	subject = StringField('Subject', validators=[DataRequired()])
-	recipients_raw = FieldList(StringField("Recipients"))
+	recipients = FieldList(StringField("All recipients"))
+	recipients_raw = FieldList(StringField("Initial recipients"))
 	sender = TextField('Sender', validators=[DataRequired()])
 	text_html = TextField('Invitation text', widget=TextArea())
 
@@ -22,3 +23,4 @@ class EditInvitationForm(Form):
 	def __init__(self, *args, **kwargs):
 		super(EditInvitationForm, self).__init__(*args, **kwargs)
 		self.recipients_raw.label.text = "Recipients"  # This should not just be the titlecased version of the variable name
+		self.recipients.label.text = "All recipients" 

@@ -2,8 +2,8 @@ from flask import current_app, render_template, request, redirect, url_for, sess
 
 from ode import config_get, session_box, login_required, db
 from . import blueprint, forms
-from .model import Event, Source, Invitation, Template
-from ode.model import MailingList, User as LDAPUser
+from .model import Event, Source, Invitation, InvitationState, Template
+from ode.model import MailingList
 
 import pprint
 
@@ -65,6 +65,12 @@ def invitation_view(invitation_id):
 	mlists = MailingList.query.all()
 
 	form = forms.EditInvitationForm(obj=invitation)
+
+	if len(form.recipients) == 0:
+		del form.recipients
+	else:
+		form.recipients_raw.label.text = "Initial recipients"
+
 	if request.method == 'POST' and form.validate_on_submit():
 		form.populate_obj(invitation)
 		db.session.commit()
@@ -81,27 +87,10 @@ def invitation_send(invitation_id):
 	if not invitation:
 		abort(404)
 
-	recipient_users = set()
-	recipient_extras = []
+	invitation.expand_recipients()
+	db.session.commit()
 
-	for recipient in invitation.recipients_raw:
-		mlist = MailingList.query.get(recipient)
-		if mlist:
-			recipient_users.update(mlist.members)
-			recipient_extras.extend(mlist.additional_addresses)
-		elif recipient:
-			recipient_extras.append(recipient)
-
-	recipients = []
-	for dn in recipient_users:
-		u = LDAPUser.query.get(dn)
-		if u:
-			recipients.append(u)
-		else:
-			recipients.append(dn)
-	recipients.extend(recipient_extras)
-
-	return render_template("isi/invitation_send.html", invitation=invitation, recipients=recipients)
+	return render_template("isi/invitation_send.html", invitation=invitation)
 
 @blueprint.route("/invitation/_new", methods=["POST"])
 @login_required

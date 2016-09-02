@@ -8,13 +8,9 @@
 <p class="lead">Do you want to send the invitation to the following recipients?</p>
 
 <ul>
-	{% for recipient in recipients %}
+	{% for recipient in invitation.recipients %}
 		<li>
-			{% if recipient.mail_form %}
-				{{recipient.mail_form}}
-			{% else %}
-				{{recipient}}
-			{% endif %}
+			{{recipient.mail_form}}
 		</li>
 	{% endfor %}
 </ul>

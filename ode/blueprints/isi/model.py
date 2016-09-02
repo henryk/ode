@@ -1,8 +1,9 @@
 from __future__ import absolute_import
 
-import uuid, requests, time, vobject, enum, json
+import uuid, requests, time, vobject, enum, json, flanker.addresslib.address
 
 from ode import db
+from ode.model import MailingList, User as LDAPUser
 from sqlalchemy_utils.types.uuid import UUIDType
 from sqlalchemy.types import TypeDecorator
 from sqlalchemy.sql.sqltypes import Unicode
@@ -30,6 +31,16 @@ class InvitationState(enum.Enum):
 	PREPARING = "preparing"
 	OPEN = "open"
 
+class RecipientState(enum.Enum):
+	NEW = "new"
+	PENDING = "pending"
+	SENT = "sent"
+
+class AcceptState(enum.Enum):
+	UNKNOWN = "unknown"
+	YES = "yes"
+	NO = "no"
+
 class Template(db.Model):
 	id = db.Column('id', UUIDType, default=uuid.uuid4, primary_key=True)
 
@@ -50,8 +61,95 @@ class Invitation(db.Model):
 	text_html = db.Column(db.String)
 	sender = db.Column(db.String)
 	recipients_raw = db.Column(Json())
+	recipients = relationship('Recipient', backref=backref('invitation'), cascade='all, delete-orphan')
 
 	state = db.Column(EnumType(InvitationState, name="invitation_state"), default=InvitationState.PREPARING)
+
+	accept = db.Column(EnumType(AcceptState, name="accept_state"), default=AcceptState.UNKNOWN)
+
+	def expand_recipients(self):
+		recipient_users = set()
+		recipient_extras = []
+
+		for recipient in self.recipients_raw:
+			mlist = MailingList.query.get(recipient)
+			if mlist:
+				recipient_users.update(mlist.members)
+				recipient_extras.extend(mlist.additional_addresses)
+			elif recipient:
+				recipient_extras.append(recipient)
+
+		recipients = []
+		for dn in recipient_users:
+			user = LDAPUser.query.get(dn)
+			if user:
+				parsed = flanker.addresslib.address.parse(user.mail_form)
+				had_one = False
+
+				for u in self.recipients:
+					if u.value == user.dn:
+						had_one = True
+
+						if not parsed: # Remove invalid address entries (shouldn't happen)
+							self.recipients.remove(u)
+						else:
+							break
+
+				if not had_one:
+					if parsed:
+						self.recipients.append(
+							Recipient(value=user.dn)
+						)
+
+			else:
+				recipient_extras.append(dn)
+
+		for address in recipient_extras:
+			parsed = flanker.addresslib.address.parse(address)
+
+			if not parsed:
+				continue
+
+			had_one = False
+
+			for r in self.recipients:
+				if parsed.address == r.address:
+					had_one = True
+					break
+
+			if not had_one:
+				self.recipients.append(
+					Recipient(value=parsed.to_unicode())
+				)
+
+
+
+class Recipient(db.Model):
+	id = db.Column('id', UUIDType, default=uuid.uuid4, primary_key=True)
+
+	invitation_id = db.Column(db.ForeignKey('invitation.id'))
+
+	value = db.Column(db.String)
+
+	state = db.Column(EnumType(RecipientState, name="recipient_state"), default=RecipientState.NEW)
+
+	def _mail_form(self):
+		user = LDAPUser.query.get(self.value)
+		if user:
+			return user.mail_form
+		else:
+			return self.value
+
+	def _parse_address(self):
+		return flanker.addresslib.address.parse(self._mail_form())
+
+	@property
+	def mail_form(self):
+		return self._parse_address().to_unicode()
+
+	@property
+	def address(self):
+		return self._parse_address().address	
 
 
 class Event(db.Model):
