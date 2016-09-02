@@ -45,7 +45,6 @@ class Invitation(db.Model):
 	id = db.Column('id', UUIDType, default=uuid.uuid4, primary_key=True)
 
 	event_id = db.Column(db.ForeignKey('event.id'))
-	event = relationship('Event', backref=backref('invitations', cascade='all, delete-orphan'))
 
 	subject = db.Column(db.String)
 	text_html = db.Column(db.String)
@@ -58,13 +57,14 @@ class Invitation(db.Model):
 class Event(db.Model):
 	id = db.Column('id', UUIDType, default=uuid.uuid4, primary_key=True)
 
-	source = relationship('Source', uselist=False, backref=backref('events', cascade='all, delete-orphan'))
 	source_id = db.Column(db.ForeignKey('source.id'))
 
 	uid = db.Column(db.String, unique=False)
 
-	upstream_event = relationship('Event', backref=backref('children', remote_side=[id], uselist=True), uselist=False)
 	upstream_event_id = db.Column(db.ForeignKey('event.id'), nullable=True)
+	
+	children = relationship('Event', backref=backref('upstream_event', remote_side=[id]))
+	invitations = relationship('Invitation', backref=backref('event'), cascade='all, delete-orphan')
 
 	updated = db.Column(db.Float)
 
@@ -102,7 +102,8 @@ class Event(db.Model):
 		retval.upstream_event = self
 		retval.source = self.source
 		retval.contents = self.contents
-		retval.update = self.updated
+		retval.updated = self.updated
+		retval.uid = self.uid
 		retval.reinit()
 
 		return retval
@@ -134,6 +135,8 @@ class Source(db.Model):
 	updated = db.Column(db.Float)
 
 	contents = db.Column(Unicode)
+
+	events = relationship('Event', backref=backref('source'), cascade='all, delete-orphan')
 
 	@classmethod
 	def refresh(cls, name, url):
