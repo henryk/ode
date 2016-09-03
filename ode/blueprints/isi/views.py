@@ -17,7 +17,7 @@ def root():
 	return redirect(url_for('.event_list'))
 
 @blueprint.route("/event/")
-@login_required
+@login_required(True)
 def event_list():
 	refresh_form = forms.RefreshForm()
 
@@ -35,7 +35,7 @@ def event_list():
 	return render_template("isi/event_list.html", events=events, refresh_form=refresh_form)
 
 @blueprint.route("/event/<uuid:event_id>")
-@login_required
+@login_required(True)
 def event_view(event_id):
 	event = Event.query.filter(Event.id==event_id).first()
 	if not event:
@@ -44,7 +44,7 @@ def event_view(event_id):
 	return render_template("isi/event_view.html", event=event)
 
 @blueprint.route("/event/_refresh", methods=["POST"])
-@login_required
+@login_required(True)
 def refresh():
 	form = forms.RefreshForm()
 
@@ -57,7 +57,7 @@ def refresh():
 	return redirect(url_for('.event_list'))
 
 @blueprint.route("/invitation/<uuid:invitation_id>", methods=["GET", "POST"])
-@login_required
+@login_required(True)
 def invitation_view(invitation_id):
 	invitation = Invitation.query.filter(Invitation.id==invitation_id).first()
 	if not invitation:
@@ -83,7 +83,7 @@ def invitation_view(invitation_id):
 	return render_template("isi/invitation_view.html", invitation=invitation, form=form, mailing_lists=mlists)
 
 @blueprint.route("/invitation/<uuid:invitation_id>/send", methods=["GET", "POST"])
-@login_required
+@login_required(True)
 def invitation_send(invitation_id):
 	invitation = Invitation.query.filter(Invitation.id==invitation_id).first()
 	if not invitation:
@@ -119,7 +119,7 @@ def invitation_send(invitation_id):
 					if do_send:
 						recipient.state = recipient.state.PENDING
 						recipient.pending_address = recipient.full_spec
-				
+
 						have_at_least_one_recipient = True
 
 			if do_send and have_at_least_one_recipient:
@@ -134,7 +134,7 @@ def invitation_send(invitation_id):
 	return render_template("isi/invitation_send.html", invitation=invitation, form=form)
 
 @blueprint.route("/invitation/_new", methods=["POST"])
-@login_required
+@login_required(True)
 def create_invitation():
 	form = forms.CreateInvitationForm()
 
@@ -167,6 +167,24 @@ def create_invitation():
 
 
 	return redirect(url_for('.event_list'))
+
+@blueprint.route("/recipient/<uuid:recipient_id>", methods=["GET", "POST"])
+@login_required(True)
+def recipient_set(recipient_id):
+	recipient = Recipient.query.filter(Recipient.id==recipient_id).first()
+	if not recipient:
+		abort(404)
+
+	form = forms.SetRecipientStateForm(request.args)
+	if form.validate():
+		if form.state_yes.data:
+			recipient.accept = recipient.accept.YES
+		elif form.state_no.data:
+			recipient.accept = recipient.accept.NO
+		db.session.commit()
+
+	return redirect(url_for('.invitation_view', invitation_id=recipient.invitation.id))
+
 
 @blueprint.route("/rsvp/<string:param>")
 def rsvp(param):

@@ -32,8 +32,9 @@
 						<table class="table table-striped">
 							<thead>
 								<tr>
-									<th>Status</th>
-									<th>Last updated</th>
+									<th>State</th>
+									<th>Last responded</th>
+									<th>Set state</th>
 									<th>Recipient</th>
 								</tr>
 							</thead>
@@ -42,6 +43,10 @@
 									<tr>
 										<td>{{recipient.accept.value}}</td>
 										<td>{{recipient.accept_time|datetime}}</td>
+										<td>
+											<a href="{{url_for('.recipient_set', recipient_id=recipient.id, state_yes=1, csrf_token=form.csrf_token.current_token)}}" class="btn btn-default"><span class="glyphicon glyphicon-ok" aria-hidden="true" title="Mark recipient as 'Yes'"></span><span class="sr-only">Yes</span></a>
+											<a href="{{url_for('.recipient_set', recipient_id=recipient.id, state_no=1, csrf_token=form.csrf_token.current_token)}}" class="btn btn-default"><span class="glyphicon glyphicon-remove" aria-hidden="true" title="Mark recipient as 'No'"></span><span class="sr-only">No</span></a>
+										</td>
 										<td>{{recipient.to_unicode}}</td>
 									</tr>
 								{% endif %}

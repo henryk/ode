@@ -11,6 +11,10 @@ class CreateInvitationForm(Form):
 	event_id = HiddenField(validators=[DataRequired()])
 	create = SubmitField('')
 
+class SetRecipientStateForm(Form):
+	state_yes = SubmitField('')
+	state_no = SubmitField('')
+
 class EditInvitationForm(Form):
 	subject = StringField('Subject', validators=[DataRequired()])
 	recipients_raw = FieldList(StringField("Initial recipients"))
