@@ -69,7 +69,7 @@ def send_one_mail(recipient_id):
 		params["html"] = render_template_string(invitation.text_html, **template_params)
 		params["charset"] = "UTF-8"
 
-		msg = NonStupidMessage(recipients=[recipient.full_spec], **params)
+		msg = NonStupidMessage(recipients=[recipient.pending_address], **params)
 		retval = mailer.send(msg)
 
 		recipient.state = recipient.state.SENT

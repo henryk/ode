@@ -131,6 +131,7 @@ class Recipient(db.Model):
 	value = db.Column(db.String)
 
 	state = db.Column(EnumType(RecipientState, name="recipient_state"), default=RecipientState.NEW)
+	pending_address = db.Column(db.String)
 
 	send_time = db.Column(db.DateTime)
 

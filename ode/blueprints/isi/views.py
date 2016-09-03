@@ -118,6 +118,8 @@ def invitation_send(invitation_id):
 				else:
 					if do_send:
 						recipient.state = recipient.state.PENDING
+						recipient.pending_address = recipient.full_spec
+				
 						have_at_least_one_recipient = True
 
 			if do_send and have_at_least_one_recipient:
