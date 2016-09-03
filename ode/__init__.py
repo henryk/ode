@@ -11,7 +11,8 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
 from celery import Celery
 from flask_migrate import Migrate, MigrateCommand
-from itsdangerous import URLSafeSerializer
+from itsdangerous import Signer
+from flask_mail import Mail
 
 try: 
 	from flask_debugtoolbar import DebugToolbarExtension
@@ -34,6 +35,7 @@ db = SQLAlchemy(metadata=MetaData(naming_convention={
 	"pk": "pk_%(table_name)s"
 }))
 cel = Celery(__name__)
+mailer = Mail()
 
 
 def create_app(configuration="ode.config.Config", **kwargs):
@@ -52,6 +54,8 @@ def create_app(configuration="ode.config.Config", **kwargs):
 	nav.init_app(app)
 	db.init_app(app)
 	migrate.init_app(app, db)
+	mailer.init_app(app)
+
 	cel.conf.update(app.config)
 
 	app.add_url_rule('/', 'root', root)
@@ -83,10 +87,10 @@ def create_app(configuration="ode.config.Config", **kwargs):
 
 	return app
 
-def create_serializer(secret_key=None, salt=None):
+def create_signer(secret_key=None, salt=None):
 	if secret_key is None:
 		secret_key = current_app.secret_key
-	return URLSafeSerializer(secret_key, salt=salt)
+	return Signer(secret_key, salt=salt)
 
 def config_get(key, default=Ellipsis, config=None, **kwargs):
 	if config is None:

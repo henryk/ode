@@ -1,6 +1,6 @@
 from flask import current_app, render_template, request, redirect, url_for, session, g, flash, abort, render_template_string
 
-from ode import config_get, session_box, login_required, db, create_serializer
+from ode import config_get, session_box, login_required, db, create_signer
 from . import blueprint, forms, tasks
 from .model import Event, Source, Invitation, InvitationState, Template, Recipient
 from ode.model import MailingList
@@ -168,19 +168,20 @@ def create_invitation():
 
 @blueprint.route("/rsvp/<string:param>")
 def rsvp(param):
-	serializer = create_serializer(salt="rsvp_mail")
+	signer = create_signer(salt="rsvp_mail")
 
 	try:
-		recipient_id, response = serializer.loads(param)
+		param = signer.unsign(param)
 	except BadSignature:
 		abort(404)
 
+	recipient_id, response = param.split("_")
 	
 	recipient = Recipient.query.filter(Recipient.id==uuid.UUID(recipient_id)).first()
 	if not recipient:
 		abort(404)
 
-	if response == 0:
+	if response == "0":
 		recipient.accept = recipient.accept.NO
 	else:
 		recipient.accept = recipient.accept.YES

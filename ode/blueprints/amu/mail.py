@@ -1,8 +1,7 @@
 from flask import current_app, render_template_string
 
-from flask_mail import Mail, Message
-
-mailer = Mail()
+from ode import mailer
+from flask_mail import Message
 
 def send_user_mail(recipient, **kwargs):
 	params = dict(**current_app.config["AMU_USERMODMAIL"])
