@@ -1,5 +1,7 @@
 from __future__ import absolute_import
 
+from kombu import Exchange, Queue
+
 class Config(object):
 	DEBUG = False
 	TESTING = False
@@ -17,6 +19,18 @@ class Config(object):
 
 	SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
 	SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+	CELERY_TASK_RESULT_EXPIRES=3600
+	CELERY_TASK_SERIALIZER='pickle'
+	CELERY_ACCEPT_CONTENT=['pickle']
+	CELERY_RESULT_SERIALIZER='pickle'
+	CELERY_ENABLE_UTC=True
+
+	CELERY_DEFAULT_QUEUE = 'ode'
+	CELERY_QUEUES = (
+		Queue('ode', Exchange('ode'), routing_key='ode'),
+	)
+
 
 class DevelopmentConfig(Config):
 	DEBUG = True

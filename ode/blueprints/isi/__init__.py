@@ -23,4 +23,4 @@ def setup_db():
 			db.session.commit()
 
 
-from . import views, navigation, model, forms
+from . import views, navigation, model, forms, tasks

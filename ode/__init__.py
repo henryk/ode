@@ -9,6 +9,7 @@ from flask_session import Session
 from flask_ldapconn import LDAPConn
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
+from celery import Celery
 from flask_migrate import Migrate, MigrateCommand
 
 try: 
@@ -31,6 +32,7 @@ db = SQLAlchemy(metadata=MetaData(naming_convention={
 	"fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
 	"pk": "pk_%(table_name)s"
 }))
+cel = Celery(__name__)
 
 
 def create_app(configuration="ode.config.Config", **kwargs):
@@ -49,6 +51,7 @@ def create_app(configuration="ode.config.Config", **kwargs):
 	nav.init_app(app)
 	db.init_app(app)
 	migrate.init_app(app, db)
+	cel.conf.update(app.config)
 
 	app.add_url_rule('/', 'root', root)
 	app.add_url_rule('/login', 'login', login, methods=['GET', 'POST'])

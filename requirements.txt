@@ -19,3 +19,4 @@ vobject
 requests
 flanker
 wtforms-components
+celery
