@@ -1,7 +1,7 @@
 from flask import current_app, render_template, request, redirect, url_for, session, g, flash, abort, render_template_string
 
 from ode import config_get, session_box, login_required, db
-from . import blueprint, forms
+from . import blueprint, forms, tasks
 from .model import Event, Source, Invitation, InvitationState, Template
 from ode.model import MailingList
 
@@ -122,6 +122,7 @@ def invitation_send(invitation_id):
 			if do_send and have_at_least_one_recipient:
 				invitation.state = invitation.state.OPEN
 				db.session.commit()
+				tasks.send_mails.apply_async( (invitation_id,) )
 				flash("Message away!")
 				return redirect(url_for(".event_list"))
 			else:
