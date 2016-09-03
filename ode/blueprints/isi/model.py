@@ -66,8 +66,6 @@ class Invitation(db.Model):
 
 	state = db.Column(EnumType(InvitationState, name="invitation_state"), default=InvitationState.PREPARING)
 
-	accept = db.Column(EnumType(AcceptState, name="accept_state"), default=AcceptState.UNKNOWN)
-
 	def expand_recipients(self):
 		recipient_users = set()
 		recipient_extras = []
@@ -133,6 +131,8 @@ class Recipient(db.Model):
 	value = db.Column(db.String)
 
 	state = db.Column(EnumType(RecipientState, name="recipient_state"), default=RecipientState.NEW)
+
+	accept = db.Column(EnumType(AcceptState, name="accept_state"), default=AcceptState.UNKNOWN)
 
 	def _mail_form(self):
 		user = LDAPUser.query.get(self.value)
@@ -226,6 +226,24 @@ class Event(db.Model):
 	@property
 	def child_invitations(self):
 		return [i for e in self.children for i in e.invitations]
+
+	@property
+	def all_recipients(self):
+		return [r for i in self.child_invitations for r in i.recipients if r.state is r.state.SENT]
+
+	@property
+	def rsvp_yes(self):
+		return [r for r in self.all_recipients if r.accept is r.accept.YES]
+
+	@property
+	def rsvp_unknown(self):
+		return [r for r in self.all_recipients if r.accept is r.accept.UNKNOWN]
+
+	@property
+	def rsvp_no(self):
+		return [r for r in self.all_recipients if r.accept is r.accept.NO]
+	
+	
 
 class Source(db.Model):
 	id = db.Column('id', UUIDType, default=uuid.uuid4, primary_key=True)

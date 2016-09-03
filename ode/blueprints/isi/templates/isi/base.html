@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='isi/isi-style.css')}}">
+{% endblock %}
+
 {% block navbar %}
   {{nav.isi.render(renderer='ode_navbar')}}
 {% endblock %}

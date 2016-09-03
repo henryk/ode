@@ -8,6 +8,15 @@
 
 
 	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th></th>
+				<th class="rsvp-yes"><span class="glyphicon glyphicon-ok-sign"></span><span class="sr-only">Yes</span></th>
+				<th class="rsvp-unknown"><span class="glyphicon glyphicon-question-sign"></span><span class="sr-only">Unknown</span></th>
+				<th class="rsvp-no"><span class="glyphicon glyphicon-remove-sign"></span><span class="sr-only">No</span></th>
+				<th></th>
+			</tr>
+		</thead>
 		{% for e in events %}
 			<tr data-href="{{url_for('.event_view', event_id=e.id)}}">
 				<td>
@@ -15,6 +24,9 @@
   						<div style="display:none;">{{refresh_form.csrf_token}}<input id="event_id" name="event_id" type="hidden" value="{{e.id}}"></div><button class="btn btn-default" id="create" name="create" type="submit" value="Create"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Create invitation</button></form>
 						
 				</td>
+				<td class="rsvp-yes">{{ e.rsvp_yes|length }}</td>
+				<td class="rsvp-unknown">{{ e.rsvp_unknown|length }}</td>
+				<td class="rsvp-no">{{ e.rsvp_no|length }}</td>
 				<td>
 					{{e.start}} – {{e.end}}
 					<p class="lead"><a href="{{url_for('.event_view', event_id=e.id)}}">{{e.summary}}</a></p>
