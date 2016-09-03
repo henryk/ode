@@ -18,7 +18,7 @@
 			</tr>
 		</thead>
 		{% for e in events %}
-			<tr data-href="{{url_for('.event_view', event_id=e.id)}}">
+			<tr>
 				<td>
 					<form action="{{url_for('.create_invitation')}}" method="POST" class="form" role="form">
   						<div style="display:none;">{{refresh_form.csrf_token}}<input id="event_id" name="event_id" type="hidden" value="{{e.id}}"></div><button class="btn btn-default" id="create" name="create" type="submit" value="Create"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Create invitation</button></form>
