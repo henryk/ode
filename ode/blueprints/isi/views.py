@@ -1,11 +1,12 @@
 from flask import current_app, render_template, request, redirect, url_for, session, g, flash, abort, render_template_string
 
-from ode import config_get, session_box, login_required, db
+from ode import config_get, session_box, login_required, db, create_serializer
 from . import blueprint, forms, tasks
-from .model import Event, Source, Invitation, InvitationState, Template
+from .model import Event, Source, Invitation, InvitationState, Template, Recipient
 from ode.model import MailingList
 
-import pprint
+import pprint, uuid
+from itsdangerous import BadSignature
 
 @blueprint.app_template_filter("pprint")
 def pprint_string(s):
@@ -161,7 +162,29 @@ def create_invitation():
 			db.session.commit()
 
 			return redirect(url_for('.invitation_view', invitation_id=i.id))
-			
+
 
 	return redirect(url_for('.event_list'))
 
+@blueprint.route("/rsvp/<string:param>")
+def rsvp(param):
+	serializer = create_serializer(salt="rsvp_mail")
+
+	try:
+		recipient_id, response = serializer.loads(param)
+	except BadSignature:
+		abort(404)
+
+	
+	recipient = Recipient.query.filter(Recipient.id==uuid.UUID(recipient_id)).first()
+	if not recipient:
+		abort(404)
+
+	if response == 0:
+		recipient.accept = recipient.accept.NO
+	else:
+		recipient.accept = recipient.accept.YES
+
+	db.session.commit()
+	
+	return "Thank you"

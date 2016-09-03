@@ -20,3 +20,4 @@ requests
 flanker
 wtforms-components
 celery
+itsdangerous

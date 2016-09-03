@@ -11,6 +11,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
 from celery import Celery
 from flask_migrate import Migrate, MigrateCommand
+from itsdangerous import URLSafeSerializer
 
 try: 
 	from flask_debugtoolbar import DebugToolbarExtension
@@ -81,6 +82,11 @@ def create_app(configuration="ode.config.Config", **kwargs):
 	app.wsgi_app = ReverseProxied(app.wsgi_app)
 
 	return app
+
+def create_serializer(secret_key=None, salt=None):
+	if secret_key is None:
+		secret_key = current_app.secret_key
+	return URLSafeSerializer(secret_key, salt=salt)
 
 def config_get(key, default=Ellipsis, config=None, **kwargs):
 	if config is None:
