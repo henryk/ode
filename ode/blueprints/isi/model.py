@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 
-import uuid, requests, time, vobject, enum, json, flanker.addresslib.address
+import uuid, requests, datetime, vobject, enum, json, flanker.addresslib.address
 
 from ode import db
 from ode.model import MailingList, User as LDAPUser
@@ -132,7 +132,10 @@ class Recipient(db.Model):
 
 	state = db.Column(EnumType(RecipientState, name="recipient_state"), default=RecipientState.NEW)
 
+	send_time = db.Column(db.DateTime)
+
 	accept = db.Column(EnumType(AcceptState, name="accept_state"), default=AcceptState.UNKNOWN)
+	accept_time = db.Column(db.DateTime)
 
 	def _mail_form(self):
 		user = LDAPUser.query.get(self.value)
@@ -145,8 +148,12 @@ class Recipient(db.Model):
 		return flanker.addresslib.address.parse(self._mail_form())
 
 	@property
-	def mail_form(self):
+	def to_unicode(self):
 		return self._parse_address().to_unicode()
+
+	@property
+	def full_spec(self):
+		return self._parse_address().full_spec()
 
 	@property
 	def address(self):
@@ -165,7 +172,7 @@ class Event(db.Model):
 	children = relationship('Event', backref=backref('upstream_event', remote_side=[id]))
 	invitations = relationship('Invitation', backref=backref('event'), cascade='all, delete-orphan')
 
-	updated = db.Column(db.Float)
+	updated = db.Column(db.DateTime)
 
 	contents = db.Column(Unicode)
 
@@ -191,7 +198,7 @@ class Event(db.Model):
 				retval = cls(uid = vevent.uid.value)
 
 			retval.contents = vevent.serialize().decode("UTF-8")
-			retval.updated = time.time()
+			retval.updated = datetime.datetime.utcnow()
 			retval.reinit()
 
 		return retval
@@ -249,7 +256,7 @@ class Source(db.Model):
 	id = db.Column('id', UUIDType, default=uuid.uuid4, primary_key=True)
 
 	name = db.Column(db.String, unique=True)
-	updated = db.Column(db.Float)
+	updated = db.Column(db.DateTime)
 
 	contents = db.Column(Unicode)
 
@@ -269,7 +276,7 @@ class Source(db.Model):
 
 	def load_data(self, url):
 		self.contents = requests.get(url).text
-		self.updated = time.time()
+		self.updated = datetime.datetime.utcnow()
 
 		for vevent in vobject.readOne(self.contents).vevent_list:
 			event = Event.refresh(vevent)

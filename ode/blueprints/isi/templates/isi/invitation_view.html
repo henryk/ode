@@ -2,18 +2,23 @@
 {% block titleinner %}Invitation view: '{{invitation.event.summary}}'{% endblock %}
 
 {% block inner %}
-	{% if invitation.state == invitation.state.PREPARING %}
-		{% set preparing_readonly = "" %}
-	{% else %}
-		{% set preparing_readonly = 'readonly="readonly"' %}
-	{% endif %}
+	{% macro is_preparing(yes='', no='') -%}
+		{%- if invitation.state == invitation.state.PREPARING -%}
+			{{ yes|safe }}
+		{%- else -%}
+			{{ no|safe }}
+		{%- endif -%}
+	{%- endmacro %}
 	<form method="POST" class="form" role="form">
 		<div style="display:none;">{{form.csrf_token()}}</div>
 		<div>
 			<ul class="nav nav-tabs" role="tablist">
-				<li role="presentation"><a href="#event" aria-controls="home" role="tab" data-toggle="tab">Event</a></li>
-				<li role="presentation" class="active"><a href="#invitation" aria-controls="profile" role="tab" data-toggle="tab">Invitation text</a></li>
-				<li role="presentation"><a href="#options" aria-controls="messages" role="tab" data-toggle="tab">Options</a></li>
+				<li role="presentation"><a href="#event" aria-controls="event" role="tab" data-toggle="tab">Event</a></li>
+				{% if invitation.state != invitation.state.PREPARING %}
+					<li role="presentation" class="active"><a href="#responses" aria-controls="home" role="tab" data-toggle="tab">Responses</a></li>
+				{% endif %}
+				<li role="presentation" {{is_preparing('class="active"')}}><a href="#invitation" aria-controls="invitation" role="tab" data-toggle="tab">Invitation text</a></li>
+				<li role="presentation"><a href="#options" aria-controls="options" role="tab" data-toggle="tab">Options</a></li>
 			</ul>
 
 			<!-- Tab panes -->
@@ -22,10 +27,33 @@
 					<p class="lead">{{invitation.event.summary}}</p>
 					<p>{{invitation.event.description}}</p>
 				</div>
-				<div role="tabpanel" class="tab-pane active" id="invitation">
+				{% if invitation.state != invitation.state.PREPARING %}
+					<div role="tabpanel" class="tab-pane active" id="responses">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>Status</th>
+									<th>Last updated</th>
+									<th>Recipient</th>
+								</tr>
+							</thead>
+							{% for recipient in invitation.recipients %}
+								{% if recipient.state == recipient.state.SENT %}
+									<tr>
+										<td>{{recipient.accept.value}}</td>
+										<td>{{recipient.accept_time|datetime}}</td>
+										<td>{{recipient.to_unicode}}</td>
+									</tr>
+								{% endif %}
+							{% endfor %}
+						</table>
+
+					</div>
+				{% endif %}
+				<div role="tabpanel" class="tab-pane {{is_preparing('active')}}" id="invitation">
 					<div>{{wtf.form_field(form.subject, form_type='horizontal')}}</div>
 
-					<textarea class="form-control" id="text_html" name="text_html" cols="160" rows="30" {{preparing_readonly}} >{{form.text_html.data|safe}}</textarea>
+					<textarea class="form-control" id="text_html" name="text_html" cols="160" rows="30" {{is_preparing('','readonly="readonly"')}} >{{form.text_html.data|safe}}</textarea>
 					
 				</div>
 				<div role="tabpanel" class="tab-pane" id="options">

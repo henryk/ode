@@ -6,6 +6,8 @@ from flask import current_app, url_for, render_template_string
 
 from flask_mail import Message
 
+import datetime
+
 
 class NonStupidMessage(Message):
 	"""Implements a workaround for stupid default behaviour:
@@ -44,32 +46,38 @@ def send_mails(invitation_id):
 
 @cel.task
 def send_one_mail(recipient_id):
-	recipient = Recipient.query.filter(Recipient.id==recipient_id).one()
+	try:
+		recipient = Recipient.query.filter(Recipient.id==recipient_id).one()
 
-	signer = create_signer(salt="rsvp_mail")
+		signer = create_signer(salt="rsvp_mail")
 
-	param_yes = signer.sign("%s_%s" % (str(recipient.id), 1))
-	param_no = signer.sign("%s_%s" % (str(recipient.id), 0))
+		param_yes = signer.sign("%s_%s" % (str(recipient.id), 1))
+		param_no = signer.sign("%s_%s" % (str(recipient.id), 0))
 
-	link_yes = url_for('isi.rsvp', param=param_yes, _external=True)
-	link_no = url_for('isi.rsvp', param=param_no, _external=True)
+		link_yes = url_for('isi.rsvp', param=param_yes, _external=True)
+		link_no = url_for('isi.rsvp', param=param_no, _external=True)
 
-	invitation = recipient.invitation
+		invitation = recipient.invitation
 
-	template_params = dict(recipient=recipient, 
-		invitation=invitation, event=invitation.event,
-		link_yes=link_yes, link_no=link_no)
+		template_params = dict(recipient=recipient, 
+			invitation=invitation, event=invitation.event,
+			link_yes=link_yes, link_no=link_no)
 
-	params = dict(sender=invitation.sender,
-		subject=invitation.subject)
+		params = dict(sender=invitation.sender,
+			subject=invitation.subject)
 
-	params["html"] = render_template_string(invitation.text_html, **template_params)
-	params["charset"] = "UTF-8"
+		params["html"] = render_template_string(invitation.text_html, **template_params)
+		params["charset"] = "UTF-8"
 
-	msg = NonStupidMessage(recipients=[recipient.mail_form], **params)
-	retval = mailer.send(msg)
+		msg = NonStupidMessage(recipients=[recipient.full_spec], **params)
+		retval = mailer.send(msg)
 
-	recipient.state = recipient.state.SENT
-	db.session.commit()
+		recipient.state = recipient.state.SENT
+		recipient.send_time = datetime.datetime.utcnow()
+		db.session.commit()
+	except:
+		recipient.state = recipient.state.NEW
+		db.session.commit()
+		raise
 
 	return retval

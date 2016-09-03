@@ -25,7 +25,7 @@ class EditInvitationForm(Form):
 		self.recipients_raw.label.text = "Recipients"  # This should not just be the titlecased version of the variable name
 
 def get_SendInvitationForm(recipients_):
-	choices = [ (str(r.id), r.mail_form) for r in recipients_ if r.state in (r.state.NEW, r.state.DESELECTED) ]
+	choices = [ (str(r.id), r.to_unicode) for r in recipients_ if r.state in (r.state.NEW, r.state.DESELECTED) ]
 
 	class SendInvitationForm(Form):
 

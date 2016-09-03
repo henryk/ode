@@ -58,7 +58,7 @@ class User(ldap.Entry):
 
 	@property
 	def mail_form(self):
-		return "%s <%s>" % (self.name, self.mail)
+		return u"%s <%s>" % (self.name, self.mail)
 
 class Group(ldap.Entry):
 	object_classes = ['groupOfNames']

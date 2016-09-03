@@ -5,7 +5,7 @@ from . import blueprint, forms, tasks
 from .model import Event, Source, Invitation, InvitationState, Template, Recipient
 from ode.model import MailingList
 
-import pprint, uuid
+import pprint, uuid, datetime
 from itsdangerous import BadSignature
 
 @blueprint.app_template_filter("pprint")
@@ -185,6 +185,7 @@ def rsvp(param):
 		recipient.accept = recipient.accept.NO
 	else:
 		recipient.accept = recipient.accept.YES
+	recipient.accept_time = datetime.datetime.utcnow()
 
 	db.session.commit()
 	

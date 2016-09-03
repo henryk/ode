@@ -14,6 +14,8 @@ from flask_migrate import Migrate, MigrateCommand
 from itsdangerous import Signer
 from flask_mail import Mail
 
+import pytz
+
 try: 
 	from flask_debugtoolbar import DebugToolbarExtension
 	debug_toolbar = DebugToolbarExtension()
@@ -61,6 +63,19 @@ def create_app(configuration="ode.config.Config", **kwargs):
 	app.add_url_rule('/', 'root', root)
 	app.add_url_rule('/login', 'login', login, methods=['GET', 'POST'])
 	app.add_url_rule('/logout', 'logout', logout)
+
+	@app.before_request
+	def set_tz():
+		g.timezone = pytz.timezone(current_app.config.get("DISPLAY_TIMEZONE", "UTF"))
+
+	@app.template_filter()
+	def datetime(value, format=None):
+		if not value:
+			return ""
+		
+		if format is None:
+			format = current_app.config.get("DISPLAY_DATETIME_FORMAT", "%Y-%m-%d %H:%M %Z")
+		return pytz.utc.localize(value).astimezone(g.timezone).strftime(format)
 
 	from ode.navigation import ODENavbarRenderer
 	register_renderer(app, 'ode_navbar', ODENavbarRenderer)
