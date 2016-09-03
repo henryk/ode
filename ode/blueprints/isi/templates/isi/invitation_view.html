@@ -2,6 +2,11 @@
 {% block titleinner %}Invitation view: '{{invitation.event.summary}}'{% endblock %}
 
 {% block inner %}
+	{% if invitation.state == invitation.state.PREPARING %}
+		{% set preparing_readonly = "" %}
+	{% else %}
+		{% set preparing_readonly = 'readonly="readonly"' %}
+	{% endif %}
 	<form method="POST" class="form" role="form">
 		<div style="display:none;">{{form.csrf_token()}}</div>
 		<div>
@@ -20,7 +25,7 @@
 				<div role="tabpanel" class="tab-pane active" id="invitation">
 					<div>{{wtf.form_field(form.subject, form_type='horizontal')}}</div>
 
-					<textarea class="form-control" id="text_html" name="text_html" cols="160" rows="30">{{form.text_html.data|safe}}</textarea>
+					<textarea class="form-control" id="text_html" name="text_html" cols="160" rows="30" {{preparing_readonly}} >{{form.text_html.data|safe}}</textarea>
 					
 				</div>
 				<div role="tabpanel" class="tab-pane" id="options">

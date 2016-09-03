@@ -5,14 +5,35 @@
 
 <h2>Sending invitation '{{invitation.event.summary}}'</h2>
 
-<p class="lead">Do you want to send the invitation to the following recipients?</p>
+<p class="lead">Do you want to send the following mail?</p>
 
-<ul>
-	{% for recipient in invitation.recipients %}
-		<li>
-			{{recipient.mail_form}}
-		</li>
-	{% endfor %}
-</ul>
+{{ wtf.quick_form(form, method="POST", form_type="horizontal") }}
 
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet"
+			href="{{url_for('static', filename='select2/select2.min.css')}}">
+<link rel="stylesheet"
+			href="{{url_for('static', filename='select2/select2-bootstrap.min.css')}}">
+{% endblock %}
+
+
+{% block scripts %}
+{{super()}}
+<script src="{{url_for('.static', filename='isi/ckeditor/ckeditor.js')}}"></script>
+<script src="{{url_for('static', filename='select2/select2.full.min.js')}}"></script>
+<script>
+$(function(){
+	CKEDITOR.config.height="30em";
+	CKEDITOR.replace('text_html');
+
+	$('#recipients').select2({
+		theme: 'bootstrap',
+		width: "100%",
+	});
+
+});
+</script>
 {% endblock %}

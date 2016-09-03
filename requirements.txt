@@ -18,3 +18,4 @@ SQLAlchemy-Utils
 vobject
 requests
 flanker
+wtforms-components

@@ -66,10 +66,11 @@ def invitation_view(invitation_id):
 
 	form = forms.EditInvitationForm(obj=invitation)
 
-	if len(form.recipients) == 0:
-		del form.recipients
-	else:
-		form.recipients_raw.label.text = "Initial recipients"
+	if invitation.state is not invitation.state.PREPARING:
+		from wtforms_components import read_only
+		read_only(form.sender)
+		read_only(form.text_html)
+		read_only(form.subject)
 
 	if request.method == 'POST' and form.validate_on_submit():
 		form.populate_obj(invitation)
@@ -90,7 +91,43 @@ def invitation_send(invitation_id):
 	invitation.expand_recipients()
 	db.session.commit()
 
-	return render_template("isi/invitation_send.html", invitation=invitation)
+	form = forms.get_SendInvitationForm(invitation.recipients)(obj=invitation)
+	if request.method == 'GET':
+		form.recipients.data = [str(r.id) for r in invitation.recipients if r.state is r.state.NEW]
+
+	if request.method == 'POST' and form.validate_on_submit():
+		if form.back.data:
+			return redirect(url_for('.invitation_view', invitation_id=invitation_id))
+		else:
+
+			do_send = bool(form.send.data)
+			have_at_least_one_recipient = False
+
+			for recipient_id, mail_form in form.recipients.choices:
+				recipient = None
+				for r in invitation.recipients:
+					if str(r.id) == recipient_id:
+						recipient = r
+						break
+				if recipient is None:
+					continue
+
+				if recipient_id not in form.recipients.data:
+					recipient.state = recipient.state.DESELECTED
+				else:
+					if do_send:
+						recipient.state = recipient.state.PENDING
+						have_at_least_one_recipient = True
+
+			if do_send and have_at_least_one_recipient:
+				invitation.state = invitation.state.OPEN
+				db.session.commit()
+				flash("Message away!")
+				return redirect(url_for(".event_list"))
+			else:
+				db.session.commit()
+	
+	return render_template("isi/invitation_send.html", invitation=invitation, form=form)
 
 @blueprint.route("/invitation/_new", methods=["POST"])
 @login_required

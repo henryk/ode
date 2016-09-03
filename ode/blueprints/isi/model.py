@@ -33,6 +33,7 @@ class InvitationState(enum.Enum):
 
 class RecipientState(enum.Enum):
 	NEW = "new"
+	DESELECTED = "deselected"
 	PENDING = "pending"
 	SENT = "sent"
 
