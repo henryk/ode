@@ -84,6 +84,7 @@ def send_one_mail(recipient_id):
 		cal.add('method').value="REQUEST"
 		cal.vevent.add('ORGANIZER').value="MAILTO:"+sender_address.address
 		cal.vevent.add('ATTENDEE').value="MAILTO:"+recipient_address.address
+		cal.vevent.uid.value = str(recipient.id)
 		cal.vevent.attendee.partstat_param="NEEDS-ACTION"
 		cal.vevent.attendee.rsvp_param="TRUE"
 
@@ -91,7 +92,7 @@ def send_one_mail(recipient_id):
 
 		msg = NonStupidMessage(recipients=[recipient_address.full_spec()], **params)
 		msg.attach("invite.ics", "text/calendar; method=REQUEST", calstream,
-			#disposition="REMOVE",
+			disposition="REMOVE",
 		)
 		retval = mailer.send(msg)
 
