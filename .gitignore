@@ -3,3 +3,6 @@
 /*.sublime-workspace
 /settings.py
 /ode/blueprints/amu/static/amu/wordlist/de*
+/supervisord.log
+/supervisord.pid
+/supervisord.sock

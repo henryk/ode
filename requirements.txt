@@ -21,3 +21,4 @@ wtforms-components
 celery
 itsdangerous
 pytz
+supervisor
