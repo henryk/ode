@@ -1,6 +1,7 @@
 
 from flask import session
 from flask_wtf import Form
+from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, PasswordField, SubmitField, HiddenField, SelectMultipleField, BooleanField, widgets, FieldList, TextField
 from wtforms.validators import DataRequired, Email
 
@@ -84,6 +85,7 @@ def get_NewGroupForm(user_list):
 def get_EditMailingListForm(user_list, group_list):
 	class EditMailingListForm(Form):
 		list_members = FieldList(StringField(''))
+		import_file = FileField('Import', validators=[FileAllowed(['txt'], 'Text files')])
 
 		update = SubmitField('Update!')
 
@@ -96,6 +98,7 @@ def get_NewMailingListForm(user_list, group_list):
 		name = StringField('Mailing List Name', validators=[DataRequired()])
 
 		list_members = FieldList(StringField(''))
+		import_file = FileField('Import', validators=[FileAllowed(['txt'], 'Text files')])
 
 		submit = SubmitField('Create!')
 	

@@ -1,7 +1,7 @@
 from ode import config_get, ldap
 from flask import current_app
 from ldap3 import STRING_TYPES
-import re
+import re, flanker.addresslib.address
 
 # Hashes the password value into an {SSHA} password upon setting
 class LDAPSSHAPasswordAttribute(ldap.Attribute):
@@ -156,8 +156,57 @@ class MailingList(ldap.Entry):
 
 		self.additional_addresses = list(new_additional)
 		self.member_urls = list(new_url)
-	
-	
+
+	def import_list_members(self, import_list):
+		import_list = [unicode(i, "UTF-8") if not isinstance(i, unicode) else i for i in import_list]
+		current_app.logger.debug("import_list: %s", import_list)
+
+		good, bad = [], []
+		for i in import_list:
+			a = flanker.addresslib.address.parse(i)
+			if a:
+				good.append(a)
+			else:
+				bad.append(i)
+
+		#good, bad = flanker.addresslib.address.parse_list(import_list, as_tuple=True)
+
+		current_app.logger.debug("Good: %s, Bad: %s", good, bad)
+		
+		existing_members = [User.query.get(dn) for dn in self.members]
+		existing_additional = self.additional_addresses
+
+		existing_addresses = map(flanker.addresslib.address.parse,
+				[u.mail_form for u in existing_members]+list(existing_additional)
+		)
+
+		preexisting = []
+		notexisting = []
+		for a in good:
+			if any(e.address == a.address for e in existing_addresses if e):
+				preexisting.append(a.to_unicode())
+			else:
+				notexisting.append(a)
+
+		current_app.logger.debug("preexisting: %s, notexisting: %s", preexisting, notexisting)
+
+		new_users = []
+		new_additional = []
+
+		for a in notexisting:
+			u = User.query.filter("mail: %s" % a.address).first()
+
+			if u:
+				new_users.append(u.dn)
+			else:
+				new_additional.append(a.to_unicode())
+
+		current_app.logger.debug("new_users: %s, new_additional: %s", new_users, new_additional)
+
+		self.set_list_members( list(self.list_members) + new_users + new_additional )
+
+		return preexisting, bad
+
 
 def initialize(app):
 	User.base_dn = config_get("ODE_USER_BASE", config=app.config)

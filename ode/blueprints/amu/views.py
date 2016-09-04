@@ -237,6 +237,14 @@ def mailing_list(cn):
 	if request.method == 'POST' and form.validate_on_submit():
 		if form.update.data:
 			mlist.set_list_members(form.list_members.data)
+			if form.import_file.data:
+				import_existing, import_errors = mlist.import_list_members(form.import_file.data.readlines())
+
+				for a in import_errors:
+					flash("Invalid format, did not import: %s" % a, category="danger")
+
+				for a in import_existing:
+					flash("Already existing, did not import: %s" % a, category="warning")
 
 			if mlist.save():
 				flash("Successfully saved", category="success")
@@ -268,6 +276,14 @@ def new_mailing_list():
 		if form.submit.data:
 			mlist = MailingList()
 			save_ldap_attributes(form, mlist)
+			if form.import_file.data:
+				import_existing, import_errors = mlist.import_list_members(form.import_file.data.readlines())
+
+				for a in import_errors:
+					flash("Invalid format, did not import: %s" % a, category="danger")
+
+				for a in import_existing:
+					flash("Already existing, did not import: %s" % a, category="warning")
 
 			if mlist.save():
 				flash("Mailing list created", category="success")

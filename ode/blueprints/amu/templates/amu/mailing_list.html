@@ -4,7 +4,7 @@
 {% block inner %}
   <h2>Mailing list '{{list.name}}'</h2>
 
-  {{ wtf.quick_form(form, method="POST", form_type="horizontal") }}
+  {{ wtf.quick_form(form, method="POST", form_type="horizontal", enctype="multipart/form-data") }}
   
 {% endblock %}
 
