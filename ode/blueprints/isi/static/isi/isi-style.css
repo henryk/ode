@@ -1,6 +1,6 @@
 .rsvp-yes, .rsvp-unknown, .rsvp-no { width: 2.5em; text-align: right; }
 .rsvp-list .rsvp-yes, .rsvp-list .rsvp-unknown, .rsvp-list .rsvp-no { text-align: center; }
-.rsvp-list .rsvp-yes a, .rsvp-list .rsvp-unknown a, .rsvp-list .rsvp-no a { color: #ccc; }
-.rsvp-list .rsvp-yes:hover a, .rsvp-list .rsvp-unknown:hover a, .rsvp-list .rsvp-no:hover a { color: #000;}
+.rsvp-list .rsvp-yes a, .rsvp-list .rsvp-unknown a, .rsvp-list .rsvp-no a { color: #ccc; display: block; }
+.rsvp-list .rsvp-yes a:hover, .rsvp-list .rsvp-unknown a:hover, .rsvp-list .rsvp-no a:hover { color: #000;}
 
 .table>tfoot>tr { border-top: 2px solid #ddd; }
