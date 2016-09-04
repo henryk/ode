@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 
 from ode import cel, db, create_signer, mailer
-from .model import Invitation, Recipient
+from .model import Invitation, Recipient, Source
 from flask import current_app, url_for, render_template_string
 
 from flask_mail import Message
@@ -105,3 +105,8 @@ def send_one_mail(recipient_id):
 		raise
 
 	return retval
+
+@cel.task
+def refresh_1minute():
+	for k,v in current_app.config["ISI_EVENT_SOURCES"].items():
+		Source.refresh(k, v)

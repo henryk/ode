@@ -6,3 +6,5 @@
 /supervisord.log
 /supervisord.pid
 /supervisord.sock
+/celerybeat-schedule
+/celerybeat.pid

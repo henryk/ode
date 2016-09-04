@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 
 from kombu import Exchange, Queue
+from datetime import timedelta
 
 class Config(object):
 	DEBUG = False
@@ -30,6 +31,14 @@ class Config(object):
 	CELERY_QUEUES = (
 		Queue('ode', Exchange('ode'), routing_key='ode'),
 	)
+
+	CELERYBEAT_SCHEDULE = {
+	'refresh-isi-1minute': {
+		'task': 'ode.blueprints.isi.tasks.refresh_1minute',
+		'schedule': timedelta(seconds=60),
+		'args': (),
+	},
+}
 
 
 class DevelopmentConfig(Config):
