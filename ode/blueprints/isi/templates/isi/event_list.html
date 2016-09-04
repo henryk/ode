@@ -35,7 +35,9 @@
 					{% if invitations %}
 						<ul>
 							{% for invitation in invitations %}
-								<li><a href="{{url_for('.invitation_view', invitation_id=invitation.id)}}">{{invitation.state.value}} invitation</a></li>
+								<li>
+									<a href="{{url_for('.invitation_view', invitation_id=invitation.id)}}">{{invitation.state.value}} invitation</a> (Yes: {{invitation.rsvp_yes|length}}, No: {{invitation.rsvp_no|length}}, Unknown: {{invitation.rsvp_unknown|length}})
+								</li>
 							{% endfor %}
 						</ul>
 					{% endif %}

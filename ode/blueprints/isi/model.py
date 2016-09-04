@@ -121,6 +121,19 @@ class Invitation(db.Model):
 					Recipient(value=parsed.to_unicode())
 				)
 
+	@property
+	def rsvp_yes(self):
+		return [r for r in self.recipients if r.accept is r.accept.YES]
+
+	@property
+	def rsvp_unknown(self):
+		return [r for r in self.recipients if r.accept is r.accept.UNKNOWN]
+
+	@property
+	def rsvp_no(self):
+		return [r for r in self.recipients if r.accept is r.accept.NO]
+
+
 
 
 class Recipient(db.Model):

@@ -29,28 +29,47 @@
 				</div>
 				{% if invitation.state != invitation.state.PREPARING %}
 					<div role="tabpanel" class="tab-pane active" id="responses">
-						<table class="table table-striped">
+						<table class="table table-striped rsvp-list">
 							<thead>
 								<tr>
-									<th>State</th>
-									<th>Last responded</th>
-									<th>Set state</th>
+									<th class="rsvp-yes"><span class="glyphicon glyphicon-ok-sign"></span><span class="sr-only">Yes</span></th>
+									<th class="rsvp-unknown"><span class="glyphicon glyphicon-question-sign"></span><span class="sr-only">Unknown</span></th>
+									<th class="rsvp-no"><span class="glyphicon glyphicon-remove-sign"></span><span class="sr-only">No</span></th>
 									<th>Recipient</th>
+									<th>Last responded</th>
 								</tr>
 							</thead>
 							{% for recipient in invitation.recipients %}
 								{% if recipient.state == recipient.state.SENT %}
 									<tr>
-										<td>{{recipient.accept.value}}</td>
-										<td>{{recipient.accept_time|datetime}}</td>
-										<td>
-											<a href="{{url_for('.recipient_set', recipient_id=recipient.id, state_yes=1, csrf_token=form.csrf_token.current_token)}}" class="btn btn-default"><span class="glyphicon glyphicon-ok" aria-hidden="true" title="Mark recipient as 'Yes'"></span><span class="sr-only">Yes</span></a>
-											<a href="{{url_for('.recipient_set', recipient_id=recipient.id, state_no=1, csrf_token=form.csrf_token.current_token)}}" class="btn btn-default"><span class="glyphicon glyphicon-remove" aria-hidden="true" title="Mark recipient as 'No'"></span><span class="sr-only">No</span></a>
-										</td>
+										{% if recipient.accept == recipient.accept.YES %}
+											<td class="rsvp-yes"><span class="glyphicon glyphicon-ok"></span><span class="sr-only">[[Yes]]</span></td>
+										{% else %}
+											<td class="rsvp-yes"><a href="{{url_for('.recipient_set', recipient_id=recipient.id, state_yes=1, csrf_token=form.csrf_token.current_token)}}"><span class="glyphicon glyphicon-ok" aria-hidden="true" title="Mark recipient as 'Yes'"></span><span class="sr-only">Set Yes</span></a></td>
+										{% endif %}
+										{% if recipient.accept == recipient.accept.UNKNOWN %}
+											<td class="rsvp-yes"><span class="glyphicon glyphicon-question-sign"></span><span class="sr-only">[[Unknown]]</span></td>
+										{% else %}
+											<td></td>
+										{% endif %}
+										{% if recipient.accept == recipient.accept.NO %}
+											<td class="rsvp-no"><span class="glyphicon glyphicon-remove"></span><span class="sr-only">[[No]]</span></td>
+										{% else %}
+											<td class="rsvp-no"><a href="{{url_for('.recipient_set', recipient_id=recipient.id, state_no=1, csrf_token=form.csrf_token.current_token)}}"><span class="glyphicon glyphicon-remove" aria-hidden="true" title="Mark recipient as 'No'"></span><span class="sr-only">Set No</span></a></td>
+										{% endif %}
 										<td>{{recipient.to_unicode}}</td>
+										<td>{{recipient.accept_time|datetime}}</td>
 									</tr>
 								{% endif %}
 							{% endfor %}
+							<tfoot>
+								<tr>
+									<th class="rsvp-yes">{{ invitation.rsvp_yes|length }}</th>
+									<th class="rsvp-unknown">{{ invitation.rsvp_unknown|length }}</th>
+									<th class="rsvp-no">{{ invitation.rsvp_no|length }}</th>
+									<td></td><td></td>
+								</tr>
+							</tfoot>
 						</table>
 
 					</div>
