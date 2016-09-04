@@ -28,7 +28,14 @@ export ODE_SETTINGS=$(pwd)/settings.py
 celery -A ode worker -l info
 ```
 
+## Quicker start
 
+A supervisor configuration file is provided, so starting gunicorn and celery is as simple as
+
+```
+export ODE_SETTINGS=$(pwd)/settings.py
+supervisord
+```
 
 ## Contents
 
