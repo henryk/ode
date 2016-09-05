@@ -15,4 +15,4 @@ def setup_amu(state):
 	mailer.init_app(state.app)
 
 
-from . import views, forms, mail, navigation
+from . import views, forms, mail, navigation, tasks

@@ -16,5 +16,11 @@ def run_imip_receive():
 	"Run the iMIP receiver"
 	receive_mails()
 
+@manager.command
+def mm_sync():
+	"Schedule synchronization of MailMan mailing lists with MailingList objects"
+	from ode.blueprints.amu import tasks
+	tasks.sync_mailing_lists.apply_async()
+
 if __name__ == "__main__":
 	manager.run()
