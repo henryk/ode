@@ -29,7 +29,7 @@
 				</div>
 				{% if invitation.state != invitation.state.PREPARING %}
 					<div role="tabpanel" class="tab-pane active" id="responses">
-						<table class="table table-striped rsvp-list">
+						<table class="table table-striped rsvp-list sortable">
 							<thead>
 								<tr>
 									<th class="rsvp-yes"><span class="glyphicon glyphicon-ok-sign"></span><span class="sr-only">Yes</span></th>
@@ -105,6 +105,7 @@
 {{super()}}
 <script src="{{url_for('.static', filename='isi/ckeditor/ckeditor.js')}}"></script>
 <script src="{{url_for('static', filename='select2/select2.full.min.js')}}"></script>
+<script src="{{url_for('static', filename='tablesorter_2016-09-06/jquery.tablesorter.min.js')}}"></script> 
 <script>
 $(function(){
 	CKEDITOR.config.height="30em";
@@ -136,6 +137,8 @@ $(function(){
 			});
 			$('#recipients_raw').replaceWith(new_inputs);
 	});
+
+	$("table.sortable").tablesorter(); 
 
 
 });

@@ -1,3 +1,10 @@
 body { padding-top: 70px; }
 .navbar-brand a { color: #777; }
 .navbar-brand a:hover { color: #333; text-decoration: none; }
+
+table.sortable>thead>tr>th { min-width: 3em; }
+table.sortable>thead>tr>th.header:after { content: "\21D5"; }
+table.sortable>thead>tr>th.headerSortDown:after { content: "\21D3"; }
+table.sortable>thead>tr>th.headerSortUp:after { content: "\21D1"; }
+
+table.sortable>thead>tr>th.header:hover, table.sortable>thead>tr>th.headerSortDown, table.sortable>thead>tr>th.headerSortUp { color: #27a; }
