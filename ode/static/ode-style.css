@@ -3,8 +3,13 @@ body { padding-top: 70px; }
 .navbar-brand a:hover { color: #333; text-decoration: none; }
 
 table.sortable>thead>tr>th { min-width: 3em; }
-table.sortable>thead>tr>th.header:after { content: "\21D5"; }
-table.sortable>thead>tr>th.headerSortDown:after { content: "\21D3"; }
-table.sortable>thead>tr>th.headerSortUp:after { content: "\21D1"; }
+table.sortable .tablesorter-icon { font-style: inherit; }
+table.sortable>thead>tr>th.tablesorter-header .tablesorter-icon:after { content: "\21D5"; font-style: inherit; }
+table.sortable>thead>tr>th.tablesorter-headerDesc .tablesorter-icon::after { content: "\21D3";  font-style: inherit; }
+table.sortable>thead>tr>th.tablesorter-headerAsc .tablesorter-icon::after { content: "\21D1";  font-style: inherit; }
 
-table.sortable>thead>tr>th.header:hover, table.sortable>thead>tr>th.headerSortDown, table.sortable>thead>tr>th.headerSortUp { color: #27a; }
+table.sortable>thead>tr>th.tablesorter-header:hover, 
+table.sortable>thead>tr>th.tablesorter-headerDesc, 
+table.sortable>thead>tr>th.tablesorter-headerAsc { 
+	color: #27a;
+}

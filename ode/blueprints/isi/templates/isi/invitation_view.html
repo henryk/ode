@@ -58,7 +58,24 @@
 											<td class="rsvp-no"><a href="{{url_for('.recipient_set', recipient_id=recipient.id, state_no=1, csrf_token=form.csrf_token.current_token)}}"><span class="glyphicon glyphicon-remove" aria-hidden="true" title="Mark recipient as 'No'"></span><span class="sr-only">Set No</span></a></td>
 										{% endif %}
 										<td>{{recipient.to_unicode}}</td>
-										<td>{{recipient.accept_time|datetime}}</td>
+										<td data-text="{{recipient.accept_time|datetime(format='%s')}}">
+											{% if recipient.accept_type == recipient.accept_type.LINK %}
+												<span class="glyphicon glyphicon-link" aria-hidden="true"
+													title="Recipient responded via link"></span>
+												<span class="sr-only">Responded via link:</span>
+											{% elif recipient.accept_type == recipient.accept_type.MAIL %}
+												<span class="glyphicon glyphicon-envelope" aria-hidden="true"
+													title="Recipient responded via mail"></span>
+												<span class="sr-only">Responded via mail:</span>
+											{% elif recipient.accept_type == recipient.accept_type.MANUAL %}
+												<span class="glyphicon glyphicon-pencil" aria-hidden="true"
+													title="Recipient state manually set"></span>
+												<span class="sr-only">Manually set:</span>
+											{% else %}
+											{% endif %}
+											{{recipient.accept_time|datetime}}
+											
+										</td>
 									</tr>
 								{% endif %}
 							{% endfor %}
@@ -105,7 +122,7 @@
 {{super()}}
 <script src="{{url_for('.static', filename='isi/ckeditor/ckeditor.js')}}"></script>
 <script src="{{url_for('static', filename='select2/select2.full.min.js')}}"></script>
-<script src="{{url_for('static', filename='tablesorter_2016-09-06/jquery.tablesorter.min.js')}}"></script> 
+<script src="{{url_for('static', filename='tablesorter_2016-09-08/jquery.tablesorter.min.js')}}"></script> 
 <script>
 $(function(){
 	CKEDITOR.config.height="30em";
@@ -138,7 +155,9 @@ $(function(){
 			$('#recipients_raw').replaceWith(new_inputs);
 	});
 
-	$("table.sortable").tablesorter(); 
+	$("table.sortable").tablesorter({
+		headerTemplate: '{icon}{content}',
+	}); 
 
 
 });
