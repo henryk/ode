@@ -2,7 +2,7 @@ from flask import current_app, render_template, request, redirect, url_for, sess
 
 from ode import config_get, session_box, login_required, db, create_signer
 from . import blueprint, forms, tasks
-from .model import Event, Source, Invitation, InvitationState, Template, Recipient
+from .model import Event, Source, Invitation, InvitationState, Template, Recipient, AcceptType
 from ode.model import MailingList
 
 import pprint, uuid, datetime
@@ -181,6 +181,8 @@ def recipient_set(recipient_id):
 			recipient.accept = recipient.accept.YES
 		elif form.state_no.data:
 			recipient.accept = recipient.accept.NO
+		recipient.accept_time = datetime.datetime.utcnow()
+		recipient.accept_type = AcceptType.MANUAL
 		db.session.commit()
 
 	return redirect(url_for('.invitation_view', invitation_id=recipient.invitation.id))
@@ -206,6 +208,7 @@ def rsvp(param):
 	else:
 		recipient.accept = recipient.accept.YES
 	recipient.accept_time = datetime.datetime.utcnow()
+	recipient.accept_type = AcceptType.LINK
 
 	db.session.commit()
 	
