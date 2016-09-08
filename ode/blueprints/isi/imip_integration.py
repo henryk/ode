@@ -121,7 +121,7 @@ def handle_imip_response(message):
 				## Simplified logic for now: If there's a vevent in there and its UID matches a recipient
 				##  accept that as a response
 
-				cal = vobject.readOne(part.get_payload())
+				cal = vobject.readOne(part.get_payload(None, True))
 				uid = cal.vevent.uid.value
 
 				recipient = Recipient.query.filter(Recipient.id==uuid.UUID(uid)).first()
