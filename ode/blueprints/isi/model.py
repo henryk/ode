@@ -42,6 +42,12 @@ class AcceptState(enum.Enum):
 	YES = "yes"
 	NO = "no"
 
+class AcceptType(enum.Enum):
+	UNKNOWN = "unknown"
+	MANUAL = "manual"
+	EMAIL = "email"
+	LINK = "link"
+
 class Template(db.Model):
 	id = db.Column('id', UUIDType, default=uuid.uuid4, primary_key=True)
 
@@ -150,6 +156,7 @@ class Recipient(db.Model):
 
 	accept = db.Column(EnumType(AcceptState, name="accept_state"), default=AcceptState.UNKNOWN)
 	accept_time = db.Column(db.DateTime)
+	accept_type = db.Column(EnumType(AcceptType, name="accept_type"), default=AcceptType.UNKNOWN)
 
 	def _mail_form(self):
 		user = LDAPUser.query.get(self.value)
