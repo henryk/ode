@@ -1,15 +1,15 @@
 {% extends "amu/base.html" %}
-{% block titleinner %}User list{% endblock %}
+{% block titleinner %}{{_("User list")}}{% endblock %}
 
 {% block inner %}
-  <h2>User list</h2>
+  <h2>{{_("User list")}}</h2>
   <table class="table table-striped">
     <thead>
       <tr>
         <th>uid</th>
-        <th>Name</th>
-        <th>E-Mail</th>
-        <th>Groups</th>
+        <th>{{_("Name")}}</th>
+        <th>{{_("E-Mail")}}</th>
+        <th>{{_("Groups")}}</th>
       </tr>
     </thead>
     {% for user in users %}

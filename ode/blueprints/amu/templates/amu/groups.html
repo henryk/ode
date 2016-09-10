@@ -1,13 +1,13 @@
 {% extends "amu/base.html" %}
-{% block titleinner %}Group list{% endblock %}
+{% block titleinner %}{{_("Group list")}}{% endblock %}
 
 {% block inner %}
-  <h2>Group list</h2>
+  <h2>{{_("Group list")}}</h2>
   <table class="table table-striped">
     <thead>
       <tr>
-        <th>Name</th>
-        <th>Members</th>
+        <th>{{_("Name")}}</th>
+        <th>{{_("Members")}}</th>
       </tr>
     </thead>
     {% for group in groups %}

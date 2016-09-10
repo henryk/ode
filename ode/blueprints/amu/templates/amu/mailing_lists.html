@@ -1,13 +1,13 @@
 {% extends "amu/base.html" %}
-{% block titleinner %}Mailing list list{% endblock %}
+{% block titleinner %}{{_("Mailing list list")}}{% endblock %}
 
 {% block inner %}
-  <h2>Mailing list list</h2>
+  <h2>{{_("Mailing list list")}}</h2>
   <table class="table table-striped">
     <thead>
       <tr>
-        <th>Name</th>
-        <th colspan="2">Members</th>
+        <th>{{_("Name")}}</th>
+        <th colspan="2">{{_("Members")}}</th>
       </tr>
     </thead>
     {% for list in lists %}

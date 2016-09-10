@@ -1,8 +1,8 @@
 {% extends "amu/base.html" %}
-{% block titleinner %}Create new group{% endblock %}
+{% block titleinner %}{{_("Create new group")}}{% endblock %}
 
 {% block inner %}
-  <h2>Create new group</h2>
+  <h2>{{_("Create new group")}}</h2>
 
   {{ wtf.quick_form(form, method="POST", action=url_for('.new_group'), form_type="horizontal") }}
   

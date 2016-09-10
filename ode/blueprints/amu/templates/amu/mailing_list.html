@@ -1,8 +1,8 @@
 {% extends "amu/base.html" %}
-{% block titleinner %}Mailing list '{{list.name}}'{% endblock %}
+{% block titleinner %}{{_("Mailing list")}} '{{list.name}}'{% endblock %}
 
 {% block inner %}
-  <h2>Mailing list '{{list.name}}'</h2>
+  <h2>{{_("Mailing list")}} '{{list.name}}'</h2>
 
   {{ wtf.quick_form(form, method="POST", form_type="horizontal", enctype="multipart/form-data") }}
   

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-09-10 17:49+0200\n"
-"PO-Revision-Date: 2016-09-10 17:57+0100\n"
+"POT-Creation-Date: 2016-09-10 22:24+0200\n"
+"PO-Revision-Date: 2016-09-10 22:29+0100\n"
 "Last-Translator: Henryk Plötz <henryk@ploetzli.ch>\n"
 "Language: de\n"
 "Language-Team: de <LL@li.org>\n"
@@ -32,7 +32,7 @@ msgstr "Anmelden!"
 msgid "Logged in as %s"
 msgstr "Angemeldet als %s"
 
-#: ode/navigation.py:29
+#: ode/blueprints/amu/templates/amu/self.html:2 ode/navigation.py:29
 msgid "My profile"
 msgstr "Mein Profil"
 
@@ -43,6 +43,263 @@ msgstr "Abmelden"
 #: ode/navigation.py:34
 msgid "Not logged in"
 msgstr "Nicht angemeldet"
+
+#: ode/blueprints/amu/forms.py:16 ode/blueprints/amu/forms.py:29
+#: ode/blueprints/amu/forms.py:50
+msgid "Given Name"
+msgstr "Vorname"
+
+#: ode/blueprints/amu/forms.py:17 ode/blueprints/amu/forms.py:30
+#: ode/blueprints/amu/forms.py:51
+msgid "Last Name"
+msgstr "Nachname"
+
+#: ode/blueprints/amu/forms.py:18 ode/blueprints/amu/forms.py:31
+#: ode/blueprints/amu/forms.py:52
+msgid "Preferred E-Mail address"
+msgstr "Bevorzugte E-Mail-Adresse"
+
+#: ode/blueprints/amu/forms.py:19 ode/blueprints/amu/forms.py:32
+msgid "Generate and send new password to user"
+msgstr "Neues Passwort erzeugen und dem Benutzer zuschicken"
+
+#: ode/blueprints/amu/forms.py:22 ode/blueprints/amu/forms.py:36
+#: ode/blueprints/amu/forms.py:57
+msgid "Full Name"
+msgstr "Vollständiger Name"
+
+#: ode/blueprints/amu/forms.py:24 ode/blueprints/amu/forms.py:42
+#: ode/blueprints/amu/forms.py:71 ode/blueprints/amu/forms.py:92
+msgid "Update!"
+msgstr "Aktualisieren!"
+
+#: ode/blueprints/amu/forms.py:34
+msgid "New Password"
+msgstr "Neues Passwort"
+
+#: ode/blueprints/amu/forms.py:35 ode/blueprints/amu/forms.py:56
+msgid "Username"
+msgstr "Benutzername"
+
+#: ode/blueprints/amu/forms.py:38 ode/blueprints/amu/forms.py:59
+msgid "E-Mail aliases"
+msgstr "E-Mail-Aliase"
+
+#: ode/blueprints/amu/forms.py:40 ode/blueprints/amu/forms.py:61
+#: ode/blueprints/amu/navigation.py:20
+#: ode/blueprints/amu/templates/amu/users.html:12
+msgid "Groups"
+msgstr "Gruppen"
+
+#: ode/blueprints/amu/forms.py:44 ode/blueprints/amu/forms.py:73
+#: ode/blueprints/amu/forms.py:94
+msgid "Confirm deletion"
+msgstr "Löschung bestätigen"
+
+#: ode/blueprints/amu/forms.py:45 ode/blueprints/amu/forms.py:74
+#: ode/blueprints/amu/forms.py:95
+msgid "Delete!"
+msgstr "Löschen!"
+
+#: ode/blueprints/amu/forms.py:53
+msgid "Generate password and send to user"
+msgstr "Passwort automatisch erzeugen und an den Benutzer senden"
+
+#: ode/blueprints/amu/forms.py:55
+msgid "Password"
+msgstr "Passwort"
+
+#: ode/blueprints/amu/forms.py:63 ode/blueprints/amu/forms.py:83
+#: ode/blueprints/amu/forms.py:105
+msgid "Create!"
+msgstr "Erzeugen!"
+
+#: ode/blueprints/amu/forms.py:69 ode/blueprints/amu/forms.py:81
+#: ode/blueprints/amu/templates/amu/groups.html:10
+#: ode/blueprints/amu/templates/amu/mailing_lists.html:10
+msgid "Members"
+msgstr "Mitglieder"
+
+#: ode/blueprints/amu/forms.py:79
+msgid "Group Name"
+msgstr "Gruppenname"
+
+#: ode/blueprints/amu/forms.py:90 ode/blueprints/amu/forms.py:103
+msgid "Import"
+msgstr "Importieren"
+
+#: ode/blueprints/amu/forms.py:90 ode/blueprints/amu/forms.py:103
+msgid "Text files"
+msgstr "Textdateien"
+
+#: ode/blueprints/amu/forms.py:100
+msgid "Mailing List Name"
+msgstr "Mailing-Listen-Name"
+
+#: ode/blueprints/amu/navigation.py:18
+msgid "Users"
+msgstr "Benutzer"
+
+#: ode/blueprints/amu/navigation.py:19
+msgid "New user"
+msgstr "Neuer Benutzer"
+
+#: ode/blueprints/amu/navigation.py:21
+msgid "New group"
+msgstr "Neue Gruppe"
+
+#: ode/blueprints/amu/navigation.py:22
+msgid "Mailing Lists"
+msgstr "Mailing-Listen"
+
+#: ode/blueprints/amu/navigation.py:23
+msgid "New mailing list"
+msgstr "Neue Mailing-Liste"
+
+#: ode/blueprints/amu/views.py:17
+msgid "User confirmation mail sent"
+msgstr "Bestätigungsmail an den Benutzer versandt"
+
+#: ode/blueprints/amu/views.py:20
+msgid "Couldn't send mail to user"
+msgstr "Konnte keine Mail an den Benutzer senden"
+
+#: ode/blueprints/amu/views.py:42 ode/blueprints/amu/views.py:118
+#: ode/blueprints/amu/views.py:183 ode/blueprints/amu/views.py:251
+msgid "Successfully saved"
+msgstr "Erfolgreich gespeichert"
+
+#: ode/blueprints/amu/views.py:52 ode/blueprints/amu/views.py:126
+#: ode/blueprints/amu/views.py:186 ode/blueprints/amu/views.py:254
+msgid "Saving was unsuccessful"
+msgstr "Speichern war nicht erfolgreich"
+
+#: ode/blueprints/amu/views.py:120
+msgid "Some or all of the group changes were not successful"
+msgstr "Einige, oder alle, Gruppenänderungen konnten nicht durchgeführt werden"
+
+#: ode/blueprints/amu/views.py:131
+msgid "User deleted"
+msgstr "Benutzer gelöscht"
+
+#: ode/blueprints/amu/views.py:134 ode/blueprints/amu/views.py:195
+#: ode/blueprints/amu/views.py:263
+msgid "Deletion was unsuccessful"
+msgstr "Löschen war nicht erfolgreich"
+
+#: ode/blueprints/amu/views.py:136
+msgid "Please confirm user deletion"
+msgstr "Bitte Benutzerlöschung bestätigen"
+
+#: ode/blueprints/amu/views.py:153
+msgid "User created"
+msgstr "Benutzer erzeugt"
+
+#: ode/blueprints/amu/views.py:155
+msgid "Some or all of the groups could not be assigned"
+msgstr "Einige, oder alle, der Gruppen konnten nicht zugewiesen werden"
+
+#: ode/blueprints/amu/views.py:161
+msgid "Error while creating user"
+msgstr "Fehler beim Erzeugen des Benutzers"
+
+#: ode/blueprints/amu/views.py:192
+msgid "Group deleted"
+msgstr "Gruppe gelöscht"
+
+#: ode/blueprints/amu/views.py:197
+msgid "Please confirm group deletion"
+msgstr "Bitte Gruppenlöschung bestätigen"
+
+#: ode/blueprints/amu/views.py:214
+msgid "Group created"
+msgstr "Gruppe erstellt"
+
+#: ode/blueprints/amu/views.py:217
+msgid "Error while creating group"
+msgstr "Fehler beim Erzeugen der Gruppe"
+
+#: ode/blueprints/amu/views.py:245 ode/blueprints/amu/views.py:284
+#, python-format
+msgid "Invalid format, did not import: %s"
+msgstr "Ungültiges Format, wurde nicht importiert: %s"
+
+#: ode/blueprints/amu/views.py:248 ode/blueprints/amu/views.py:287
+#, python-format
+msgid "Already existing, did not import: %s"
+msgstr "Existierte bereits, wurde nicht importiert: %s"
+
+#: ode/blueprints/amu/views.py:260
+msgid "Mailing list deleted"
+msgstr "Mailing-Liste gelöscht"
+
+#: ode/blueprints/amu/views.py:265
+msgid "Please confirm mailing list deletion"
+msgstr "Bitte Löschung der Mailing-Liste bestätigen"
+
+#: ode/blueprints/amu/views.py:290
+msgid "Mailing list created"
+msgstr "Mailing-Liste erzeugt"
+
+#: ode/blueprints/amu/views.py:293
+msgid "Error while creating mailing list"
+msgstr "Fehler beim Erzeugen der Mailing-Liste"
+
+#: ode/blueprints/amu/templates/amu/group.html:2
+#: ode/blueprints/amu/templates/amu/group.html:5
+msgid "Group"
+msgstr "Gruppe"
+
+#: ode/blueprints/amu/templates/amu/groups.html:2
+#: ode/blueprints/amu/templates/amu/groups.html:5
+msgid "Group list"
+msgstr "Gruppenliste"
+
+#: ode/blueprints/amu/templates/amu/groups.html:9
+#: ode/blueprints/amu/templates/amu/mailing_lists.html:9
+#: ode/blueprints/amu/templates/amu/users.html:10
+msgid "Name"
+msgstr "Name"
+
+#: ode/blueprints/amu/templates/amu/mailing_list.html:2
+#: ode/blueprints/amu/templates/amu/mailing_list.html:5
+msgid "Mailing list"
+msgstr "Mailing-Liste"
+
+#: ode/blueprints/amu/templates/amu/mailing_lists.html:2
+#: ode/blueprints/amu/templates/amu/mailing_lists.html:5
+msgid "Mailing list list"
+msgstr "Liste von Mailing-Listen"
+
+#: ode/blueprints/amu/templates/amu/new_group.html:2
+#: ode/blueprints/amu/templates/amu/new_group.html:5
+msgid "Create new group"
+msgstr "Neue Gruppe erstellen"
+
+#: ode/blueprints/amu/templates/amu/new_mailing_list.html:2
+#: ode/blueprints/amu/templates/amu/new_mailing_list.html:5
+msgid "Create new mailing list"
+msgstr "Neue Mailing-Liste erstellen"
+
+#: ode/blueprints/amu/templates/amu/new_user.html:2
+#: ode/blueprints/amu/templates/amu/new_user.html:5
+msgid "Create new user"
+msgstr "Neuen Benutzer erstellen"
+
+#: ode/blueprints/amu/templates/amu/self.html:5
+#: ode/blueprints/amu/templates/amu/user.html:2
+#: ode/blueprints/amu/templates/amu/user.html:5
+msgid "User"
+msgstr "Benutzer"
+
+#: ode/blueprints/amu/templates/amu/users.html:2
+#: ode/blueprints/amu/templates/amu/users.html:5
+msgid "User list"
+msgstr "Benutzerliste"
+
+#: ode/blueprints/amu/templates/amu/users.html:11
+msgid "E-Mail"
+msgstr "E-Mail"
 
 #: ode/blueprints/isi/forms.py:10
 msgid "Refresh!"

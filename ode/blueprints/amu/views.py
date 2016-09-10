@@ -4,6 +4,7 @@ from ode import config_get, session_box, login_required
 from ode.model import User, Group, MailingList
 from . import blueprint, forms, mail
 
+from flask_babel import _
 
 @blueprint.app_template_filter()
 def force_str(s):
@@ -13,10 +14,10 @@ def mail_user_password(user, form):
 	if form.send_password.data:
 		try:
 			mail.send_user_mail("%s <%s>" % (user.name, user.mail), user=user, form=form)
-			flash("User confirmation mail sent")
+			flash(_("User confirmation mail sent"))
 		except Exception:
 			current_app.logger.debug("Exception while sending mail", exc_info=True)
-			flash("Couldn't send mail to user", category="danger")
+			flash(_("Couldn't send mail to user"), category="danger")
 
 
 
@@ -38,7 +39,7 @@ def self():
 			changed = save_ldap_attributes(form, g.ldap_user)
 
 			if not changed or g.ldap_user.save():
-				flash("Successfully saved", category="success")
+				flash(_("Successfully saved"), category="success")
 				mail_user_password(g.ldap_user, form)
 
 				if form.password.data:
@@ -48,7 +49,7 @@ def self():
 
 				return redirect(url_for('.self'))
 			else:
-				flash("Saving was unsuccessful", category="danger")
+				flash(_("Saving was unsuccessful"), category="danger")
 
 	form.password.data = '' # Must manually delete this, since the password is not returned
 	return render_template("amu/self.html", form=form)
@@ -114,25 +115,25 @@ def user(uid):
 			changed = save_ldap_attributes(form, user)
 
 			if not changed or user.save():
-				flash("Successfully saved", category="success")
+				flash(_("Successfully saved"), category="success")
 				if not user.save_groups(form.groups.data, group_list):
-					flash("Some or all of the group changes were not successful", category="danger")
+					flash(_("Some or all of the group changes were not successful"), category="danger")
 
 				mail_user_password(user, form)
 
 				return redirect(url_for('.user', uid=user.userid))
 			else:
-				flash("Saving was unsuccessful", category="danger")
+				flash(_("Saving was unsuccessful"), category="danger")
 		elif form.delete.data:
 			if form.delete_confirm.data:
 				## Warning: flask_ldapconn doesn't give any status, so we implement this from scratch here
 				if user.connection.connection.delete(user.dn):
-					flash("User deleted", category="success")
+					flash(_("User deleted"), category="success")
 					return redirect(url_for('.users'))
 				else:
-					flash("Deletion was unsuccessful", category="danger")
+					flash(_("Deletion was unsuccessful"), category="danger")
 			else:
-				flash("Please confirm user deletion", category="danger")
+				flash(_("Please confirm user deletion"), category="danger")
 
 	form.password.data = '' # Must manually delete this, since the password is not returned
 	form.delete_confirm.data = False # Always reset this
@@ -149,15 +150,15 @@ def new_user():
 			save_ldap_attributes(form, user)
 
 			if user.save():
-				flash("User created", category="success")
+				flash(_("User created"), category="success")
 				if not user.save_groups(form.groups.data, group_list):
-					flash("Some or all of the groups could not be assigned", category="danger")
+					flash(_("Some or all of the groups could not be assigned"), category="danger")
 
 				mail_user_password(user, form)
 
 				return redirect(url_for('.user', uid=user.userid))
 			else:
-				flash("Error while creating user", category="danger")
+				flash(_("Error while creating user"), category="danger")
 	return render_template('amu/new_user.html', form=form)
 
 
@@ -179,21 +180,21 @@ def group(cn):
 	if request.method == 'POST' and form.validate_on_submit():
 		if form.update.data:
 			if group.set_members(form.members.data):
-				flash("Successfully saved", category="success")
+				flash(_("Successfully saved"), category="success")
 				return redirect(url_for('.group', cn=group.name))
 			else:
-				flash("Saving was unsuccessful", category="danger")
+				flash(_("Saving was unsuccessful"), category="danger")
 
 		elif form.delete.data:
 			if form.delete_confirm.data:
 				## Warning: flask_ldapconn doesn't give any status, so we implement this from scratch here
 				if group.connection.connection.delete(group.dn):
-					flash("Group deleted", category="success")
+					flash(_("Group deleted"), category="success")
 					return redirect(url_for('.groups'))
 				else:
-					flash("Deletion was unsuccessful", category="danger")
+					flash(_("Deletion was unsuccessful"), category="danger")
 			else:
-				flash("Please confirm group deletion", category="danger")
+				flash(_("Please confirm group deletion"), category="danger")
 
 	form.delete_confirm.data = False # Always reset this
 	return render_template('amu/group.html', group=group, form=form)
@@ -210,10 +211,10 @@ def new_group():
 			group.members = form.members.data
 
 			if group.save():
-				flash("Group created", category="success")
+				flash(_("Group created"), category="success")
 				return redirect(url_for('.group', cn=group.name))
 			else:
-				flash("Error while creating group", category="danger")
+				flash(_("Error while creating group"), category="danger")
 	return render_template('amu/new_group.html', form=form)
 
 
@@ -241,27 +242,27 @@ def mailing_list(cn):
 				import_existing, import_errors = mlist.import_list_members(form.import_file.data.readlines())
 
 				for a in import_errors:
-					flash("Invalid format, did not import: %s" % a, category="danger")
+					flash(_("Invalid format, did not import: %s") % a, category="danger")
 
 				for a in import_existing:
-					flash("Already existing, did not import: %s" % a, category="warning")
+					flash(_("Already existing, did not import: %s") % a, category="warning")
 
 			if mlist.save():
-				flash("Successfully saved", category="success")
+				flash(_("Successfully saved"), category="success")
 				return redirect(url_for('.mailing_list', cn=mlist.name))
 			else:
-				flash("Saving was unsuccessful", category="danger")
+				flash(_("Saving was unsuccessful"), category="danger")
 
 		elif form.delete.data:
 			if form.delete_confirm.data:
 				## Warning: flask_ldapconn doesn't give any status, so we implement this from scratch here
 				if mlist.connection.connection.delete(mlist.dn):
-					flash("Mailing list deleted", category="success")
+					flash(_("Mailing list deleted"), category="success")
 					return redirect(url_for('.mailing_lists'))
 				else:
-					flash("Deletion was unsuccessful", category="danger")
+					flash(_("Deletion was unsuccessful"), category="danger")
 			else:
-				flash("Please confirm mailing list deletion", category="danger")
+				flash(_("Please confirm mailing list deletion"), category="danger")
 
 	form.delete_confirm.data = False # Always reset this
 	return render_template('amu/mailing_list.html', list=mlist, group_list=group_list, user_list=user_list, form=form)
@@ -280,14 +281,14 @@ def new_mailing_list():
 				import_existing, import_errors = mlist.import_list_members(form.import_file.data.readlines())
 
 				for a in import_errors:
-					flash("Invalid format, did not import: %s" % a, category="danger")
+					flash(_("Invalid format, did not import: %s") % a, category="danger")
 
 				for a in import_existing:
-					flash("Already existing, did not import: %s" % a, category="warning")
+					flash(_("Already existing, did not import: %s") % a, category="warning")
 
 			if mlist.save():
-				flash("Mailing list created", category="success")
+				flash(_("Mailing list created"), category="success")
 				return redirect(url_for('.mailing_list', cn=mlist.name))
 			else:
-				flash("Error while creating mailing list", category="danger")
+				flash(_("Error while creating mailing list"), category="danger")
 	return render_template('amu/new_mailing_list.html', group_list=group_list, user_list=user_list, form=form)

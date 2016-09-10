@@ -1,8 +1,8 @@
 {% extends "amu/base.html" %}
-{% block titleinner %}My profile{% endblock %}
+{% block titleinner %}{{_("My profile")}}{% endblock %}
 
 {% block inner %}
-  <h2>User '{{g.ldap_user.name}}'</h2>
+  <h2>{{_("User")}} '{{g.ldap_user.name}}'</h2>
 
   {{ wtf.quick_form(form, method="POST", form_type="horizontal") }}
   
