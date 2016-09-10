@@ -256,7 +256,16 @@ def logout():
 
 @babel.localeselector
 def get_locale():
-	return g.get('lang_code', current_app.config['BABEL_DEFAULT_LOCALE'])
+	# Priority: URL, (User preferences), browser settings, default
+	result = g.get('lang_code', None)
+
+	if not result:
+		result = request.accept_languages.best_match(current_app.config['SUPPORTED_LANGUAGES'].keys())
+
+	if not result:
+		result = current_app.config['BABEL_DEFAULT_LOCALE']
+
+	return result
 
 @babel.timezoneselector
 def get_timezone():
