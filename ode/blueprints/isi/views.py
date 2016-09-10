@@ -8,6 +8,8 @@ from ode.model import MailingList
 import pprint, uuid, datetime
 from itsdangerous import BadSignature
 
+from flask_babel import _
+
 @blueprint.app_template_filter("pprint")
 def pprint_string(s):
 	return pprint.pformat(s)
@@ -126,7 +128,7 @@ def invitation_send(invitation_id):
 				invitation.state = invitation.state.OPEN
 				db.session.commit()
 				tasks.send_mails.apply_async( (invitation_id,) )
-				flash("Message away!")
+				flash( _("Message away!") )
 				return redirect(url_for(".event_list"))
 			else:
 				db.session.commit()
@@ -157,7 +159,7 @@ def create_invitation():
 					)
 
 			else:
-				i.text_html = "<h1>Invitation to '%s'</h1><p>Please come all</p>" % e.summary
+				i.text_html = _("<h1>Invitation to '%s'</h1><p>Please come all</p>") % e.summary
 
 			db.session.add(e)
 			db.session.add(i)

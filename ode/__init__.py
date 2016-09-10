@@ -271,6 +271,13 @@ def get_locale():
 def get_timezone():
 	return current_app.config["DISPLAY_TIMEZONE"]
 
+def this_page_in(lang_code):
+	try:
+		return url_for(request.url_rule.endpoint, lang_code=lang_code, **request.view_args)
+	except:
+		current_app.logger.exception("Something went wrong, defaulting")
+	return "/" + lang_code + "/"
+
 
 # From http://flask.pocoo.org/snippets/35/
 class ReverseProxied(object):

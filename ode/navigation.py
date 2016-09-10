@@ -3,12 +3,12 @@ from __future__ import absolute_import
 from flask import current_app, g, session, request
 
 from flask_bootstrap.nav import BootstrapRenderer
-from flask_nav.elements import Navbar, View, Subgroup, Text, NavigationItem
+from flask_nav.elements import Navbar, View, Subgroup, Text, NavigationItem, Link
 from dominate import tags
 from hashlib import sha1
 from flask_babel import _
 
-from ode import nav
+from ode import nav, this_page_in, get_locale
 
 @nav.navigation("top")
 def top_navbar():
@@ -33,6 +33,16 @@ class UserMenuLoggedOut(UserMenu, Text):
 	def __init__(self):
 		super(UserMenuLoggedOut, self).__init__( _('Not logged in') )
 
+class LanguageMenu(Subgroup):
+	def __init__(self):
+		current_locale = get_locale()
+		super(LanguageMenu, self).__init__( current_locale.upper() )
+		self.items = self.items + tuple(map(
+			lambda v: Link(v.upper(), this_page_in(v)),
+			sorted( set(current_app.config['SUPPORTED_LANGUAGES'].keys()).difference(set([current_locale])) )
+		))
+
+
 class ActiveModuleView(View):
 	def __init__(self, short, long, endpoint, *args, **kwargs):
 		super(ActiveModuleView, self).__init__(long, endpoint, *args, **kwargs)
@@ -45,10 +55,10 @@ class ActiveModuleView(View):
 
 class ActiveModuleBrand(Subgroup):
 	def __init__(self):
-		items = [ActiveModuleView(*_) for _ in current_app.config["ODE_MODULES"]]
+		items = [ActiveModuleView(*a) for a in current_app.config["ODE_MODULES"]]
 
 		super(ActiveModuleBrand, self).__init__('ODE', 
-			*[_ for _ in items if _.text]
+			*[i for i in items if i.text]
 		)
 
 		# Find active module by longest prefix match
@@ -69,7 +79,7 @@ class ActiveModuleBrand(Subgroup):
 class ODENavbar(Navbar):
 	def __init__(self, *args):
 		super(ODENavbar, self).__init__(None, *args)
-		self.items = (ActiveModuleBrand(),) + self.items + (UserMenu(),)
+		self.items = (ActiveModuleBrand(),) + self.items + (LanguageMenu(), UserMenu())
 
 class ODENavbarRenderer(BootstrapRenderer):
 
@@ -77,6 +87,7 @@ class ODENavbarRenderer(BootstrapRenderer):
 	#  * Allow Brand customization
 	#  * Make dropdown of registered modules
 	#  * Fix to top
+	#  * Put LanguageMenu into right-aligned menu
 	#  * Put UserMenu into a right-aligned menu
 	#  * De-bogonify: Remove all href="#" from a
 	def visit_Navbar(self, node):
@@ -117,7 +128,7 @@ class ODENavbarRenderer(BootstrapRenderer):
 		right_items = []
 
 		for item in node.items:
-			if isinstance(item, UserMenu):
+			if isinstance(item, (LanguageMenu, UserMenu)):
 				right_items.append(item)
 			elif isinstance(item, ActiveModuleBrand):
 				brand = self.visit(item)

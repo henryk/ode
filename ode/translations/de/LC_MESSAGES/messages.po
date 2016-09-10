@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-09-10 14:00+0200\n"
-"PO-Revision-Date: 2016-09-10 14:08+0100\n"
+"POT-Creation-Date: 2016-09-10 14:57+0200\n"
+"PO-Revision-Date: 2016-09-10 14:58+0100\n"
 "Last-Translator: Henryk Plötz <henryk@ploetzli.ch>\n"
 "Language: de\n"
 "Language-Team: de <LL@li.org>\n"
@@ -43,6 +43,55 @@ msgstr "Abmelden"
 #: ode/navigation.py:34
 msgid "Not logged in"
 msgstr "Nicht angemeldet"
+
+#: ode/blueprints/isi/forms.py:10
+msgid "Refresh!"
+msgstr "Neu laden!"
+
+#: ode/blueprints/isi/forms.py:21 ode/blueprints/isi/forms.py:40
+msgid "Subject"
+msgstr "Betreff"
+
+#: ode/blueprints/isi/forms.py:22
+msgid "Initial recipients"
+msgstr "Anfängliche Empfänger"
+
+#: ode/blueprints/isi/forms.py:23 ode/blueprints/isi/forms.py:38
+msgid "Sender"
+msgstr "Absender"
+
+#: ode/blueprints/isi/forms.py:24 ode/blueprints/isi/forms.py:41
+msgid "Invitation text"
+msgstr "Einladungstext"
+
+#: ode/blueprints/isi/forms.py:26
+msgid "Save"
+msgstr "Speichern"
+
+#: ode/blueprints/isi/forms.py:27 ode/blueprints/isi/forms.py:44
+msgid "Send"
+msgstr "Abschicken"
+
+#: ode/blueprints/isi/forms.py:31
+msgid "Recipients"
+msgstr "Empfänger"
+
+#: ode/blueprints/isi/forms.py:43
+msgid "Abort & Back"
+msgstr "Abbrechen & Zurück"
+
+#: ode/blueprints/isi/navigation.py:15
+msgid "Event list"
+msgstr "Veranstaltungsliste"
+
+#: ode/blueprints/isi/views.py:131
+msgid "Message away!"
+msgstr "Nachricht verschickt!"
+
+#: ode/blueprints/isi/views.py:162
+#, python-format
+msgid "<h1>Invitation to '%s'</h1><p>Please come all</p>"
+msgstr "<h1>Einladung zu '%s'</h1><p>Bitte erscheint zahlreich</p>"
 
 #: ode/templates/login.html:2
 msgid "Log in"
