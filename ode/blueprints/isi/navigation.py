@@ -11,7 +11,11 @@ from flask_babel import _
 
 @nav.navigation("isi")
 def isi_navbar():
-	e = [
-		View( _('Event list'), '.event_list')
-	]
+	e = []
+
+	if session.get("is_admin", False):
+		e.extend([
+			View( _('Event list'), '.event_list')
+		])
+	
 	return ODENavbar(*e)

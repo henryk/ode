@@ -1,0 +1,9 @@
+{% extends "isi/base.html" %}
+{% block titleinner %}{{_("Respond to invitation")}}: '{{invitation.event.summary}}'{% endblock %}
+
+{% block inner %}
+	<h2>{{_("Thank you!")}}</h2>
+
+	<p>{{_("Your response has been recorded.")}}</p>
+
+{% endblock %}

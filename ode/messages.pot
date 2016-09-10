@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-09-10 17:29+0200\n"
+"POT-Creation-Date: 2016-09-10 17:49+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -80,7 +80,7 @@ msgstr ""
 msgid "Abort & Back"
 msgstr ""
 
-#: ode/blueprints/isi/navigation.py:15
+#: ode/blueprints/isi/navigation.py:18
 #: ode/blueprints/isi/templates/isi/event_list.html:2
 #: ode/blueprints/isi/templates/isi/event_list.html:5
 msgid "Event list"
@@ -209,6 +209,18 @@ msgstr ""
 
 #: ode/blueprints/isi/templates/isi/invitation_view.html:107
 msgid "Send …"
+msgstr ""
+
+#: ode/blueprints/isi/templates/isi/rsvp_result.html:2
+msgid "Respond to invitation"
+msgstr ""
+
+#: ode/blueprints/isi/templates/isi/rsvp_result.html:5
+msgid "Thank you!"
+msgstr ""
+
+#: ode/blueprints/isi/templates/isi/rsvp_result.html:7
+msgid "Your response has been recorded."
 msgstr ""
 
 #: ode/templates/login.html:2

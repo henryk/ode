@@ -214,4 +214,4 @@ def rsvp(param):
 
 	db.session.commit()
 	
-	return "Thank you"
+	return render_template("isi/rsvp_result.html", invitation=recipient.invitation)
