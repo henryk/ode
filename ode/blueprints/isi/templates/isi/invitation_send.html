@@ -1,11 +1,11 @@
 {% extends "isi/base.html" %}
-{% block titleinner %}Sending invitation '{{invitation.event.summary}}'{% endblock %}
+{% block titleinner %}{{_("Sending invitation")}} '{{invitation.event.summary}}'{% endblock %}
 
 {% block inner %}
 
-<h2>Sending invitation '{{invitation.event.summary}}'</h2>
+<h2>{{_("Sending invitation")}} '{{invitation.event.summary}}'</h2>
 
-<p class="lead">Do you want to send the following mail?</p>
+<p class="lead">{{_("Do you want to send the following mail?")}}</p>
 
 {{ wtf.quick_form(form, method="POST", form_type="horizontal") }}
 

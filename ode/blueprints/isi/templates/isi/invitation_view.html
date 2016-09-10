@@ -1,5 +1,5 @@
 {% extends "isi/base.html" %}
-{% block titleinner %}Invitation view: '{{invitation.event.summary}}'{% endblock %}
+{% block titleinner %}{{_("Invitation view/edit")}}: '{{invitation.event.summary}}'{% endblock %}
 
 {% block inner %}
 	{% macro is_preparing(yes='', no='') -%}
@@ -13,12 +13,12 @@
 		<div style="display:none;">{{form.csrf_token()}}</div>
 		<div>
 			<ul class="nav nav-tabs" role="tablist">
-				<li role="presentation"><a href="#event" aria-controls="event" role="tab" data-toggle="tab">Event</a></li>
+				<li role="presentation"><a href="#event" aria-controls="event" role="tab" data-toggle="tab">{{_("Event")}}</a></li>
 				{% if invitation.state != invitation.state.PREPARING %}
-					<li role="presentation" class="active"><a href="#responses" aria-controls="home" role="tab" data-toggle="tab">Responses</a></li>
+					<li role="presentation" class="active"><a href="#responses" aria-controls="home" role="tab" data-toggle="tab">{{_("Responses")}}</a></li>
 				{% endif %}
-				<li role="presentation" {{is_preparing('class="active"')}}><a href="#invitation" aria-controls="invitation" role="tab" data-toggle="tab">Invitation text</a></li>
-				<li role="presentation"><a href="#options" aria-controls="options" role="tab" data-toggle="tab">Options</a></li>
+				<li role="presentation" {{is_preparing('class="active"')}}><a href="#invitation" aria-controls="invitation" role="tab" data-toggle="tab">{{_("Invitation text")}}</a></li>
+				<li role="presentation"><a href="#options" aria-controls="options" role="tab" data-toggle="tab">{{_("Options")}}</a></li>
 			</ul>
 
 			<!-- Tab panes -->
@@ -32,45 +32,45 @@
 						<table class="table table-striped rsvp-list sortable">
 							<thead>
 								<tr>
-									<th class="rsvp-yes"><span class="glyphicon glyphicon-ok-sign"></span><span class="sr-only">Yes</span></th>
-									<th class="rsvp-unknown"><span class="glyphicon glyphicon-question-sign"></span><span class="sr-only">Unknown</span></th>
-									<th class="rsvp-no"><span class="glyphicon glyphicon-remove-sign"></span><span class="sr-only">No</span></th>
-									<th>Recipient</th>
-									<th>Last responded</th>
+									<th class="rsvp-yes"><span class="glyphicon glyphicon-ok-sign"></span><span class="sr-only">{{_("Yes")}}</span></th>
+									<th class="rsvp-unknown"><span class="glyphicon glyphicon-question-sign"></span><span class="sr-only">{{_("Unknown")}}</span></th>
+									<th class="rsvp-no"><span class="glyphicon glyphicon-remove-sign"></span><span class="sr-only">{{_("No")}}</span></th>
+									<th>{{_("Recipient")}}</th>
+									<th>{{_("Last responded")}}</th>
 								</tr>
 							</thead>
 							{% for recipient in invitation.recipients %}
 								{% if recipient.state == recipient.state.SENT %}
 									<tr>
 										{% if recipient.accept == recipient.accept.YES %}
-											<td class="rsvp-yes"><span class="glyphicon glyphicon-ok"></span><span class="sr-only">[[Yes]]</span></td>
+											<td class="rsvp-yes"><span class="glyphicon glyphicon-ok"></span><span class="sr-only">[[{{_("Yes")}}]]</span></td>
 										{% else %}
-											<td class="rsvp-yes"><a href="{{url_for('.recipient_set', recipient_id=recipient.id, state_yes=1, csrf_token=form.csrf_token.current_token)}}"><span class="glyphicon glyphicon-ok" aria-hidden="true" title="Mark recipient as 'Yes'"></span><span class="sr-only">Set Yes</span></a></td>
+											<td class="rsvp-yes"><a href="{{url_for('.recipient_set', recipient_id=recipient.id, state_yes=1, csrf_token=form.csrf_token.current_token)}}"><span class="glyphicon glyphicon-ok" aria-hidden="true" title="{{_("Mark recipient as 'Yes'")}}"></span><span class="sr-only">{{_("Set Yes")}}</span></a></td>
 										{% endif %}
 										{% if recipient.accept == recipient.accept.UNKNOWN %}
-											<td class="rsvp-yes"><span class="glyphicon glyphicon-question-sign"></span><span class="sr-only">[[Unknown]]</span></td>
+											<td class="rsvp-yes"><span class="glyphicon glyphicon-question-sign"></span><span class="sr-only">[[{{_("Unknown")}}]]</span></td>
 										{% else %}
 											<td></td>
 										{% endif %}
 										{% if recipient.accept == recipient.accept.NO %}
-											<td class="rsvp-no"><span class="glyphicon glyphicon-remove"></span><span class="sr-only">[[No]]</span></td>
+											<td class="rsvp-no"><span class="glyphicon glyphicon-remove"></span><span class="sr-only">[[{{_("No")}}]]</span></td>
 										{% else %}
-											<td class="rsvp-no"><a href="{{url_for('.recipient_set', recipient_id=recipient.id, state_no=1, csrf_token=form.csrf_token.current_token)}}"><span class="glyphicon glyphicon-remove" aria-hidden="true" title="Mark recipient as 'No'"></span><span class="sr-only">Set No</span></a></td>
+											<td class="rsvp-no"><a href="{{url_for('.recipient_set', recipient_id=recipient.id, state_no=1, csrf_token=form.csrf_token.current_token)}}"><span class="glyphicon glyphicon-remove" aria-hidden="true" title="{{_("Mark recipient as 'No'")}}"></span><span class="sr-only">{{_("Set No")}}</span></a></td>
 										{% endif %}
 										<td>{{recipient.to_unicode}}</td>
 										<td data-text="{{recipient.accept_time|datetime(format='%s')}}">
 											{% if recipient.accept_type == recipient.accept_type.LINK %}
 												<span class="glyphicon glyphicon-link" aria-hidden="true"
-													title="Recipient responded via link"></span>
-												<span class="sr-only">Responded via link:</span>
+													title="{{_("Recipient responded via link")}}"></span>
+												<span class="sr-only">{{_("Responded via link")}}:</span>
 											{% elif recipient.accept_type == recipient.accept_type.EMAIL %}
 												<span class="glyphicon glyphicon-envelope" aria-hidden="true"
-													title="Recipient responded via mail"></span>
-												<span class="sr-only">Responded via mail:</span>
+													title="{{_("Recipient responded via mail")}}"></span>
+												<span class="sr-only">{{_("Responded via mail")}}:</span>
 											{% elif recipient.accept_type == recipient.accept_type.MANUAL %}
 												<span class="glyphicon glyphicon-pencil" aria-hidden="true"
-													title="Recipient state manually set"></span>
-												<span class="sr-only">Manually set:</span>
+													title="{{_("Recipient state manually set")}}"></span>
+												<span class="sr-only">{{_("Manually set")}}:</span>
 											{% else %}
 											{% endif %}
 											{{recipient.accept_time|datetime}}
@@ -103,8 +103,8 @@
 				</div>
 			</div>
 		</div>
-		<input class="btn btn-default" id="save" name="save" type="submit" value="Save">
-		<input class="btn btn-default" id="send" name="send" type="submit" value="Send …">
+		<input class="btn btn-default" id="save" name="save" type="submit" value="{{_("Save")}}">
+		<input class="btn btn-default" id="send" name="send" type="submit" value="{{_("Send …")}}">
 	</form>
 
 {% endblock %}

@@ -1,11 +1,8 @@
 {% extends "isi/base.html" %}
-{% block titleinner %}Hello World{% endblock %}
+{% block titleinner %}{{ _("Event list") }}{% endblock %}
 
 {% block inner %}
-	<h2>Hello World</h2>
-
-	<p>Here's what we know:</p>
-
+	<h2>{{ _("Event list") }}</h2>
 
 	<table class="table table-striped">
 		<thead>
@@ -21,7 +18,7 @@
 			<tr>
 				<td>
 					<form action="{{url_for('.create_invitation')}}" method="POST" class="form" role="form">
-  						<div style="display:none;">{{refresh_form.csrf_token}}<input id="event_id" name="event_id" type="hidden" value="{{e.id}}"></div><button class="btn btn-default" id="create" name="create" type="submit" value="Create"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Create invitation</button></form>
+  						<div style="display:none;">{{refresh_form.csrf_token}}<input id="event_id" name="event_id" type="hidden" value="{{e.id}}"></div><button class="btn btn-default" id="create" name="create" type="submit" value="Create"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> {{ _("Create invitation") }}</button></form>
 						
 				</td>
 				<td class="rsvp-yes">{{ e.rsvp_yes|length }}</td>
@@ -36,7 +33,7 @@
 						<ul>
 							{% for invitation in invitations %}
 								<li>
-									<a href="{{url_for('.invitation_view', invitation_id=invitation.id)}}">{{invitation.state.value}} invitation</a> (Yes: {{invitation.rsvp_yes|length}}, No: {{invitation.rsvp_no|length}}, Unknown: {{invitation.rsvp_unknown|length}})
+									<a href="{{url_for('.invitation_view', invitation_id=invitation.id)}}">{{invitation.state.value}} {{_("invitation")}}</a> ({{_("Yes:")}} {{invitation.rsvp_yes|length}}, {{_("No:")}} {{invitation.rsvp_no|length}}, {{_("Unknown:")}} {{invitation.rsvp_unknown|length}})
 								</li>
 							{% endfor %}
 						</ul>
