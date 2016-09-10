@@ -1,0 +1,52 @@
+# Translations template for PROJECT.
+# Copyright (C) 2016 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2016-09-10 14:00+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.3.4\n"
+
+#: ode/__init__.py:215
+msgid "Invalid credentials"
+msgstr ""
+
+#: ode/forms.py:10
+msgid "Log in!"
+msgstr ""
+
+#: ode/navigation.py:28
+#, python-format
+msgid "Logged in as %s"
+msgstr ""
+
+#: ode/navigation.py:29
+msgid "My profile"
+msgstr ""
+
+#: ode/navigation.py:30
+msgid "Log out"
+msgstr ""
+
+#: ode/navigation.py:34
+msgid "Not logged in"
+msgstr ""
+
+#: ode/templates/login.html:2
+msgid "Log in"
+msgstr ""
+
+#: ode/templates/login.html:5
+msgid "Please log in"
+msgstr ""
+

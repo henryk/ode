@@ -15,6 +15,10 @@ class Config(object):
 	SESSION_COOKIE_HTTPONLY = True
 	SESSION_USE_SIGNER = True
 
+	SUPPORTED_LANGUAGES = {'en': 'English', 'de': 'Deutsch'}
+	BABEL_DEFAULT_LOCALE = 'en'
+	BABEL_DEFAULT_TIMEZONE = 'UTC'
+
 	MAILING_LIST_MEMBER_USER_TEMPLATE = r'^ldap:///(?P<user_dn>[^?]*?)$'
 	MAILING_LIST_MEMBER_GROUP_TEMPLATE = r'^ldap:///%(user_base)s\?\?one\?\(&\(objectClass=inetOrgPerson\)\(memberOf=(?P<group_dn>.*?)\)\)$'
 

@@ -6,6 +6,7 @@ from flask_bootstrap.nav import BootstrapRenderer
 from flask_nav.elements import Navbar, View, Subgroup, Text, NavigationItem
 from dominate import tags
 from hashlib import sha1
+from flask_babel import _
 
 from ode import nav
 
@@ -24,13 +25,13 @@ class UserMenu(object):
 
 class UserMenuLoggedIn(UserMenu, Subgroup):
 	def __init__(self):
-		super(UserMenuLoggedIn, self).__init__('Logged in as %s' % g.ldap_user.name,
-			View('My profile', 'amu.self'),
-			View('Log out', 'logout'))
+		super(UserMenuLoggedIn, self).__init__( _('Logged in as %s') % g.ldap_user.name,
+			View( _('My profile'), 'amu.self'),
+			View( _('Log out'), 'logout'))
 
 class UserMenuLoggedOut(UserMenu, Text):
 	def __init__(self):
-		super(UserMenuLoggedOut, self).__init__('Not logged in')
+		super(UserMenuLoggedOut, self).__init__( _('Not logged in') )
 
 class ActiveModuleView(View):
 	def __init__(self, short, long, endpoint, *args, **kwargs):

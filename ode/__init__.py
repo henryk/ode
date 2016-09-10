@@ -2,7 +2,7 @@ from __future__ import absolute_import
 
 from functools import wraps
 
-from flask import Flask, g, current_app, session, redirect, url_for, request, render_template
+from flask import Flask, g, current_app, session, redirect, url_for, request, render_template, abort
 
 from flask_bootstrap import Bootstrap
 from flask_session import Session
@@ -13,6 +13,8 @@ from celery import Celery
 from flask_migrate import Migrate, MigrateCommand
 from itsdangerous import Signer
 from flask_mail import Mail
+from flask_babel import Babel
+from flask_babel import _
 
 import pytz
 
@@ -38,6 +40,7 @@ db = SQLAlchemy(metadata=MetaData(naming_convention={
 }))
 cel = Celery(__name__)
 mailer = Mail()
+babel = Babel()
 
 
 def create_app(configuration="ode.config.Config", **kwargs):
@@ -57,12 +60,17 @@ def create_app(configuration="ode.config.Config", **kwargs):
 	db.init_app(app)
 	migrate.init_app(app, db)
 	mailer.init_app(app)
+	babel.init_app(app)
 
 	cel.conf.update(app.config)
 
 	app.add_url_rule('/', 'root', root)
 	app.add_url_rule('/login', 'login', login, methods=['GET', 'POST'])
 	app.add_url_rule('/logout', 'logout', logout)
+
+	app.add_url_rule('/<lang_code>/', 'root', root)
+	app.add_url_rule('/<lang_code>/login', 'login', login, methods=['GET', 'POST'])
+	app.add_url_rule('/<lang_code>/logout', 'logout', logout)
 
 	@app.before_request
 	def set_tz():
@@ -77,6 +85,26 @@ def create_app(configuration="ode.config.Config", **kwargs):
 			format = current_app.config.get("DISPLAY_DATETIME_FORMAT", "%Y-%m-%d %H:%M %Z")
 		return pytz.utc.localize(value).astimezone(g.timezone).strftime(format)
 
+
+	# Based on http://damyanon.net/flask-series-internationalization/
+	@app.url_defaults
+	def set_language_code(endpoint, values):
+		if 'lang_code' in values or not g.get('lang_code', None):
+			return
+		if current_app.url_map.is_endpoint_expecting(endpoint, 'lang_code'):
+			values['lang_code'] = g.lang_code
+
+	@app.url_value_preprocessor
+	def get_lang_code(endpoint, values):
+		if values is not None:
+			g.lang_code = values.pop('lang_code', None)
+
+	@app.before_request
+	def ensure_lang_support():
+		lang_code = g.get('lang_code', None)
+		if lang_code and lang_code not in current_app.config['SUPPORTED_LANGUAGES'].keys():
+			return abort(404)
+
 	from ode.navigation import ODENavbarRenderer
 	register_renderer(app, 'ode_navbar', ODENavbarRenderer)
 
@@ -85,9 +113,11 @@ def create_app(configuration="ode.config.Config", **kwargs):
 
 	from ode.blueprints import amu
 	app.register_blueprint(amu.blueprint, url_prefix='/amu')
+	app.register_blueprint(amu.blueprint, url_prefix='/<lang_code>/amu')
 
 	from ode.blueprints import isi
 	app.register_blueprint(isi.blueprint, url_prefix='/isi')
+	app.register_blueprint(isi.blueprint, url_prefix='/<lang_code>/isi')
 
 	app.config["ODE_MODULES"] = [
 		('ODE', '', 'root'),
@@ -182,7 +212,7 @@ def _login_required_int(needs_admin, f):
 			try:
 				_connect_and_load_ldap(password)
 			except LDAPBindError:
-				flash("Invalid credentials", category="danger")
+				flash( _("Invalid credentials"), category="danger")
 				logout()
 				return redirect(url_for('login', next=request.url))  ## FIXME: Validate or remove, don't want open redirects
 			determine_admin_status()
@@ -223,6 +253,14 @@ def logout():
 	session.modified = True
 	return redirect(url_for("root"))
 
+
+@babel.localeselector
+def get_locale():
+	return g.get('lang_code', current_app.config['BABEL_DEFAULT_LOCALE'])
+
+@babel.timezoneselector
+def get_timezone():
+	return current_app.config["DISPLAY_TIMEZONE"]
 
 
 # From http://flask.pocoo.org/snippets/35/
