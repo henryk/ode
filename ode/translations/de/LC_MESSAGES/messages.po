@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-09-11 19:16+0200\n"
-"PO-Revision-Date: 2016-09-11 20:03+0100\n"
+"POT-Creation-Date: 2016-09-11 20:24+0200\n"
+"PO-Revision-Date: 2016-09-11 20:25+0100\n"
 "Last-Translator: Henryk Plötz <henryk@ploetzli.ch>\n"
 "Language: de\n"
 "Language-Team: de <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Generated-By: Babel 2.3.4\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: ode/__init__.py:213
+#: ode/__init__.py:223
 msgid "Invalid credentials"
 msgstr "Benutzername/Passwort ungültig"
 
@@ -245,21 +245,71 @@ msgstr "Mailing-Liste erzeugt"
 msgid "Error while creating mailing list"
 msgstr "Fehler beim Erzeugen der Mailing-Liste"
 
-#: ode/blueprints/amu/static/amu/amu-scripts.js:63
+#: ode/blueprints/amu/static/amu/amu-scripts.js:24
+msgid "less than a second"
+msgstr "weniger als eine Sekunde"
+
+#: ode/blueprints/amu/static/amu/amu-scripts.js:25
+#, python-format
+msgid "%d second"
+msgid_plural "%d seconds"
+msgstr[0] "%d Sekunde"
+msgstr[1] "%d Sekunden"
+
+#: ode/blueprints/amu/static/amu/amu-scripts.js:26
+#, python-format
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] "%d Minute"
+msgstr[1] "%d Minuten"
+
+#: ode/blueprints/amu/static/amu/amu-scripts.js:27
+#, python-format
+msgid "%d hour"
+msgid_plural "%d hours"
+msgstr[0] "%d Stunde"
+msgstr[1] "%d Stunden"
+
+#: ode/blueprints/amu/static/amu/amu-scripts.js:28
+#, python-format
+msgid "%d day"
+msgid_plural "%d days"
+msgstr[0] "%d Tag"
+msgstr[1] "%d Tage"
+
+#: ode/blueprints/amu/static/amu/amu-scripts.js:29
+#, python-format
+msgid "%d month"
+msgid_plural "%d months"
+msgstr[0] "%d Monat"
+msgstr[1] "%d Monate"
+
+#: ode/blueprints/amu/static/amu/amu-scripts.js:30
+#, python-format
+msgid "%d year"
+msgid_plural "%d years"
+msgstr[0] "%d Jahr"
+msgstr[1] "%d Jahre"
+
+#: ode/blueprints/amu/static/amu/amu-scripts.js:31
+msgid "centuries"
+msgstr "Jahrhunderte"
+
+#: ode/blueprints/amu/static/amu/amu-scripts.js:85
 msgid "Generate!"
 msgstr "Erzeugen!"
 
-#: ode/blueprints/amu/static/amu/amu-scripts.js:109
+#: ode/blueprints/amu/static/amu/amu-scripts.js:131
 msgid "Crack time approximately: "
-msgstr "Ungefähre Zeit zum knacken:"
+msgstr "Ungefähre Zeit zum knacken: "
 
-#: ode/blueprints/amu/static/amu/amu-scripts.js:154
+#: ode/blueprints/amu/static/amu/amu-scripts.js:176
 #: ode/blueprints/amu/templates/amu/group.html:2
 #: ode/blueprints/amu/templates/amu/group.html:5
 msgid "Group"
 msgstr "Gruppe"
 
-#: ode/blueprints/amu/static/amu/amu-scripts.js:158
+#: ode/blueprints/amu/static/amu/amu-scripts.js:180
 #: ode/blueprints/amu/templates/amu/self.html:5
 #: ode/blueprints/amu/templates/amu/user.html:2
 #: ode/blueprints/amu/templates/amu/user.html:5

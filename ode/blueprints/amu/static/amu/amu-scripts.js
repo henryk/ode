@@ -19,6 +19,29 @@ function amu_user_enhancements(password_is_required) {
                 $('#userid').val(computed_username());
             }
         }
+
+        // Dummy, for the benefit of extract
+        i18n.gettext("less than a second");
+        i18n.ngettext("%d second", "%d seconds", 2);
+        i18n.ngettext("%d minute", "%d minutes", 2);
+        i18n.ngettext("%d hour", "%d hours", 2);
+        i18n.ngettext("%d day", "%d days", 2);
+        i18n.ngettext("%d month", "%d months", 2);
+        i18n.ngettext("%d year", "%d years", 2);
+        i18n.gettext("centuries");
+        var i18n_crack_time = function(crack_time) {
+            var re = /^(\d+) (\S+?)s?$/;
+            var match = re.exec(crack_time);
+            if(match) {
+                var count = parseInt(match[1]);
+                var singular = "%d " + match[2];
+                var plural = "%d " + match[2]+"s";
+                return Jed.sprintf( i18n.ngettext(singular, plural, count), count);
+            } else {
+                return i18n.gettext(crack_time);
+            }
+        }
+
         $('#name').change(function(){
             fullname_changed = ($('#name').val() != computed_fullname());
         });
@@ -107,7 +130,7 @@ function amu_user_enhancements(password_is_required) {
                     .attr("style", "width: "+strength+"%");
                 $('#passwordstrength div span')
                     .text( i18n.gettext("Crack time approximately: ") + 
-                        result.crack_times_display.offline_slow_hashing_1e4_per_second);
+                        i18n_crack_time(result.crack_times_display.offline_slow_hashing_1e4_per_second));
                 var display_class = "default";
                 if(result.score <= 2) {
                     display_class = "danger";
