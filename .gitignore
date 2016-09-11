@@ -8,3 +8,4 @@
 /supervisord.sock
 /celerybeat-schedule
 /celerybeat.pid
+/node_modules
