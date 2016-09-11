@@ -2,7 +2,7 @@ from __future__ import absolute_import
 
 from functools import wraps
 
-from flask import Flask, g, current_app, session, redirect, url_for, request, render_template, abort
+from flask import Flask, g, current_app, session, redirect, url_for, request, render_template, abort, Markup
 
 from flask_bootstrap import Bootstrap
 from flask_session import Session
@@ -82,6 +82,16 @@ def create_app(configuration="ode.config.Config", **kwargs):
 			return ""
 		
 		return pytz.utc.localize(value).astimezone(g.timezone).strftime(format)
+
+	@app.context_processor
+	def add_js_i18n():
+		def get_js_locale_data():
+			try:
+				with current_app.open_resource('static/translations/' + get_locale() + '.js') as f:
+					return Markup(f.read().decode("utf-8"))
+			except IOError:
+				return Markup("{}")
+		return dict(get_js_locale_data=get_js_locale_data)
 
 
 	# Based on http://damyanon.net/flask-series-internationalization/

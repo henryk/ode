@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-09-10 22:24+0200\n"
-"PO-Revision-Date: 2016-09-10 22:29+0100\n"
+"POT-Creation-Date: 2016-09-11 19:16+0200\n"
+"PO-Revision-Date: 2016-09-11 20:03+0100\n"
 "Last-Translator: Henryk Plötz <henryk@ploetzli.ch>\n"
 "Language: de\n"
 "Language-Team: de <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Generated-By: Babel 2.3.4\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: ode/__init__.py:215
+#: ode/__init__.py:213
 msgid "Invalid credentials"
 msgstr "Benutzername/Passwort ungültig"
 
@@ -245,10 +245,26 @@ msgstr "Mailing-Liste erzeugt"
 msgid "Error while creating mailing list"
 msgstr "Fehler beim Erzeugen der Mailing-Liste"
 
+#: ode/blueprints/amu/static/amu/amu-scripts.js:63
+msgid "Generate!"
+msgstr "Erzeugen!"
+
+#: ode/blueprints/amu/static/amu/amu-scripts.js:109
+msgid "Crack time approximately: "
+msgstr "Ungefähre Zeit zum knacken:"
+
+#: ode/blueprints/amu/static/amu/amu-scripts.js:154
 #: ode/blueprints/amu/templates/amu/group.html:2
 #: ode/blueprints/amu/templates/amu/group.html:5
 msgid "Group"
 msgstr "Gruppe"
+
+#: ode/blueprints/amu/static/amu/amu-scripts.js:158
+#: ode/blueprints/amu/templates/amu/self.html:5
+#: ode/blueprints/amu/templates/amu/user.html:2
+#: ode/blueprints/amu/templates/amu/user.html:5
+msgid "User"
+msgstr "Benutzer"
 
 #: ode/blueprints/amu/templates/amu/groups.html:2
 #: ode/blueprints/amu/templates/amu/groups.html:5
@@ -285,12 +301,6 @@ msgstr "Neue Mailing-Liste erstellen"
 #: ode/blueprints/amu/templates/amu/new_user.html:5
 msgid "Create new user"
 msgstr "Neuen Benutzer erstellen"
-
-#: ode/blueprints/amu/templates/amu/self.html:5
-#: ode/blueprints/amu/templates/amu/user.html:2
-#: ode/blueprints/amu/templates/amu/user.html:5
-msgid "User"
-msgstr "Benutzer"
 
 #: ode/blueprints/amu/templates/amu/users.html:2
 #: ode/blueprints/amu/templates/amu/users.html:5

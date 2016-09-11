@@ -59,7 +59,8 @@ function amu_user_enhancements(password_is_required) {
                 });
             } else {
                 var pass_orig = $('#password');
-                var new_div = $('<div class="input-group"><span class="input-group-btn"><button class="btn btn-default" id="generate_password" type="button">Generate!</button></span></div>');
+                var new_div = $('<div class="input-group"><span class="input-group-btn"><button class="btn btn-default" id="generate_password" type="button"></button></span></div>');
+                $("button", new_div).text( i18n.gettext("Generate!") );
                 $('#password').replaceWith(new_div);
                 new_div.prepend(pass_orig);
                 $('#generate_password').on('click', function(){
@@ -105,7 +106,7 @@ function amu_user_enhancements(password_is_required) {
                     .attr("aria-valuenow", strength)
                     .attr("style", "width: "+strength+"%");
                 $('#passwordstrength div span')
-                    .text("Crack time approximately: " + 
+                    .text( i18n.gettext("Crack time approximately: ") + 
                         result.crack_times_display.offline_slow_hashing_1e4_per_second);
                 var display_class = "default";
                 if(result.score <= 2) {
@@ -150,11 +151,11 @@ function amu_mailing_list_enhancements() {
     var tags = all_groups.map(
             function(i){
                 seen[i[0]] = true;
-                return { "id": i[0], text: "Group: "+i[1] };
+                return { "id": i[0], text: i18n.gettext("Group") + ": "+i[1] };
             }).concat(all_users.map(
                 function(i){
                     seen[i[0]] = true;
-                    return { "id": i[0], text: "User: "+i[1] };
+                    return { "id": i[0], text: i18n.gettext("User") + ": "+i[1] };
                 })
     );
     $(function(){
