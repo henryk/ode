@@ -37,12 +37,12 @@ class Config(object):
 	)
 
 	CELERYBEAT_SCHEDULE = {
-	'refresh-isi-1minute': {
-		'task': 'ode.blueprints.isi.tasks.refresh_1minute',
-		'schedule': timedelta(seconds=60),
-		'args': (),
-	},
-}
+		'refresh-isi-1minute': {
+			'task': 'ode.blueprints.isi.tasks.refresh_1minute',
+			'schedule': timedelta(seconds=60),
+			'args': (),
+		},
+	}
 
 
 class DevelopmentConfig(Config):
