@@ -180,6 +180,11 @@ class Recipient(db.Model):
 	def address(self):
 		return self._parse_address().address	
 
+def re_set_timezone(dt):
+	if hasattr(dt, "tzinfo"):
+		return dt.tzinfo.localize(dt.replace(tzinfo=None))
+	else:
+		return dt
 
 class Event(db.Model):
 	id = db.Column('id', UUIDType, default=uuid.uuid4, primary_key=True)
@@ -243,10 +248,10 @@ class Event(db.Model):
 	def description(self): return vobject_unicode(self._vevent.description.value)
 
 	@property
-	def start(self): return self._vevent.dtstart.value
+	def start(self): return re_set_timezone(self._vevent.dtstart.value)
 
 	@property
-	def end(self): return self._vevent.dtend.value
+	def end(self): return re_set_timezone(self._vevent.dtend.value)
 
 	@property
 	def categories(self): return map(vobject_unicode, self._vevent.categories.value)
