@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-09-11 20:24+0200\n"
-"PO-Revision-Date: 2016-09-11 20:25+0100\n"
+"POT-Creation-Date: 2016-09-11 20:43+0200\n"
+"PO-Revision-Date: 2016-09-11 20:44+0100\n"
 "Last-Translator: Henryk Plötz <henryk@ploetzli.ch>\n"
 "Language: de\n"
 "Language-Team: de <LL@li.org>\n"
@@ -295,21 +295,21 @@ msgstr[1] "%d Jahre"
 msgid "centuries"
 msgstr "Jahrhunderte"
 
-#: ode/blueprints/amu/static/amu/amu-scripts.js:85
+#: ode/blueprints/amu/static/amu/amu-scripts.js:86
 msgid "Generate!"
 msgstr "Erzeugen!"
 
-#: ode/blueprints/amu/static/amu/amu-scripts.js:131
+#: ode/blueprints/amu/static/amu/amu-scripts.js:132
 msgid "Crack time approximately: "
 msgstr "Ungefähre Zeit zum knacken: "
 
-#: ode/blueprints/amu/static/amu/amu-scripts.js:176
+#: ode/blueprints/amu/static/amu/amu-scripts.js:177
 #: ode/blueprints/amu/templates/amu/group.html:2
 #: ode/blueprints/amu/templates/amu/group.html:5
 msgid "Group"
 msgstr "Gruppe"
 
-#: ode/blueprints/amu/static/amu/amu-scripts.js:180
+#: ode/blueprints/amu/static/amu/amu-scripts.js:181
 #: ode/blueprints/amu/templates/amu/self.html:5
 #: ode/blueprints/amu/templates/amu/user.html:2
 #: ode/blueprints/amu/templates/amu/user.html:5
@@ -336,6 +336,31 @@ msgstr "Mailing-Liste"
 #: ode/blueprints/amu/templates/amu/mailing_lists.html:5
 msgid "Mailing list list"
 msgstr "Liste von Mailing-Listen"
+
+#: ode/blueprints/amu/templates/amu/mailing_lists.html:16
+msgid "total"
+msgstr "insgesamt"
+
+#: ode/blueprints/amu/templates/amu/mailing_lists.html:22
+#, python-format
+msgid "%(num)d Group"
+msgid_plural "%(num)d Groups"
+msgstr[0] "%(num)d Gruppe"
+msgstr[1] "%(num)d Gruppen"
+
+#: ode/blueprints/amu/templates/amu/mailing_lists.html:32
+#, python-format
+msgid "%(num)d User"
+msgid_plural "%(num)d Users"
+msgstr[0] "%(num)d Benutzer"
+msgstr[1] "%(num)d Benutzer"
+
+#: ode/blueprints/amu/templates/amu/mailing_lists.html:42
+#, python-format
+msgid "%(num)d Additional address"
+msgid_plural "%(num)d Additional addresses"
+msgstr[0] "%(num)d Zusätzliche Adresse"
+msgstr[1] "%(num)d Zusätzliche Adressen"
 
 #: ode/blueprints/amu/templates/amu/new_group.html:2
 #: ode/blueprints/amu/templates/amu/new_group.html:5
@@ -549,3 +574,18 @@ msgstr "Anmelden"
 #: ode/templates/login.html:5
 msgid "Please log in"
 msgstr "Bitte anmelden"
+
+#~ msgid "%d Group"
+#~ msgid_plural "%d Groups"
+#~ msgstr[0] "%d Gruppe"
+#~ msgstr[1] "%d Gruppen"
+
+#~ msgid "%d User"
+#~ msgid_plural "%d Users"
+#~ msgstr[0] "%d Benutzer"
+#~ msgstr[1] "%d Benutzer"
+
+#~ msgid "%d Additional address"
+#~ msgid_plural "%d Additional addresses"
+#~ msgstr[0] "%d Zusätzliche Adresse"
+#~ msgstr[1] "%d Zusätzliche Adressen"

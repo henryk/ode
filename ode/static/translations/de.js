@@ -217,6 +217,21 @@
          "Mailing list list": [
             "Liste von Mailing-Listen"
          ],
+         "total": [
+            "insgesamt"
+         ],
+         "%(num)d Group": [
+            "%(num)d Gruppe",
+            "%(num)d Gruppen"
+         ],
+         "%(num)d User": [
+            "%(num)d Benutzer",
+            "%(num)d Benutzer"
+         ],
+         "%(num)d Additional address": [
+            "%(num)d Zusätzliche Adresse",
+            "%(num)d Zusätzliche Adressen"
+         ],
          "Create new group": [
             "Neue Gruppe erstellen"
          ],
