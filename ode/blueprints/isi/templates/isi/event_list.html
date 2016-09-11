@@ -25,7 +25,7 @@
 				<td class="rsvp-unknown">{{ e.rsvp_unknown|length }}</td>
 				<td class="rsvp-no">{{ e.rsvp_no|length }}</td>
 				<td>
-					{{e.start}} – {{e.end}}
+					{{e.start|datetimeformat}} – {{e.end|datetimeformat}}
 					<p class="lead"><a href="{{url_for('.event_view', event_id=e.id)}}">{{e.summary}}</a></p>
 					{{e.description}}
 					{% set invitations = e.child_invitations %}

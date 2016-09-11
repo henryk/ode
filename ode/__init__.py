@@ -14,7 +14,7 @@ from flask_migrate import Migrate, MigrateCommand
 from itsdangerous import Signer
 from flask_mail import Mail
 from flask_babel import Babel
-from flask_babel import _
+from flask_babel import _, format_datetime
 
 import pytz
 
@@ -77,12 +77,10 @@ def create_app(configuration="ode.config.Config", **kwargs):
 		g.timezone = pytz.timezone(current_app.config.get("DISPLAY_TIMEZONE", "UTF"))
 
 	@app.template_filter()
-	def datetime(value, format=None):
+	def strfdatetime(value, format="%Y-%m-%d %H:%M %Z"):
 		if not value:
 			return ""
 		
-		if format is None:
-			format = current_app.config.get("DISPLAY_DATETIME_FORMAT", "%Y-%m-%d %H:%M %Z")
 		return pytz.utc.localize(value).astimezone(g.timezone).strftime(format)
 
 
