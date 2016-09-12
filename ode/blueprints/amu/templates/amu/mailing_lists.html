@@ -19,17 +19,17 @@
           {% set users = list.member_users %}
           <dl>
             {% if groups %}
-              <dt>{{ ngettext("%(num)d Group", "%(num)d Groups", groups|length)|format(num=groups|length) }}</dt>
+              <dt>{{ ngettext("%(num)d Group", "%(num)d Groups", groups|length) }}</dt>
               <dd>
                 <ul>
                   {% for group in groups %}
-                    <li>{{group.name}} ({{group.members|length}} members)</li>
+                    <li>{{group.name}} ({{ ngettext("%(num)d member", "%(num)d members", group.members|length) }})</li>
                   {% endfor %}
                 </ul>
               </dd>
             {% endif %}
             {% if users %}
-              <dt>{{ ngettext("%(num)d User", "%(num)d Users", users|length)|format(num=users|length) }}</dt>
+              <dt>{{ ngettext("%(num)d User", "%(num)d Users", users|length) }}</dt>
               <dd>
                 <ul>
                   {% for user in users %}
@@ -39,7 +39,7 @@
               </dd>
             {% endif %}
             {% if list.additional_addresses %}
-              <dt>{{ ngettext("%(num)d Additional address", "%(num)d Additional addresses", list.additional_addresses|length)|format(num=list.additional_addresses|length) }}</dt>
+              <dt>{{ ngettext("%(num)d Additional address", "%(num)d Additional addresses", list.additional_addresses|length) }}</dt>
               <dd>
                 <ul>
                   {% for address in list.additional_addresses %}
