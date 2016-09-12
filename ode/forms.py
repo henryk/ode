@@ -5,7 +5,7 @@ from wtforms.validators import DataRequired
 from flask_babel import _
 
 class LoginForm(Form):
-	username = StringField('username', validators=[DataRequired()], default=lambda : session.get("username", ""))
-	password = PasswordField('password', validators=[DataRequired()])
+	username = StringField( _('Username'), validators=[DataRequired()], default=lambda : session.get("username", ""))
+	password = PasswordField( _('Password'), validators=[DataRequired()])
 	submit = SubmitField( _('Log in!') )
 

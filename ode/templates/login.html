@@ -4,6 +4,6 @@
 {% block inner %}
   <h2>{{ _("Please log in") }}</h2>
   
-  {{ wtf.quick_form(form, method="POST", form_type="horizontal", extra_classes="col-xs-5 col-xs-offset-3") }}
+  {{ wtf.quick_form(form, method="POST", form_type="horizontal") }}
   
 {% endblock %}

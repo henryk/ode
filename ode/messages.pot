@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-09-12 21:17+0200\n"
+"POT-Creation-Date: 2016-09-12 21:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,6 +19,14 @@ msgstr ""
 
 #: ode/__init__.py:223
 msgid "Invalid credentials"
+msgstr ""
+
+#: ode/blueprints/amu/forms.py:35 ode/blueprints/amu/forms.py:56 ode/forms.py:8
+msgid "Username"
+msgstr ""
+
+#: ode/blueprints/amu/forms.py:55 ode/forms.py:9
+msgid "Password"
 msgstr ""
 
 #: ode/forms.py:10
@@ -75,10 +83,6 @@ msgstr ""
 msgid "New Password"
 msgstr ""
 
-#: ode/blueprints/amu/forms.py:35 ode/blueprints/amu/forms.py:56
-msgid "Username"
-msgstr ""
-
 #: ode/blueprints/amu/forms.py:38 ode/blueprints/amu/forms.py:59
 msgid "E-Mail aliases"
 msgstr ""
@@ -101,10 +105,6 @@ msgstr ""
 
 #: ode/blueprints/amu/forms.py:53
 msgid "Generate password and send to user"
-msgstr ""
-
-#: ode/blueprints/amu/forms.py:55
-msgid "Password"
 msgstr ""
 
 #: ode/blueprints/amu/forms.py:63 ode/blueprints/amu/forms.py:83
