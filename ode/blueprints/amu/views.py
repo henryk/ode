@@ -222,6 +222,16 @@ def new_group():
 @login_required
 def mailing_lists():
 	lists = MailingList.query.all()
+
+	sync_problems = []
+	with mailman_integration.sync_state() as state:
+		for ln, problems in state["sync_problems"].items():
+			for problem in problems:
+				if problem is mailman_integration.SyncMessage.CONFLICT:
+					flash( _("Conflict while syncing mailing list '%s', please resolve manually") % ln, category='danger' )
+				elif problem is mailman_integration.SyncMessage.ON_LDAP_NOT_ON_MM:
+					flash( _("Mailing list '%s' exists in LDAP, but not in Mailman. Please create in Mailman." % ln), category='warning' )
+
 	return render_template('amu/mailing_lists.html', lists=lists)
 
 
@@ -264,15 +274,6 @@ def mailing_list(cn):
 					flash(_("Deletion was unsuccessful"), category="danger")
 			else:
 				flash(_("Please confirm mailing list deletion"), category="danger")
-
-	sync_problems = []
-	with mailman_integration.sync_state() as state:
-		for ln, problems in state["sync_problems"].items():
-			for problem in problems:
-				if problem is mailman_integration.SyncMessage.CONFLICT:
-					flash( _("Conflict while syncing mailing list '%s', please resolve manually") % ln, category='danger' )
-				elif problem is mailman_integration.SyncMessage.ON_LDAP_NOT_ON_MM:
-					flash( _("Mailing list '%s' exists in LDAP, but not in Mailman. Please create in Mailman." % ln), category='warning' )
 
 	form.delete_confirm.data = False # Always reset this
 	return render_template('amu/mailing_list.html', list=mlist, group_list=group_list, user_list=user_list, form=form)
