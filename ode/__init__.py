@@ -16,7 +16,7 @@ from flask_mail import Mail
 from flask_babel import Babel
 from flask_babel import _, format_datetime
 
-import pytz
+import pytz, os, os.path
 
 try: 
 	from flask_debugtoolbar import DebugToolbarExtension
@@ -47,6 +47,8 @@ def create_app(configuration="ode.config.Config", **kwargs):
 	app = Flask(__name__)
 
 	app.config.from_object(configuration)
+	app.instance_path = os.environ.get("ODE_INSTANCE", app.instance_path)
+	app.config.from_pyfile( os.path.join(app.instance_path, "settings.py"), silent=True )
 	app.config.from_envvar('ODE_SETTINGS', silent=True)
 	app.config.update(kwargs)
 

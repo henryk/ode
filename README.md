@@ -9,8 +9,10 @@ virtualenv -p /path/to/python2.7 venv
 . venv/bin/activate
 pip install -r requirements.txt
 cp settings.example.py settings.py
-# Edit and change settings.py
-export ODE_SETTINGS=$(pwd)/settings.py
+# Edit and change instance/settings.py
+mkdir instance
+cp settings.example.py instance/settings.py
+# Now change the file with your favourite editor
 ```
 
 For usage with gunicorn do
@@ -24,7 +26,6 @@ isi needs a rabbitmq instance and running celery workers
 
 ```
 sudo apt-get install rabbitmq-server
-export ODE_SETTINGS=$(pwd)/settings.py
 celery -A ode worker -l info
 ```
 
@@ -33,7 +34,6 @@ celery -A ode worker -l info
 A supervisor configuration file is provided, so starting gunicorn and celery is as simple as
 
 ```
-export ODE_SETTINGS=$(pwd)/settings.py
 supervisord
 ```
 

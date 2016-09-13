@@ -9,3 +9,4 @@
 /celerybeat-schedule
 /celerybeat.pid
 /node_modules
+/instance
