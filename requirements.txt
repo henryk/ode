@@ -24,3 +24,4 @@ pytz
 supervisor
 imapclient
 Flask-Babel
+filelock

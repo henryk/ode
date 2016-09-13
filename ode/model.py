@@ -157,6 +157,18 @@ class MailingList(ldap.Entry):
 		self.additional_addresses = list(new_additional)
 		self.member_urls = list(new_url)
 
+	@property
+	def as_addresses(self):
+		existing_members = [User.query.get(dn) for dn in self.members]
+		existing_additional = self.additional_addresses
+
+		existing_addresses = map(flanker.addresslib.address.parse,
+				[u.mail_form for u in existing_members]+list(existing_additional)
+		)
+
+		return existing_addresses
+
+
 	def import_list_members(self, import_list):
 		import_list = [unicode(i, "UTF-8") if not isinstance(i, unicode) else i for i in import_list]
 		current_app.logger.debug("import_list: %s", import_list)
@@ -173,12 +185,7 @@ class MailingList(ldap.Entry):
 
 		current_app.logger.debug("Good: %s, Bad: %s", good, bad)
 		
-		existing_members = [User.query.get(dn) for dn in self.members]
-		existing_additional = self.additional_addresses
-
-		existing_addresses = map(flanker.addresslib.address.parse,
-				[u.mail_form for u in existing_members]+list(existing_additional)
-		)
+		existing_addresses = self.as_addresses
 
 		preexisting = []
 		notexisting = []
