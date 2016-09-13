@@ -2,7 +2,7 @@ from __future__ import absolute_import
 
 from functools import wraps
 
-from flask import Flask, g, current_app, session, redirect, url_for, request, render_template, abort, Markup
+from flask import Flask, g, current_app, session, redirect, url_for, request, render_template, abort, Markup, flash
 
 from flask_bootstrap import Bootstrap
 from flask_session import Session
