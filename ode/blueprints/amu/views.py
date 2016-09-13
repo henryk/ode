@@ -2,7 +2,7 @@ from flask import current_app, render_template, request, redirect, url_for, sess
 
 from ode import config_get, session_box, login_required
 from ode.model import User, Group, MailingList
-from . import blueprint, forms, mail
+from . import blueprint, forms, mail, tasks
 
 from flask_babel import _
 
@@ -249,6 +249,7 @@ def mailing_list(cn):
 
 			if mlist.save():
 				flash(_("Successfully saved"), category="success")
+				tasks.sync_mailing_lists.apply_async()  #  Immediately schedule a mailing list update
 				return redirect(url_for('.mailing_list', cn=mlist.name))
 			else:
 				flash(_("Saving was unsuccessful"), category="danger")
