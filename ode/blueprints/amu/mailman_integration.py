@@ -7,7 +7,7 @@ from contextlib import contextmanager
 
 import requests, filelock, os.path, shelve, time, flanker.addresslib.address, enum
 
-BLACKLIST_LIST_NAMES = ["mailman", "filmrunde-announce", "samstagsrunde-announce"]
+BLACKLIST_LIST_NAMES = ["mailman"]
 
 class SyncMessage(enum.Enum):
 	CONFLICT = "conflict"
