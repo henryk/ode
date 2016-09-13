@@ -190,7 +190,7 @@ def recipient_set(recipient_id):
 	return redirect(url_for('.invitation_view', invitation_id=recipient.invitation.id))
 
 
-@blueprint.route("/rsvp/<string:param>")
+@blueprint.route("/rsvp/<string:param>", methods=["GET", "POST"])
 def rsvp(param):
 	signer = create_signer(salt="rsvp_mail")
 
@@ -205,13 +205,32 @@ def rsvp(param):
 	if not recipient:
 		abort(404)
 
-	if response == "0":
-		recipient.accept = recipient.accept.NO
-	else:
-		recipient.accept = recipient.accept.YES
-	recipient.accept_time = datetime.datetime.utcnow()
-	recipient.accept_type = AcceptType.LINK
+	form = forms.EditRSVPForm()
 
-	db.session.commit()
+	override = False
+	if form.validate_on_submit():
+		if form.response_yes.data:
+			override = True
+			response = "1"
+		elif form.response_no.data:
+			override = True
+			response = "0"
+
+	if recipient.accept is recipient.accept.UNKNOWN or override:
+
+		if response == "0":
+			recipient.accept = recipient.accept.NO
+		else:
+			recipient.accept = recipient.accept.YES
+		recipient.accept_time = datetime.datetime.utcnow()
+		recipient.accept_type = AcceptType.LINK
+
+		db.session.commit()
+
+		result = True
+	else:
+		result = False
 	
-	return render_template("isi/rsvp_result.html", invitation=recipient.invitation)
+	return render_template("isi/rsvp_result.html", 
+		recipient=recipient, invitation=recipient.invitation,
+		result=result, form=form)

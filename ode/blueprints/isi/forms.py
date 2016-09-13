@@ -50,3 +50,7 @@ def get_SendInvitationForm(recipients_):
 			read_only(self.text_html)
 
 	return SendInvitationForm
+
+class EditRSVPForm(Form):
+	response_yes = SubmitField( '' )
+	response_no  = SubmitField( '' )

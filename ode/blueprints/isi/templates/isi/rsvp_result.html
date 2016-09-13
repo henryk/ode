@@ -1,9 +1,50 @@
 {% extends "isi/base.html" %}
-{% block titleinner %}{{_("Respond to invitation")}}: '{{invitation.event.summary}}'{% endblock %}
+{% block titleinner %}{% trans %}Respond to invitation{% endtrans %}: '{{invitation.event.summary}}'{% endblock %}
+
+{% macro feedback_block(recipient) %}
+	<dl class="dl-horizontal">
+			<dt>{% trans %}Recipient{% endtrans %}</dt>
+			<dd>{{ recipient.to_unicode }}</dd>
+			<dt>{% trans %}Response{% endtrans %}</dt>
+			<dd>
+				{% if recipient.accept == recipient.accept.YES %}
+					{% trans %}Yes, I'm coming!{% endtrans %}
+				{% else %}
+					{% trans %}No, I can't make it this time around.{% endtrans %}
+				{% endif %}
+			</dd>
+	</dl>
+{% endmacro %}
 
 {% block inner %}
-	<h2>{{_("Thank you!")}}</h2>
+	{% if result %}
+		<h2>{% trans %}Thank you!{% endtrans %}</h2>
 
-	<p>{{_("Your response has been recorded.")}}</p>
+		<p class="lead">{% trans %}Your response has been recorded.{% endtrans %}</p>
+		{{ feedback_block(recipient) }}
+	{% else %}
+		<h2>{% trans %}Change response?{% endtrans %}</h2>
+
+		<p>{% trans %}Your response has alread been record as{% endtrans %}:</p>
+		{{ feedback_block(recipient) }}
+
+		<p class="lead">{% trans %}Do you want to change your response?{% endtrans %}</p>
+
+		<form method="POST">
+			<div style="display:none;">{{form.csrf_token()}}</div>
+			{% if recipient.accept == recipient.accept.YES %}
+				<button class="btn btn-default" id="response_no" name="response_no" type="submit" value="no">
+					<span class="glyphicon glyphicon-remove-sign"></span>
+					{% trans %}Unfortunately, I can't make it after all.{% endtrans %}
+				</button>
+			{% else %}
+				<button class="btn btn-default" id="response_yes" name="response_yes" type="submit" value="yes">
+					<span class="glyphicon glyphicon-ok-sign"></span>
+					{% trans %}I can make it after all!{% endtrans %}
+				</button>
+			{% endif %}
+		</form>
+
+	{% endif %}
 
 {% endblock %}

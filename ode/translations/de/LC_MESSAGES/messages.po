@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-09-13 18:21+0200\n"
-"PO-Revision-Date: 2016-09-13 18:22+0100\n"
+"POT-Creation-Date: 2016-09-13 23:59+0200\n"
+"PO-Revision-Date: 2016-09-13 23:59+0100\n"
 "Last-Translator: Henryk Plötz <henryk@ploetzli.ch>\n"
 "Language: de\n"
 "Language-Team: de <LL@li.org>\n"
@@ -162,12 +162,12 @@ msgid "Couldn't send mail to user"
 msgstr "Konnte keine Mail an den Benutzer senden"
 
 #: ode/blueprints/amu/views.py:42 ode/blueprints/amu/views.py:118
-#: ode/blueprints/amu/views.py:183 ode/blueprints/amu/views.py:251
+#: ode/blueprints/amu/views.py:183 ode/blueprints/amu/views.py:261
 msgid "Successfully saved"
 msgstr "Erfolgreich gespeichert"
 
 #: ode/blueprints/amu/views.py:52 ode/blueprints/amu/views.py:126
-#: ode/blueprints/amu/views.py:186 ode/blueprints/amu/views.py:255
+#: ode/blueprints/amu/views.py:186 ode/blueprints/amu/views.py:265
 msgid "Saving was unsuccessful"
 msgstr "Speichern war nicht erfolgreich"
 
@@ -180,7 +180,7 @@ msgid "User deleted"
 msgstr "Benutzer gelöscht"
 
 #: ode/blueprints/amu/views.py:134 ode/blueprints/amu/views.py:195
-#: ode/blueprints/amu/views.py:264
+#: ode/blueprints/amu/views.py:274
 msgid "Deletion was unsuccessful"
 msgstr "Löschen war nicht erfolgreich"
 
@@ -216,32 +216,14 @@ msgstr "Gruppe erstellt"
 msgid "Error while creating group"
 msgstr "Fehler beim Erzeugen der Gruppe"
 
-#: ode/blueprints/amu/views.py:245 ode/blueprints/amu/views.py:294
-#, python-format
-msgid "Invalid format, did not import: %s"
-msgstr "Ungültiges Format, wurde nicht importiert: %s"
-
-#: ode/blueprints/amu/views.py:248 ode/blueprints/amu/views.py:297
-#, python-format
-msgid "Already existing, did not import: %s"
-msgstr "Existierte bereits, wurde nicht importiert: %s"
-
-#: ode/blueprints/amu/views.py:261
-msgid "Mailing list deleted"
-msgstr "Mailing-Liste gelöscht"
-
-#: ode/blueprints/amu/views.py:266
-msgid "Please confirm mailing list deletion"
-msgstr "Bitte Löschung der Mailing-Liste bestätigen"
-
-#: ode/blueprints/amu/views.py:273
+#: ode/blueprints/amu/views.py:231
 #, python-format
 msgid "Conflict while syncing mailing list '%s', please resolve manually"
 msgstr ""
 "Konfligierende Daten beim Synchronisieren von Mailing-Liste '%s'. Bitte "
 "Konflikt manuell auflösen."
 
-#: ode/blueprints/amu/views.py:275
+#: ode/blueprints/amu/views.py:233
 #, python-format
 msgid ""
 "Mailing list '%s' exists in LDAP, but not in Mailman. Please create in "
@@ -250,11 +232,29 @@ msgstr ""
 "Mailing-Liste '%s' existiert in LDAP aber nicht in Mailman. Bitte in Mailman "
 "erstellen."
 
-#: ode/blueprints/amu/views.py:300
+#: ode/blueprints/amu/views.py:255 ode/blueprints/amu/views.py:295
+#, python-format
+msgid "Invalid format, did not import: %s"
+msgstr "Ungültiges Format, wurde nicht importiert: %s"
+
+#: ode/blueprints/amu/views.py:258 ode/blueprints/amu/views.py:298
+#, python-format
+msgid "Already existing, did not import: %s"
+msgstr "Existierte bereits, wurde nicht importiert: %s"
+
+#: ode/blueprints/amu/views.py:271
+msgid "Mailing list deleted"
+msgstr "Mailing-Liste gelöscht"
+
+#: ode/blueprints/amu/views.py:276
+msgid "Please confirm mailing list deletion"
+msgstr "Bitte Löschung der Mailing-Liste bestätigen"
+
+#: ode/blueprints/amu/views.py:301
 msgid "Mailing list created"
 msgstr "Mailing-Liste erzeugt"
 
-#: ode/blueprints/amu/views.py:303
+#: ode/blueprints/amu/views.py:304
 msgid "Error while creating mailing list"
 msgstr "Fehler beim Erzeugen der Mailing-Liste"
 
@@ -524,6 +524,7 @@ msgid "No"
 msgstr "Nein"
 
 #: ode/blueprints/isi/templates/isi/invitation_view.html:38
+#: ode/blueprints/isi/templates/isi/rsvp_result.html:6
 msgid "Recipient"
 msgstr "Empfänger"
 
@@ -579,13 +580,45 @@ msgstr "Abschicken …"
 msgid "Respond to invitation"
 msgstr "Einladung beantworten"
 
-#: ode/blueprints/isi/templates/isi/rsvp_result.html:5
+#: ode/blueprints/isi/templates/isi/rsvp_result.html:8
+msgid "Response"
+msgstr "Antwort"
+
+#: ode/blueprints/isi/templates/isi/rsvp_result.html:11
+msgid "Yes, I'm coming!"
+msgstr "Ja, ich komme!"
+
+#: ode/blueprints/isi/templates/isi/rsvp_result.html:13
+msgid "No, I can't make it this time around."
+msgstr "Nein, dieses mal schaffe ich es leider nicht."
+
+#: ode/blueprints/isi/templates/isi/rsvp_result.html:21
 msgid "Thank you!"
 msgstr "Vielen Dank!"
 
-#: ode/blueprints/isi/templates/isi/rsvp_result.html:7
+#: ode/blueprints/isi/templates/isi/rsvp_result.html:23
 msgid "Your response has been recorded."
 msgstr "Ihre Antwort wurde aufgezeichnet."
+
+#: ode/blueprints/isi/templates/isi/rsvp_result.html:26
+msgid "Change response?"
+msgstr "Antwort ändern?"
+
+#: ode/blueprints/isi/templates/isi/rsvp_result.html:28
+msgid "Your response has alread been record as"
+msgstr "Ihre Antwort wurde bereits aufgezeichnet"
+
+#: ode/blueprints/isi/templates/isi/rsvp_result.html:31
+msgid "Do you want to change your response?"
+msgstr "Möchten Sie Ihre Antwort ändern?"
+
+#: ode/blueprints/isi/templates/isi/rsvp_result.html:38
+msgid "Unfortunately, I can't make it after all."
+msgstr "Unglücklicherweise kann ich doch nicht kommen."
+
+#: ode/blueprints/isi/templates/isi/rsvp_result.html:43
+msgid "I can make it after all!"
+msgstr "Ich komme doch!"
 
 #: ode/templates/login.html:2
 msgid "Log in"
@@ -599,12 +632,3 @@ msgstr "Bitte anmelden"
 #~ msgid_plural "%d Groups"
 #~ msgstr[0] "%d Gruppe"
 #~ msgstr[1] ""
-
-#~ msgid "%d Additional address"
-#~ msgstr "%d Gruppen"
-
-#~ msgid "%d Additional addresses"
-#~ msgstr "%d Benutzer"
-
-#~ msgid "New mailing list"
-#~ msgstr "Neue Mailing-Liste"
