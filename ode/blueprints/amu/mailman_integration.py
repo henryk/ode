@@ -42,18 +42,25 @@ def sync_state(writeback=False):
 			sync_state.close()
 
 
-def normalize_list(l):
-	n = set()
+def normalize_list(l, as_dict=False):
+
+	if as_dict:
+		retval = dict()
+	else:
+		retval = set()
 
 	for a in l:
 		if not isinstance(a, flanker.addresslib.address.EmailAddress):
 			a = flanker.addresslib.address.parse(a)
 		if a:
-			n.add(a.address.lower())
+			if as_dict:
+				retval[a.address.lower()] = a
+			else:
+				retval.add(a.address.lower())
 		else:
 			current_app.logger.warning("Skipped processing of %s because of invalid format", a)
 
-	return n
+	return retval
 
 def compare_lists(a, b):
 	a = normalize_list(a)
@@ -101,10 +108,11 @@ def copy_list_to_ldap(ln, new_users):
 	return normalize_list(new_users)
 
 def sync_lists(ln, ld, mm, st):
-	current_app.logger.info("Would sync list: %s", ln)
+	ld_full = normalize_list(ld.as_addresses, as_dict=True)
+	mm_full = normalize_list(mm, as_dict=True)
 
-	ld_m = normalize_list(ld.as_addresses)
-	mm_m = normalize_list(mm)
+	ld_m = set( ld_full.keys() )
+	mm_m = set( mm_full.keys() )
 	st_m = normalize_list(st)
 
 	codes = {}
@@ -126,27 +134,64 @@ def sync_lists(ln, ld, mm, st):
 	# 110  6: in ldap and in mm, not in state: add to state
 	# 111  7: everywhere, don't do anything
 
+	if ld_m.union(mm_m).union(st_m) == codes[7]:
+		current_app.logger.info("%s: No changes pending, doing nothing", ln)
+		return st
+
+	current_app.logger.info("Would sync list: %s", ln)
+
 	add_to_ldap = codes[2]
 	add_to_mm =   codes[4]
 	remove_ldap = codes[5]
 	remove_mm =   codes[3]
 
-	add_to_state = codes[2].union(codes[4]).union(codes[6])
-	remove_state = codes[1].union(codes[3]).union(codes[5])
+	add_to_state_proposed = codes[2].union(codes[4]).union(codes[6])
+	remove_state_proposed = codes[1].union(codes[3]).union(codes[5])
 
 	current_app.logger.info("Proposed changes: add to state %s, remove from state %s, add ldap %s, remove ldap %s, add mm %s, remove mm %s", 
-		add_to_state, remove_state, add_to_ldap, remove_ldap, add_to_mm, remove_mm)
+		add_to_state_proposed, remove_state_proposed, add_to_ldap, remove_ldap, add_to_mm, remove_mm)
 
-	after_st = st_m.union(add_to_state).difference(remove_state)
+	after_st_proposed = st_m.union(add_to_state_proposed).difference(remove_state_proposed)
 	after_ld = ld_m.union(add_to_ldap).difference(remove_ldap)
 	after_mm = mm_m.union(add_to_mm).difference(remove_mm)
 
-	current_app.logger.info("State after: state: %s, ldap: %s, mm %s", after_st, after_ld, after_mm)
+	# Sanity check
+	assert after_st_proposed == after_mm
+	assert after_st_proposed == after_ld
 
-	assert after_st == after_mm
-	assert after_st == after_ld
+	add_to_state_actual = set(codes[2])
+	remove_state_actual = set(codes[1])
 
-	return list(after_st)
+	for e in remove_mm:
+		try:
+			requests.delete( api_url("/" + ln), data={"address": e} ).raise_for_status()
+			remove_state_actual.add(e)
+		except:
+			current_app.logger.exception("Couldn't remove from Mailman")
+
+	for e in add_to_mm:
+		try:
+			address = ld_full[e]
+			data = {"address": address.address}
+			if address.display_name:
+				data["fullname"] = address.display_name
+			requests.put( api_url("/" + ln), data=data ).raise_for_status()
+			add_to_state_actual.add(e)
+		except:
+			current_app.logger.exception("Couldn't add to mailman")
+
+	if add_to_ldap:
+		ld.import_list_members( [mm_full[e] for e in add_to_ldap] )
+		add_to_state_actual.update(add_to_ldap)
+
+	if remove_ldap:
+		ld.remove_list_members( remove_ldap )
+		remove_state_actual.update(remove_ldap)
+
+	if add_to_ldap or remove_ldap:
+		ld.save()
+
+	return list( st_m.union(add_to_state_actual).difference(remove_state_actual) )
 
 
 def execute_sync():

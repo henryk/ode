@@ -154,8 +154,17 @@ class MailingList(ldap.Entry):
 		new_additional = set(_ for _ in new_m if not is_either(_))
 		new_url = set(format_either(_) for _ in new_m if not _ in new_additional)
 
-		self.additional_addresses = list(new_additional)
-		self.member_urls = list(new_url)
+		if list(new_additional):
+			self.additional_addresses = list(new_additional)
+		else:
+			if list(self.additional_addresses):
+				self.additional_addresses = []
+
+		if list(new_url):
+			self.member_urls = list(new_url)
+		else:
+			if list(self.member_urls):
+				self.member_urls = []
 
 	@property
 	def as_addresses(self):
@@ -168,18 +177,48 @@ class MailingList(ldap.Entry):
 
 		return existing_addresses
 
-
-	def import_list_members(self, import_list):
-		import_list = [unicode(i, "UTF-8") if not isinstance(i, unicode) else i for i in import_list]
-		current_app.logger.debug("import_list: %s", import_list)
-
+	def remove_list_members(self, remove_list):
 		good, bad = [], []
-		for i in import_list:
+		for i in remove_list:
 			a = flanker.addresslib.address.parse(i)
 			if a:
 				good.append(a)
 			else:
 				bad.append(i)
+
+		current_app.logger.debug("Good: %s, Bad: %s", good, bad)
+
+
+		remove_members = set()
+
+		for remove_address in good:
+			for user in self.member_users:
+				if str(user.mail).lower() == remove_address.address.lower():
+					remove_members.add( user.dn )
+
+			for address in self.additional_addresses:
+				candidate_address = flanker.addresslib.address.parse(address)
+				if candidate_address and candidate_address.address.lower() == remove_address.address.lower():
+					remove_members.add( address )
+
+		self.set_list_members( [ a for a in self.list_members if not a in remove_members] )
+
+
+
+	def import_list_members(self, import_list):
+		import_list = [unicode(i, "UTF-8") if not isinstance(i, (unicode, flanker.addresslib.address.EmailAddress)) else i for i in import_list]
+		current_app.logger.debug("import_list: %s", import_list)
+
+		good, bad = [], []
+		for i in import_list:
+			if isinstance(i, flanker.addresslib.address.EmailAddress):
+				good.append(i)
+			else:
+				a = flanker.addresslib.address.parse(i)
+				if a:
+					good.append(a)
+				else:
+					bad.append(i)
 
 		#good, bad = flanker.addresslib.address.parse_list(import_list, as_tuple=True)
 
