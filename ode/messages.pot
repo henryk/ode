@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-09-13 23:59+0200\n"
+"POT-Creation-Date: 2016-09-14 00:11+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -598,7 +598,7 @@ msgid "Change response?"
 msgstr ""
 
 #: ode/blueprints/isi/templates/isi/rsvp_result.html:28
-msgid "Your response has alread been record as"
+msgid "Your response has alread been recorded as"
 msgstr ""
 
 #: ode/blueprints/isi/templates/isi/rsvp_result.html:31
