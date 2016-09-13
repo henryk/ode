@@ -7,22 +7,24 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-09-12 21:20+0200\n"
-"PO-Revision-Date: 2016-09-12 21:18+0100\n"
+"POT-Creation-Date: 2016-09-13 18:21+0200\n"
+"PO-Revision-Date: 2016-09-13 18:22+0100\n"
 "Last-Translator: Henryk Plötz <henryk@ploetzli.ch>\n"
 "Language: de\n"
 "Language-Team: de <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
+"X-Generator: Poedit 1.5.4\n"
 
-#: ode/__init__.py:223
+#: ode/__init__.py:225
 msgid "Invalid credentials"
 msgstr "Benutzername/Passwort ungültig"
 
-#: ode/blueprints/amu/forms.py:35 ode/blueprints/amu/forms.py:56 ode/forms.py:8
+#: ode/blueprints/amu/forms.py:35 ode/blueprints/amu/forms.py:56
+#: ode/forms.py:8
 msgid "Username"
 msgstr "Benutzername"
 
@@ -151,10 +153,6 @@ msgstr "Neue Gruppe"
 msgid "Mailing Lists"
 msgstr "Mailing-Listen"
 
-#: ode/blueprints/amu/navigation.py:23
-msgid "New mailing list"
-msgstr "Neue Mailing-Liste"
-
 #: ode/blueprints/amu/views.py:17
 msgid "User confirmation mail sent"
 msgstr "Bestätigungsmail an den Benutzer versandt"
@@ -169,7 +167,7 @@ msgid "Successfully saved"
 msgstr "Erfolgreich gespeichert"
 
 #: ode/blueprints/amu/views.py:52 ode/blueprints/amu/views.py:126
-#: ode/blueprints/amu/views.py:186 ode/blueprints/amu/views.py:254
+#: ode/blueprints/amu/views.py:186 ode/blueprints/amu/views.py:255
 msgid "Saving was unsuccessful"
 msgstr "Speichern war nicht erfolgreich"
 
@@ -182,7 +180,7 @@ msgid "User deleted"
 msgstr "Benutzer gelöscht"
 
 #: ode/blueprints/amu/views.py:134 ode/blueprints/amu/views.py:195
-#: ode/blueprints/amu/views.py:263
+#: ode/blueprints/amu/views.py:264
 msgid "Deletion was unsuccessful"
 msgstr "Löschen war nicht erfolgreich"
 
@@ -218,29 +216,45 @@ msgstr "Gruppe erstellt"
 msgid "Error while creating group"
 msgstr "Fehler beim Erzeugen der Gruppe"
 
-#: ode/blueprints/amu/views.py:245 ode/blueprints/amu/views.py:284
+#: ode/blueprints/amu/views.py:245 ode/blueprints/amu/views.py:294
 #, python-format
 msgid "Invalid format, did not import: %s"
 msgstr "Ungültiges Format, wurde nicht importiert: %s"
 
-#: ode/blueprints/amu/views.py:248 ode/blueprints/amu/views.py:287
+#: ode/blueprints/amu/views.py:248 ode/blueprints/amu/views.py:297
 #, python-format
 msgid "Already existing, did not import: %s"
 msgstr "Existierte bereits, wurde nicht importiert: %s"
 
-#: ode/blueprints/amu/views.py:260
+#: ode/blueprints/amu/views.py:261
 msgid "Mailing list deleted"
 msgstr "Mailing-Liste gelöscht"
 
-#: ode/blueprints/amu/views.py:265
+#: ode/blueprints/amu/views.py:266
 msgid "Please confirm mailing list deletion"
 msgstr "Bitte Löschung der Mailing-Liste bestätigen"
 
-#: ode/blueprints/amu/views.py:290
+#: ode/blueprints/amu/views.py:273
+#, python-format
+msgid "Conflict while syncing mailing list '%s', please resolve manually"
+msgstr ""
+"Konfligierende Daten beim Synchronisieren von Mailing-Liste '%s'. Bitte "
+"Konflikt manuell auflösen."
+
+#: ode/blueprints/amu/views.py:275
+#, python-format
+msgid ""
+"Mailing list '%s' exists in LDAP, but not in Mailman. Please create in "
+"Mailman."
+msgstr ""
+"Mailing-Liste '%s' existiert in LDAP aber nicht in Mailman. Bitte in Mailman "
+"erstellen."
+
+#: ode/blueprints/amu/views.py:300
 msgid "Mailing list created"
 msgstr "Mailing-Liste erzeugt"
 
-#: ode/blueprints/amu/views.py:293
+#: ode/blueprints/amu/views.py:303
 msgid "Error while creating mailing list"
 msgstr "Fehler beim Erzeugen der Mailing-Liste"
 
@@ -586,15 +600,11 @@ msgstr "Bitte anmelden"
 #~ msgstr[0] "%d Gruppe"
 #~ msgstr[1] ""
 
-#~ msgid "%d User"
-#~ msgstr ""
-
-#~ msgid "%d Users"
-#~ msgstr "%d Gruppen"
-
 #~ msgid "%d Additional address"
-#~ msgstr "%d Benutzer"
+#~ msgstr "%d Gruppen"
 
 #~ msgid "%d Additional addresses"
 #~ msgstr "%d Benutzer"
 
+#~ msgid "New mailing list"
+#~ msgstr "Neue Mailing-Liste"

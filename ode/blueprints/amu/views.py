@@ -2,7 +2,7 @@ from flask import current_app, render_template, request, redirect, url_for, sess
 
 from ode import config_get, session_box, login_required
 from ode.model import User, Group, MailingList
-from . import blueprint, forms, mail, tasks
+from . import blueprint, forms, mail, tasks, mailman_integration
 
 from flask_babel import _
 
@@ -264,6 +264,15 @@ def mailing_list(cn):
 					flash(_("Deletion was unsuccessful"), category="danger")
 			else:
 				flash(_("Please confirm mailing list deletion"), category="danger")
+
+	sync_problems = []
+	with mailman_integration.sync_state() as state:
+		for ln, problems in state["sync_problems"].items():
+			for problem in problems:
+				if problem is mailman_integration.SyncMessage.CONFLICT:
+					flash( _("Conflict while syncing mailing list '%s', please resolve manually") % ln, category='danger' )
+				elif problem is mailman_integration.SyncMessage.ON_LDAP_NOT_ON_MM:
+					flash( _("Mailing list '%s' exists in LDAP, but not in Mailman. Please create in Mailman." % ln), category='warning' )
 
 	form.delete_confirm.data = False # Always reset this
 	return render_template('amu/mailing_list.html', list=mlist, group_list=group_list, user_list=user_list, form=form)

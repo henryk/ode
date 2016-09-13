@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-09-12 21:20+0200\n"
+"POT-Creation-Date: 2016-09-13 18:21+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
 
-#: ode/__init__.py:223
+#: ode/__init__.py:225
 msgid "Invalid credentials"
 msgstr ""
 
@@ -150,10 +150,6 @@ msgstr ""
 msgid "Mailing Lists"
 msgstr ""
 
-#: ode/blueprints/amu/navigation.py:23
-msgid "New mailing list"
-msgstr ""
-
 #: ode/blueprints/amu/views.py:17
 msgid "User confirmation mail sent"
 msgstr ""
@@ -168,7 +164,7 @@ msgid "Successfully saved"
 msgstr ""
 
 #: ode/blueprints/amu/views.py:52 ode/blueprints/amu/views.py:126
-#: ode/blueprints/amu/views.py:186 ode/blueprints/amu/views.py:254
+#: ode/blueprints/amu/views.py:186 ode/blueprints/amu/views.py:255
 msgid "Saving was unsuccessful"
 msgstr ""
 
@@ -181,7 +177,7 @@ msgid "User deleted"
 msgstr ""
 
 #: ode/blueprints/amu/views.py:134 ode/blueprints/amu/views.py:195
-#: ode/blueprints/amu/views.py:263
+#: ode/blueprints/amu/views.py:264
 msgid "Deletion was unsuccessful"
 msgstr ""
 
@@ -217,29 +213,41 @@ msgstr ""
 msgid "Error while creating group"
 msgstr ""
 
-#: ode/blueprints/amu/views.py:245 ode/blueprints/amu/views.py:284
+#: ode/blueprints/amu/views.py:245 ode/blueprints/amu/views.py:294
 #, python-format
 msgid "Invalid format, did not import: %s"
 msgstr ""
 
-#: ode/blueprints/amu/views.py:248 ode/blueprints/amu/views.py:287
+#: ode/blueprints/amu/views.py:248 ode/blueprints/amu/views.py:297
 #, python-format
 msgid "Already existing, did not import: %s"
 msgstr ""
 
-#: ode/blueprints/amu/views.py:260
+#: ode/blueprints/amu/views.py:261
 msgid "Mailing list deleted"
 msgstr ""
 
-#: ode/blueprints/amu/views.py:265
+#: ode/blueprints/amu/views.py:266
 msgid "Please confirm mailing list deletion"
 msgstr ""
 
-#: ode/blueprints/amu/views.py:290
+#: ode/blueprints/amu/views.py:273
+#, python-format
+msgid "Conflict while syncing mailing list '%s', please resolve manually"
+msgstr ""
+
+#: ode/blueprints/amu/views.py:275
+#, python-format
+msgid ""
+"Mailing list '%s' exists in LDAP, but not in Mailman. Please create in "
+"Mailman."
+msgstr ""
+
+#: ode/blueprints/amu/views.py:300
 msgid "Mailing list created"
 msgstr ""
 
-#: ode/blueprints/amu/views.py:293
+#: ode/blueprints/amu/views.py:303
 msgid "Error while creating mailing list"
 msgstr ""
 
