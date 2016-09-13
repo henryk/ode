@@ -7,7 +7,7 @@ from contextlib import contextmanager
 
 import requests, filelock, os.path, shelve, time, flanker.addresslib.address, enum
 
-BLACKLIST_LIST_NAMES = ["mailman"]
+BLACKLIST_LIST_NAMES = ["mailman", "filmrunde-announce", "samstagsrunde-announce"]
 
 class SyncMessage(enum.Enum):
 	CONFLICT = "conflict"
@@ -62,28 +62,43 @@ def compare_lists(a, b):
 	return a.difference(b), b.difference(a)
 
 def remove_list_from_ldap(ml):
-	current_app.logger.info("Would delete %s on LDAP", ml)
-	#ml.delete()
+	current_app.logger.info("Delete %s on LDAP", ml)
+	ml.delete()
+	return True
 
-def remove_list_from_mailman(ln):
-	current_app.logger.info("Would delete %s on Mailman", ln)
-	# FIXME Implement
+def remove_list_from_mailman(ln, existing_members):
+	current_app.logger.info("Delete %s on Mailman", ln)
+	for address in normalize_list(existing_members):
+		data = {"address": address }
+		requests.delete( api_url("/" + ln), data=data )
+	return True
 
 def copy_list_to_mailman(ln, new_users):
-	current_app.logger.info("Would create %s on Mailman: %s", ln, new_users)
-	# FIXME Implement
+	current_app.logger.info("Creating %s on Mailman: %s", ln, new_users)
+
+	added = []
+	for address in new_users:
+		data = {"address": address.address}
+		if address.display_name:
+			data["fullname"] = address.display_name
+		requests.put( api_url("/" + ln), data=data )
+		added.append( address.address.lower() )
+
+	return normalize_list(added)
+	
 
 def copy_list_to_ldap(ln, new_users):
-	current_app.logger.info("Would create %s on LDAP: %s", ln, new_users)
+	current_app.logger.info("Creating %s on LDAP: %s", ln, new_users)
 	# HACK For some reason a new object has the properties of the last object created
 	#  Work around that
-	if False:
-		ml = MailingList(name = ln, additional_addresses = [], member_urls = [], members = [])
+	ml = MailingList(name = ln, additional_addresses = [], member_urls = [], members = [])
 
-		ml.import_list_members(new_users)
+	ml.import_list_members(new_users)
 
-		current_app.logger.debug("List now %s", ml.to_json())
-		ml.save()
+	current_app.logger.debug("List now %s", ml.to_json())
+	ml.save()
+
+	return normalize_list(new_users)
 
 def sync_lists(ln, ld, mm, st):
 	current_app.logger.info("Would sync list: %s", ln)
@@ -92,25 +107,32 @@ def sync_lists(ln, ld, mm, st):
 	mm_m = normalize_list(mm)
 	st_m = normalize_list(st)
 
-	member_in_both = ld_m.intersection(mm_m)
-	member_in_either = ld_m.union(mm_m)
+	codes = {}
+	for i in range(8):
+		codes[i] = set()
 
-	all_synced = member_in_both.intersection(st_m)
-	
+	for m in ld_m.union(mm_m).union(st_m):
+		code = 0
+		code |=  1 if  m in st_m  else 0
+		code |=  2 if  m in mm_m  else 0
+		code |=  4 if  m in ld_m  else 0
+		codes[code].add(m)
 
+	# 001  1: in neither, but in state: remove from state
+	# 010  2: in mm, not in ldap or state: add to state and ldap
+	# 011  3: in mm, and in state: remove from state and mm
+	# 100  4: in ldap, not in mm or state: add to state and mm
+	# 101  5: in ldap, and in state: remove from state and ldap
+	# 110  6: in ldap and in mm, not in state: add to state
+	# 111  7: everywhere, don't do anything
 
-	member_in_either_not_both = ld_m.symmetric_difference(mm_m)
-	remove_member = member_in_either_not_both.intersection(st_m)
-	add_member = member_in_either_not_both.difference(remove_member)
+	add_to_ldap = codes[2]
+	add_to_mm =   codes[4]
+	remove_ldap = codes[5]
+	remove_mm =   codes[3]
 
-	add_to_ldap = add_member.difference(ld_m)
-	add_to_mm = add_member.difference(mm_m)
-	remove_ldap = remove_member.intersection(ld_m)
-	remove_mm = remove_member.intersection(mm_m)
-
-
-	add_to_state = member_in_both.difference(all_synced).union(add_to_ldap).union(add_to_mm)
-	remove_state = st_m.difference(member_in_either).difference(remove_ldap).difference(remove_mm)
+	add_to_state = codes[2].union(codes[4]).union(codes[6])
+	remove_state = codes[1].union(codes[3]).union(codes[5])
 
 	current_app.logger.info("Proposed changes: add to state %s, remove from state %s, add ldap %s, remove ldap %s, add mm %s, remove mm %s", 
 		add_to_state, remove_state, add_to_ldap, remove_ldap, add_to_mm, remove_mm)
@@ -124,7 +146,7 @@ def sync_lists(ln, ld, mm, st):
 	assert after_st == after_mm
 	assert after_st == after_ld
 
-	return st
+	return list(after_st)
 
 
 def execute_sync():
@@ -180,24 +202,22 @@ def execute_sync():
 					sync_problems.setdefault(ln, []).append(SyncMessage.CONFLICT)
 
 			elif ln     in ldap_lists and ln not in mm_lists     and ln     in state_lists: # 6  (1)
-				remove_list_from_ldap(ln)
-				del state_state[ln]
+				if remove_list_from_ldap(ldap_state[ln]):
+					del state_state[ln]
 
 			elif ln not in ldap_lists and ln     in mm_lists     and ln     in state_lists: # 6  (2)
-				remove_list_from_mailman(ln)
-				del state_state[ln]
+				if remove_list_from_mailman(ln, mm_state[ln]):
+					del state_state[ln]
 
 			elif ln     in ldap_lists and ln not in mm_lists     and ln not in state_lists:  # 7  (1)
 				if ln in mm_state.keys():
 					ldap_addresses = ldap_state[ln].as_addresses
-					copy_list_to_mailman(ln, ldap_addresses)
-					state_state[ln] = normalize_list(ldap_addresses)
+					state_state[ln] = copy_list_to_mailman(ln, ldap_addresses)
 				else:
 					sync_problems.setdefault(ln, []).append(SyncMessage.ON_LDAP_NOT_ON_MM)
 			
 			elif ln not in ldap_lists and ln in     mm_lists     and ln not in state_lists:  # 7  (2)
-				copy_list_to_ldap(ln, mm_state[ln])
-				state_state[ln] = normalize_list(mm_state[ln])
+				state_state[ln] = copy_list_to_ldap(ln, mm_state[ln])
 
 			elif ln not in ldap_lists and ln not in mm_lists     and ln     in state_lists:  # 8
 				del state_state[ln]
