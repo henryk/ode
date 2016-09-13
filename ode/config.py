@@ -42,6 +42,11 @@ class Config(object):
 			'schedule': timedelta(seconds=60),
 			'args': (),
 		},
+		'sync-mailing-lists-5minute': {
+			'task': 'ode.blueprints.amu.tasks.sync_mailing_lists',
+			'schedule': timedelta(seconds=300),
+			'args': (),
+		}
 	}
 
 
