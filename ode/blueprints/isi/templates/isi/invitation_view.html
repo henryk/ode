@@ -1,6 +1,58 @@
 {% extends "isi/base.html" %}
 {% block titleinner %}{{_("Invitation view/edit")}}: '{{invitation.event.summary}}'{% endblock %}
 
+{% macro output_recipient(recipient, extra_classes="", nesting=0) %}
+	<tr class="{{extra_classes}}">
+		{% if recipient.accept == recipient.accept.YES %}
+			<td class="rsvp-yes"><span class="glyphicon glyphicon-ok"></span><span class="sr-only">[[{{_("Yes")}}]]</span></td>
+		{% else %}
+			<td class="rsvp-yes"><a href="{{url_for('.recipient_set', recipient_id=recipient.id, state_yes=1, csrf_token=form.csrf_token.current_token)}}"><span class="glyphicon glyphicon-ok" aria-hidden="true" title="{{_("Mark recipient as 'Yes'")}}"></span><span class="sr-only">{{_("Set Yes")}}</span></a></td>
+		{% endif %}
+		{% if recipient.accept == recipient.accept.UNKNOWN %}
+			<td class="rsvp-yes"><span class="glyphicon glyphicon-question-sign"></span><span class="sr-only">[[{{_("Unknown")}}]]</span></td>
+		{% else %}
+			<td></td>
+		{% endif %}
+		{% if recipient.accept == recipient.accept.NO %}
+			<td class="rsvp-no"><span class="glyphicon glyphicon-remove"></span><span class="sr-only">[[{{_("No")}}]]</span></td>
+		{% else %}
+			<td class="rsvp-no"><a href="{{url_for('.recipient_set', recipient_id=recipient.id, state_no=1, csrf_token=form.csrf_token.current_token)}}"><span class="glyphicon glyphicon-remove" aria-hidden="true" title="{{_("Mark recipient as 'No'")}}"></span><span class="sr-only">{{_("Set No")}}</span></a></td>
+		{% endif %}
+		<td>
+			{% for i in range(nesting) -%}
+				&nbsp;&nbsp;&nbsp;
+			{%- endfor -%}
+			{%- if recipient.parent -%}
+				<span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span class="sr-only">+</span>&nbsp;
+			{%- endif -%}
+			{{recipient.to_unicode}}
+		</td>
+		<td data-text="{{recipient.accept_time|strfdatetime(format='%s')}}">
+			{% if recipient.accept_type == recipient.accept_type.LINK %}
+				<span class="glyphicon glyphicon-link" aria-hidden="true"
+					title="{{_("Recipient responded via link")}}"></span>
+				<span class="sr-only">{{_("Responded via link")}}:</span>
+			{% elif recipient.accept_type == recipient.accept_type.EMAIL %}
+				<span class="glyphicon glyphicon-envelope" aria-hidden="true"
+					title="{{_("Recipient responded via mail")}}"></span>
+				<span class="sr-only">{{_("Responded via mail")}}:</span>
+			{% elif recipient.accept_type == recipient.accept_type.MANUAL %}
+				<span class="glyphicon glyphicon-pencil" aria-hidden="true"
+					title="{{_("Recipient state manually set")}}"></span>
+				<span class="sr-only">{{_("Manually set")}}:</span>
+			{% else %}
+			{% endif %}
+			{% if recipient.accept_time %}
+				{{recipient.accept_time|dateformat}} {{recipient.accept_time|strfdatetime("%H:%M")}} {{recipient.accept_time|timeformat(format="z")}}
+			{% endif %}
+			
+		</td>
+	</tr>
+	{% for child in recipient.children %}
+		{{ output_recipient(child, "tablesorter-childRow", nesting+1)}}
+	{% endfor %}
+{% endmacro %}
+
 {% block inner %}
 	{% macro is_preparing(yes='', no='') -%}
 		{%- if invitation.state == invitation.state.PREPARING -%}
@@ -39,46 +91,9 @@
 									<th>{{_("Last responded")}}</th>
 								</tr>
 							</thead>
-							{% for recipient in invitation.recipients %}
-								{% if recipient.state == recipient.state.SENT %}
-									<tr>
-										{% if recipient.accept == recipient.accept.YES %}
-											<td class="rsvp-yes"><span class="glyphicon glyphicon-ok"></span><span class="sr-only">[[{{_("Yes")}}]]</span></td>
-										{% else %}
-											<td class="rsvp-yes"><a href="{{url_for('.recipient_set', recipient_id=recipient.id, state_yes=1, csrf_token=form.csrf_token.current_token)}}"><span class="glyphicon glyphicon-ok" aria-hidden="true" title="{{_("Mark recipient as 'Yes'")}}"></span><span class="sr-only">{{_("Set Yes")}}</span></a></td>
-										{% endif %}
-										{% if recipient.accept == recipient.accept.UNKNOWN %}
-											<td class="rsvp-yes"><span class="glyphicon glyphicon-question-sign"></span><span class="sr-only">[[{{_("Unknown")}}]]</span></td>
-										{% else %}
-											<td></td>
-										{% endif %}
-										{% if recipient.accept == recipient.accept.NO %}
-											<td class="rsvp-no"><span class="glyphicon glyphicon-remove"></span><span class="sr-only">[[{{_("No")}}]]</span></td>
-										{% else %}
-											<td class="rsvp-no"><a href="{{url_for('.recipient_set', recipient_id=recipient.id, state_no=1, csrf_token=form.csrf_token.current_token)}}"><span class="glyphicon glyphicon-remove" aria-hidden="true" title="{{_("Mark recipient as 'No'")}}"></span><span class="sr-only">{{_("Set No")}}</span></a></td>
-										{% endif %}
-										<td>{{recipient.to_unicode}}</td>
-										<td data-text="{{recipient.accept_time|strfdatetime(format='%s')}}">
-											{% if recipient.accept_type == recipient.accept_type.LINK %}
-												<span class="glyphicon glyphicon-link" aria-hidden="true"
-													title="{{_("Recipient responded via link")}}"></span>
-												<span class="sr-only">{{_("Responded via link")}}:</span>
-											{% elif recipient.accept_type == recipient.accept_type.EMAIL %}
-												<span class="glyphicon glyphicon-envelope" aria-hidden="true"
-													title="{{_("Recipient responded via mail")}}"></span>
-												<span class="sr-only">{{_("Responded via mail")}}:</span>
-											{% elif recipient.accept_type == recipient.accept_type.MANUAL %}
-												<span class="glyphicon glyphicon-pencil" aria-hidden="true"
-													title="{{_("Recipient state manually set")}}"></span>
-												<span class="sr-only">{{_("Manually set")}}:</span>
-											{% else %}
-											{% endif %}
-											{% if recipient.accept_time %}
-												{{recipient.accept_time|dateformat}} {{recipient.accept_time|strfdatetime("%H:%M")}} {{recipient.accept_time|timeformat(format="z")}}
-											{% endif %}
-											
-										</td>
-									</tr>
+							{% for recipient in invitation.relevant_recipients %}
+								{% if not recipient.parent %}
+									{{ output_recipient(recipient) }}
 								{% endif %}
 							{% endfor %}
 							<tfoot>

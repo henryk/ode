@@ -128,22 +128,29 @@ class Invitation(db.Model):
 				)
 
 	@property
+	def relevant_recipients(self):
+		return [r for r in self.recipients if r.state is r.state.SENT or r.parent]
+
+	@property
 	def rsvp_yes(self):
-		return [r for r in self.recipients if r.accept is r.accept.YES]
+		return [r for r in self.relevant_recipients if r.accept is r.accept.YES]
 
 	@property
 	def rsvp_unknown(self):
-		return [r for r in self.recipients if r.accept is r.accept.UNKNOWN]
+		return [r for r in self.relevant_recipients if r.accept is r.accept.UNKNOWN]
 
 	@property
 	def rsvp_no(self):
-		return [r for r in self.recipients if r.accept is r.accept.NO]
+		return [r for r in self.relevant_recipients if r.accept is r.accept.NO]
 
 
 
 
 class Recipient(db.Model):
 	id = db.Column('id', UUIDType, default=uuid.uuid4, primary_key=True)
+
+	parent_id = db.Column(db.ForeignKey('recipient.id'))
+	children = relationship("Recipient", backref=backref('parent', remote_side=[id]))
 
 	invitation_id = db.Column(db.ForeignKey('invitation.id'))
 
@@ -170,7 +177,10 @@ class Recipient(db.Model):
 
 	@property
 	def to_unicode(self):
-		return self._parse_address().to_unicode()
+		a = self._parse_address()
+		if not a and self.parent:
+			return self.value
+		return a.to_unicode()
 
 	@property
 	def full_spec(self):
@@ -261,20 +271,20 @@ class Event(db.Model):
 		return [i for e in self.children for i in e.invitations]
 
 	@property
-	def all_recipients(self):
-		return [r for i in self.child_invitations for r in i.recipients if r.state is r.state.SENT]
+	def relevant_recipients(self):
+		return [r for i in self.child_invitations for r in i.relevant_recipients]
 
 	@property
 	def rsvp_yes(self):
-		return [r for r in self.all_recipients if r.accept is r.accept.YES]
+		return [r for r in self.relevant_recipients if r.accept is r.accept.YES]
 
 	@property
 	def rsvp_unknown(self):
-		return [r for r in self.all_recipients if r.accept is r.accept.UNKNOWN]
+		return [r for r in self.relevant_recipients if r.accept is r.accept.UNKNOWN]
 
 	@property
 	def rsvp_no(self):
-		return [r for r in self.all_recipients if r.accept is r.accept.NO]
+		return [r for r in self.relevant_recipients if r.accept is r.accept.NO]
 	
 	
 
