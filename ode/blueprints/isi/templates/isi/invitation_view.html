@@ -73,7 +73,9 @@
 												<span class="sr-only">{{_("Manually set")}}:</span>
 											{% else %}
 											{% endif %}
-											{{recipient.accept_time|dateformat}} {{recipient.accept_time|strfdatetime("%H:%M")}} {{recipient.accept_time|timeformat(format="z")}}
+											{% if recipient.accept_time %}
+												{{recipient.accept_time|dateformat}} {{recipient.accept_time|strfdatetime("%H:%M")}} {{recipient.accept_time|timeformat(format="z")}}
+											{% endif %}
 											
 										</td>
 									</tr>
