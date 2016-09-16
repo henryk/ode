@@ -14,7 +14,10 @@ from ode import nav, this_page_in, get_locale
 def top_navbar():
 	return ODENavbar()
 
-class UserMenu(object):
+class RightItem(object):
+	pass
+
+class UserMenu(RightItem):
 	def __new__(cls, *args, **kwargs):
 		result = object.__new__(cls)
 		if hasattr(g, "ldap_user"):
@@ -33,7 +36,7 @@ class UserMenuLoggedOut(UserMenu, Text):
 	def __init__(self):
 		super(UserMenuLoggedOut, self).__init__( _('Not logged in') )
 
-class LanguageMenu(Subgroup):
+class LanguageMenu(RightItem, Subgroup):
 	def __init__(self):
 		current_locale = get_locale()
 		super(LanguageMenu, self).__init__( current_locale.upper() )
@@ -128,7 +131,7 @@ class ODENavbarRenderer(BootstrapRenderer):
 		right_items = []
 
 		for item in node.items:
-			if isinstance(item, (LanguageMenu, UserMenu)):
+			if isinstance(item, RightItem):
 				right_items.append(item)
 			elif isinstance(item, ActiveModuleBrand):
 				brand = self.visit(item)
