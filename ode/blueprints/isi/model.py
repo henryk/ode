@@ -287,7 +287,7 @@ class Event(db.Model):
 		return [r for r in self.relevant_recipients if r.accept is r.accept.NO]
 	
 	
-
+CURRENT_DELTA=datetime.timedelta(seconds=10)
 class Source(db.Model):
 	id = db.Column('id', UUIDType, default=uuid.uuid4, primary_key=True)
 
@@ -319,3 +319,7 @@ class Source(db.Model):
 
 			if not event.source:
 				event.source = self
+
+	@property
+	def current_events(self):
+		return [e for e in self.events if self.updated - e.updated < CURRENT_DELTA]

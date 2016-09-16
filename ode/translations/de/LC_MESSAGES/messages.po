@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-09-14 00:11+0200\n"
-"PO-Revision-Date: 2016-09-14 00:12+0100\n"
+"POT-Creation-Date: 2016-09-17 01:19+0200\n"
+"PO-Revision-Date: 2016-09-17 01:19+0100\n"
 "Last-Translator: Henryk Plötz <henryk@ploetzli.ch>\n"
 "Language: de\n"
 "Language-Team: de <LL@li.org>\n"
@@ -423,12 +423,12 @@ msgid "Sender"
 msgstr "Absender"
 
 #: ode/blueprints/isi/forms.py:24 ode/blueprints/isi/forms.py:41
-#: ode/blueprints/isi/templates/isi/invitation_view.html:20
+#: ode/blueprints/isi/templates/isi/invitation_view.html:72
 msgid "Invitation text"
 msgstr "Einladungstext"
 
 #: ode/blueprints/isi/forms.py:26
-#: ode/blueprints/isi/templates/isi/invitation_view.html:106
+#: ode/blueprints/isi/templates/isi/invitation_view.html:123
 msgid "Save"
 msgstr "Speichern"
 
@@ -446,38 +446,42 @@ msgstr "Abbrechen & Zurück"
 
 #: ode/blueprints/isi/navigation.py:18
 #: ode/blueprints/isi/templates/isi/event_list.html:2
-#: ode/blueprints/isi/templates/isi/event_list.html:5
+#: ode/blueprints/isi/templates/isi/event_list.html:46
 msgid "Event list"
 msgstr "Veranstaltungsliste"
 
-#: ode/blueprints/isi/views.py:131
+#: ode/blueprints/isi/views.py:135
 msgid "Message away!"
 msgstr "Nachricht verschickt!"
 
-#: ode/blueprints/isi/views.py:162
+#: ode/blueprints/isi/views.py:166
 #, python-format
 msgid "<h1>Invitation to '%s'</h1><p>Please come all</p>"
 msgstr "<h1>Einladung zu '%s'</h1><p>Bitte erscheint zahlreich</p>"
 
-#: ode/blueprints/isi/templates/isi/event_list.html:21
+#: ode/blueprints/isi/templates/isi/event_list.html:19
 msgid "Create invitation"
 msgstr "Einladung erstellen"
 
-#: ode/blueprints/isi/templates/isi/event_list.html:36
+#: ode/blueprints/isi/templates/isi/event_list.html:34
 msgid "invitation"
 msgstr "Einladung"
 
-#: ode/blueprints/isi/templates/isi/event_list.html:36
+#: ode/blueprints/isi/templates/isi/event_list.html:34
 msgid "Yes:"
 msgstr "Ja:"
 
-#: ode/blueprints/isi/templates/isi/event_list.html:36
+#: ode/blueprints/isi/templates/isi/event_list.html:34
 msgid "No:"
 msgstr "Nein:"
 
-#: ode/blueprints/isi/templates/isi/event_list.html:36
+#: ode/blueprints/isi/templates/isi/event_list.html:34
 msgid "Unknown:"
 msgstr "Unbekannt:"
+
+#: ode/blueprints/isi/templates/isi/event_list.html:50
+msgid "Previous and outdated events"
+msgstr "Vorherige und veraltete Veranstaltungen"
 
 #: ode/blueprints/isi/templates/isi/event_view.html:2
 msgid "Event view"
@@ -496,83 +500,83 @@ msgstr "Möchten Sie die folgende Einladungsmail verschicken?"
 msgid "Invitation view/edit"
 msgstr "Einladung anzeigen/bearbeiten"
 
-#: ode/blueprints/isi/templates/isi/invitation_view.html:16
-msgid "Event"
-msgstr "Veranstaltung"
-
-#: ode/blueprints/isi/templates/isi/invitation_view.html:18
-msgid "Responses"
-msgstr "Antworten"
-
-#: ode/blueprints/isi/templates/isi/invitation_view.html:21
-msgid "Options"
-msgstr "Optionen"
-
-#: ode/blueprints/isi/templates/isi/invitation_view.html:35
-#: ode/blueprints/isi/templates/isi/invitation_view.html:46
+#: ode/blueprints/isi/templates/isi/invitation_view.html:7
+#: ode/blueprints/isi/templates/isi/invitation_view.html:87
 msgid "Yes"
 msgstr "Ja"
 
-#: ode/blueprints/isi/templates/isi/invitation_view.html:36
-#: ode/blueprints/isi/templates/isi/invitation_view.html:51
+#: ode/blueprints/isi/templates/isi/invitation_view.html:9
+msgid "Mark recipient as 'Yes'"
+msgstr "Empfänger auf 'Ja' setzen"
+
+#: ode/blueprints/isi/templates/isi/invitation_view.html:9
+msgid "Set Yes"
+msgstr "Auf Ja setzen"
+
+#: ode/blueprints/isi/templates/isi/invitation_view.html:12
+#: ode/blueprints/isi/templates/isi/invitation_view.html:88
 msgid "Unknown"
 msgstr "Unbekannt"
 
-#: ode/blueprints/isi/templates/isi/invitation_view.html:37
-#: ode/blueprints/isi/templates/isi/invitation_view.html:56
+#: ode/blueprints/isi/templates/isi/invitation_view.html:17
+#: ode/blueprints/isi/templates/isi/invitation_view.html:89
 msgid "No"
 msgstr "Nein"
 
+#: ode/blueprints/isi/templates/isi/invitation_view.html:19
+msgid "Mark recipient as 'No'"
+msgstr "Empfänger auf 'Nein' setzen"
+
+#: ode/blueprints/isi/templates/isi/invitation_view.html:19
+msgid "Set No"
+msgstr "Auf Nein setzen"
+
+#: ode/blueprints/isi/templates/isi/invitation_view.html:33
+msgid "Recipient responded via link"
+msgstr "Empfänger hat per Link geantwortet"
+
+#: ode/blueprints/isi/templates/isi/invitation_view.html:34
+msgid "Responded via link"
+msgstr "Per Link beantwortet"
+
+#: ode/blueprints/isi/templates/isi/invitation_view.html:37
+msgid "Recipient responded via mail"
+msgstr "Empfänger hat per mail geantwortet"
+
 #: ode/blueprints/isi/templates/isi/invitation_view.html:38
+msgid "Responded via mail"
+msgstr "Per mail beantwortet"
+
+#: ode/blueprints/isi/templates/isi/invitation_view.html:41
+msgid "Recipient state manually set"
+msgstr "Antwort wurde manuell gesetzt"
+
+#: ode/blueprints/isi/templates/isi/invitation_view.html:42
+msgid "Manually set"
+msgstr "Manuell gesetzt"
+
+#: ode/blueprints/isi/templates/isi/invitation_view.html:68
+msgid "Event"
+msgstr "Veranstaltung"
+
+#: ode/blueprints/isi/templates/isi/invitation_view.html:70
+msgid "Responses"
+msgstr "Antworten"
+
+#: ode/blueprints/isi/templates/isi/invitation_view.html:73
+msgid "Options"
+msgstr "Optionen"
+
+#: ode/blueprints/isi/templates/isi/invitation_view.html:90
 #: ode/blueprints/isi/templates/isi/rsvp_result.html:6
 msgid "Recipient"
 msgstr "Empfänger"
 
-#: ode/blueprints/isi/templates/isi/invitation_view.html:39
+#: ode/blueprints/isi/templates/isi/invitation_view.html:91
 msgid "Last responded"
 msgstr "Zuletzt empfangene Antwort"
 
-#: ode/blueprints/isi/templates/isi/invitation_view.html:48
-msgid "Mark recipient as 'Yes'"
-msgstr "Empfänger auf 'Ja' setzen"
-
-#: ode/blueprints/isi/templates/isi/invitation_view.html:48
-msgid "Set Yes"
-msgstr "Auf Ja setzen"
-
-#: ode/blueprints/isi/templates/isi/invitation_view.html:58
-msgid "Mark recipient as 'No'"
-msgstr "Empfänger auf 'Nein' setzen"
-
-#: ode/blueprints/isi/templates/isi/invitation_view.html:58
-msgid "Set No"
-msgstr "Auf Nein setzen"
-
-#: ode/blueprints/isi/templates/isi/invitation_view.html:64
-msgid "Recipient responded via link"
-msgstr "Empfänger hat per Link geantwortet"
-
-#: ode/blueprints/isi/templates/isi/invitation_view.html:65
-msgid "Responded via link"
-msgstr "Per Link beantwortet"
-
-#: ode/blueprints/isi/templates/isi/invitation_view.html:68
-msgid "Recipient responded via mail"
-msgstr "Empfänger hat per mail geantwortet"
-
-#: ode/blueprints/isi/templates/isi/invitation_view.html:69
-msgid "Responded via mail"
-msgstr "Per mail beantwortet"
-
-#: ode/blueprints/isi/templates/isi/invitation_view.html:72
-msgid "Recipient state manually set"
-msgstr "Antwort wurde manuell gesetzt"
-
-#: ode/blueprints/isi/templates/isi/invitation_view.html:73
-msgid "Manually set"
-msgstr "Manuell gesetzt"
-
-#: ode/blueprints/isi/templates/isi/invitation_view.html:107
+#: ode/blueprints/isi/templates/isi/invitation_view.html:124
 msgid "Send …"
 msgstr "Abschicken …"
 
@@ -632,6 +636,3 @@ msgstr "Bitte anmelden"
 #~ msgid_plural "%d Groups"
 #~ msgstr[0] "%d Gruppe"
 #~ msgstr[1] ""
-
-#~ msgid "Your response has alread been record as"
-#~ msgstr "Ihre Antwort wurde bereits aufgezeichnet"

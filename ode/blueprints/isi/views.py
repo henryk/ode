@@ -26,15 +26,19 @@ def event_list():
 	sources = Source.query.all()
 
 	events = []
+	old_events = []
 
 	for s in sources:
 		for e in s.events:
 			if e.upstream_event:
 				continue
 
-			events.append( e )
+			if e in s.current_events:
+				events.append( e )
+			else:
+				old_events.append(e)
 
-	return render_template("isi/event_list.html", events=events, refresh_form=refresh_form)
+	return render_template("isi/event_list.html", events=events, old_events=old_events, refresh_form=refresh_form)
 
 @blueprint.route("/event/<uuid:event_id>")
 @login_required(True)

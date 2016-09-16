@@ -1,9 +1,7 @@
 {% extends "isi/base.html" %}
 {% block titleinner %}{{ _("Event list") }}{% endblock %}
 
-{% block inner %}
-	<h2>{{ _("Event list") }}</h2>
-
+{% macro event_list(events) %}
 	<table class="table table-striped">
 		<thead>
 			<tr>
@@ -42,6 +40,16 @@
 			</tr>
 		{% endfor %}
 	</table>
+{% endmacro %}
+
+{% block inner %}
+	<h2>{{ _("Event list") }}</h2>
+
+	{{ event_list(events) }}
+
+	<h3>{{ _("Previous and outdated events") }}</h3>
+
+	{{ event_list(old_events) }}
 
 	{# {{ wtf.quick_form(refresh_form, action=url_for('.refresh'), method="POST") }} #}
 
