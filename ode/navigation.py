@@ -7,6 +7,7 @@ from flask_nav.elements import Navbar, View, Subgroup, Text, NavigationItem, Lin
 from dominate import tags
 from hashlib import sha1
 from flask_babel import _
+from babel import Locale
 
 from ode import nav, this_page_in, get_locale
 
@@ -36,25 +37,31 @@ class UserMenuLoggedOut(UserMenu, Text):
 	def __init__(self):
 		super(UserMenuLoggedOut, self).__init__( _('Not logged in') )
 
-class LanguageMenu(RightItem, Subgroup):
-	def __init__(self):
-		current_locale = get_locale()
-		super(LanguageMenu, self).__init__( current_locale.upper() )
-		self.items = self.items + tuple(map(
-			lambda v: Link(v.upper(), this_page_in(v)),
-			sorted( set(current_app.config['SUPPORTED_LANGUAGES'].keys()).difference(set([current_locale])) )
-		))
-
-
-class ActiveModuleView(View):
-	def __init__(self, short, long, endpoint, *args, **kwargs):
-		super(ActiveModuleView, self).__init__(long, endpoint, *args, **kwargs)
-		self.short_title = short
-		self._active = False
+class ActiveView(View):
+	def __init__(self, *args, **kwargs):
+		self._active = kwargs.pop("_active", False)
+		return super(ActiveView, self).__init__(*args, **kwargs)
 
 	@property
 	def active(self):
 		return self._active
+
+class RightActiveView(RightItem, ActiveView): pass
+
+def language_chooser():
+	current_locale = get_locale()
+	return tuple(map(
+		lambda v: RightActiveView( Locale.parse(v).get_display_name(v), 
+			request.url_rule.endpoint, lang_code=v,  _active=v==current_locale, **request.view_args),
+		sorted( current_app.config['SUPPORTED_LANGUAGES'].keys() )
+	))
+
+
+class ActiveModuleView(ActiveView):
+	def __init__(self, short, long, endpoint, *args, **kwargs):
+		super(ActiveModuleView, self).__init__(long, endpoint, *args, **kwargs)
+		self.short_title = short
+
 
 class ActiveModuleBrand(Subgroup):
 	def __init__(self):
@@ -82,7 +89,7 @@ class ActiveModuleBrand(Subgroup):
 class ODENavbar(Navbar):
 	def __init__(self, *args):
 		super(ODENavbar, self).__init__(None, *args)
-		self.items = (ActiveModuleBrand(),) + self.items + (LanguageMenu(), UserMenu())
+		self.items = (ActiveModuleBrand(),) + self.items + language_chooser() + (UserMenu(),)
 
 class ODENavbarRenderer(BootstrapRenderer):
 
