@@ -27,7 +27,8 @@
 			{%- endif -%}
 			{{recipient.to_unicode}}
 		</td>
-		<td data-text="{{recipient.accept_time|strfdatetime(format='%s')}}">
+		{% set timestamp = recipient.accept_time|strfdatetime(format='%s') %}
+		<td data-text="{{timestamp}}">
 			{% if recipient.accept_type == recipient.accept_type.LINK %}
 				<span class="glyphicon glyphicon-link" aria-hidden="true"
 					title="{{_("Recipient responded via link")}}"></span>
@@ -42,8 +43,10 @@
 				<span class="sr-only">{{_("Manually set")}}:</span>
 			{% else %}
 			{% endif %}
+		</td>
+		<td style="text-align: right; white-space: nowrap">
 			{% if recipient.accept_time %}
-				{{recipient.accept_time|dateformat}} {{recipient.accept_time|strfdatetime("%H:%M")}} {{recipient.accept_time|timeformat(format="z")}}
+				<span class="datetime-formatted" data-timestamp="{{timestamp}}">{{recipient.accept_time|dateformat}} {{recipient.accept_time|strfdatetime("%H:%M")}} {{recipient.accept_time|timeformat(format="z")}}</span>
 			{% endif %}
 			
 		</td>
@@ -88,7 +91,7 @@
 									<th class="rsvp-unknown"><span class="glyphicon glyphicon-question-sign"></span><span class="sr-only">{{_("Unknown")}}</span></th>
 									<th class="rsvp-no"><span class="glyphicon glyphicon-remove-sign"></span><span class="sr-only">{{_("No")}}</span></th>
 									<th>{{_("Recipient")}}</th>
-									<th>{{_("Last responded")}}</th>
+									<th colspan="2" class="col-xs-2">{{_("Last responded")}}</th>
 								</tr>
 							</thead>
 							{% for recipient in invitation.relevant_recipients %}
@@ -101,7 +104,7 @@
 									<th class="rsvp-yes">{{ invitation.rsvp_yes|length }}</th>
 									<th class="rsvp-unknown">{{ invitation.rsvp_unknown|length }}</th>
 									<th class="rsvp-no">{{ invitation.rsvp_no|length }}</th>
-									<td></td><td></td>
+									<td></td><td></td><td></td>
 								</tr>
 							</tfoot>
 						</table>
@@ -139,6 +142,8 @@
 {{super()}}
 <script src="{{url_for('.static', filename='isi/ckeditor/ckeditor.js')}}"></script>
 <script src="{{url_for('static', filename='select2/select2.full.min.js')}}"></script>
+<script src="{{url_for('static', filename='momentjs_2016-09-24/moment-with-locales.min.js')}}"></script>
+<script src="{{url_for('static', filename='momentjs_2016-09-24/moment-timezone-with-data.js')}}"></script>
 <script src="{{url_for('static', filename='tablesorter_2016-09-08/jquery.tablesorter.min.js')}}"></script> 
 <script>
 $(function(){
@@ -174,7 +179,15 @@ $(function(){
 
 	$("table.sortable").tablesorter({
 		headerTemplate: '{icon}{content}',
-	}); 
+	});
+
+	var user_tz = moment.tz.guess();
+	moment.tz.setDefault(user_tz);
+
+	$(".datetime-formatted").each(function(){
+		var m = moment.tz(parseInt($(this).data("timestamp"))*1000, user_tz);
+		$(this).text(m.format("ll HH:mm z"));
+	})
 
 
 });
