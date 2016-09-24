@@ -27,7 +27,7 @@
 			{%- endif -%}
 			{{recipient.to_unicode}}
 		</td>
-		{% set timestamp = recipient.accept_time|timestamp %}
+		{% set timestamp = recipient.accept_time|timestamp or '' %}
 		<td data-text="{{timestamp}}">
 			{% if recipient.accept_type == recipient.accept_type.LINK %}
 				<span class="glyphicon glyphicon-link" aria-hidden="true"
