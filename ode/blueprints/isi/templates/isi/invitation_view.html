@@ -27,7 +27,7 @@
 			{%- endif -%}
 			{{recipient.to_unicode}}
 		</td>
-		{% set timestamp = recipient.accept_time|strfdatetime(format='%s') %}
+		{% set timestamp = recipient.accept_time|timestamp %}
 		<td data-text="{{timestamp}}">
 			{% if recipient.accept_type == recipient.accept_type.LINK %}
 				<span class="glyphicon glyphicon-link" aria-hidden="true"
@@ -44,11 +44,15 @@
 			{% else %}
 			{% endif %}
 		</td>
+		<td style="text-align: left; white-space: nowrap">
+			{% if recipient.accept_time %}
+				<span class="datetime-relative" data-timestamp="{{timestamp}}"></span>
+			{% endif %}
+		</td>
 		<td style="text-align: right; white-space: nowrap">
 			{% if recipient.accept_time %}
 				<span class="datetime-formatted" data-timestamp="{{timestamp}}">{{recipient.accept_time|dateformat}} {{recipient.accept_time|strfdatetime("%H:%M")}} {{recipient.accept_time|timeformat(format="z")}}</span>
 			{% endif %}
-			
 		</td>
 	</tr>
 	{% for child in recipient.children %}
@@ -91,7 +95,7 @@
 									<th class="rsvp-unknown"><span class="glyphicon glyphicon-question-sign"></span><span class="sr-only">{{_("Unknown")}}</span></th>
 									<th class="rsvp-no"><span class="glyphicon glyphicon-remove-sign"></span><span class="sr-only">{{_("No")}}</span></th>
 									<th>{{_("Recipient")}}</th>
-									<th colspan="2" class="col-xs-2">{{_("Last responded")}}</th>
+									<th colspan="3" class="col-xs-2" style="white-space: nowrap">{{_("Last responded")}}</th>
 								</tr>
 							</thead>
 							{% for recipient in invitation.relevant_recipients %}
@@ -104,7 +108,7 @@
 									<th class="rsvp-yes">{{ invitation.rsvp_yes|length }}</th>
 									<th class="rsvp-unknown">{{ invitation.rsvp_unknown|length }}</th>
 									<th class="rsvp-no">{{ invitation.rsvp_no|length }}</th>
-									<td></td><td></td><td></td>
+									<td></td><td></td><td></td><td></td>
 								</tr>
 							</tfoot>
 						</table>
@@ -184,9 +188,16 @@ $(function(){
 	var user_tz = moment.tz.guess();
 	moment.tz.setDefault(user_tz);
 
+	moment.locale( {{locale|force_str|tojson}} );
+
 	$(".datetime-formatted").each(function(){
 		var m = moment.tz(parseInt($(this).data("timestamp"))*1000, user_tz);
 		$(this).text(m.format("ll HH:mm z"));
+	})
+
+	$(".datetime-relative").each(function(){
+		var m = moment.tz(parseInt($(this).data("timestamp"))*1000, user_tz);
+		$(this).text(m.fromNow());
 	})
 
 

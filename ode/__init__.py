@@ -16,7 +16,7 @@ from flask_mail import Mail
 from flask_babel import Babel
 from flask_babel import _, format_datetime
 
-import pytz, os, os.path
+import pytz, os, os.path, datetime
 
 try: 
 	from flask_debugtoolbar import DebugToolbarExtension
@@ -79,10 +79,18 @@ def create_app(configuration="ode.config.Config", **kwargs):
 		g.timezone = pytz.timezone(current_app.config.get("DISPLAY_TIMEZONE", "UTF"))
 
 	@app.template_filter()
+	def timestamp(value):
+		if not value:
+			return None
+
+		return (value - datetime.datetime(1970,1,1)).total_seconds()
+
+
+	@app.template_filter()
 	def strfdatetime(value, format="%Y-%m-%d %H:%M %Z"):
 		if not value:
 			return ""
-		
+
 		return pytz.utc.localize(value).astimezone(g.timezone).strftime(format)
 
 	@app.context_processor

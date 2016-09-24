@@ -8,7 +8,7 @@ from ode.model import MailingList
 import pprint, uuid, datetime
 from itsdangerous import BadSignature
 
-from flask_babel import _
+from flask_babel import _, get_locale
 
 @blueprint.app_template_filter("pprint")
 def pprint_string(s):
@@ -86,7 +86,7 @@ def invitation_view(invitation_id):
 		if form.send.data:
 			return redirect(url_for('.invitation_send', invitation_id=invitation_id))
 
-	return render_template("isi/invitation_view.html", invitation=invitation, form=form, mailing_lists=mlists)
+	return render_template("isi/invitation_view.html", invitation=invitation, form=form, mailing_lists=mlists, locale=get_locale())
 
 @blueprint.route("/invitation/<uuid:invitation_id>/send", methods=["GET", "POST"])
 @login_required(True)
