@@ -11,7 +11,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
 from celery import Celery
 from flask_migrate import Migrate, MigrateCommand
-from itsdangerous import Signer
+from itsdangerous import Signer, BadData
 from flask_mail import Mail
 from flask_babel import Babel
 from flask_babel import _, format_datetime
@@ -220,6 +220,20 @@ def determine_admin_status():
 		session["is_admin"] = not not group
 		session.modified = True
 
+def sign_url(url, salt="next redirect"):
+	signer = create_signer(salt=salt)
+	return signer.sign(url)
+
+def authenticate_url(value, salt="next redirect", fallback=Ellipsis):
+	signer = create_signer(salt=salt)
+	try:
+		return signer.unsign(value)	
+	except (BadData, TypeError):
+		if fallback is not Ellipsis:
+			return fallback
+		else:
+			raise
+
 def _login_required_int(needs_admin, f):
 	@wraps(f)
 	def decorated_function(*args, **kwargs):
@@ -232,13 +246,13 @@ def _login_required_int(needs_admin, f):
 			except LDAPBindError:
 				flash( _("Invalid credentials"), category="danger")
 				logout()
-				return redirect(url_for('login', next=request.url))  ## FIXME: Validate or remove, don't want open redirects
+				return redirect(url_for('login', next=sign_url(request.url)))
 			determine_admin_status()
 			if needs_admin and not session["is_admin"]:
 				abort(404)
 			return f(*args, **kwargs)
 		else:
-			return redirect(url_for('login', next=request.url))
+			return redirect(url_for('login', next=sign_url(request.url)))
 	return decorated_function
 
 def login_required(argument):
@@ -262,7 +276,10 @@ def login():
 		session['username'] = form.username.data
 		session_box.store_boxed("password", form.password.data)
 		session.modified = True
-		return redirect(request.args.get("next", url_for('root')))
+		return redirect(authenticate_url(
+			request.args.get("next", None),
+			fallback=url_for("root")
+		))
 	return render_template("login.html", form=form)
 
 def logout():
