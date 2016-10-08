@@ -127,7 +127,7 @@ def handle_imip_response(message):
 
 				cal = vobject.readOne(part.get_payload(None, True))
 
-				if cal.method and cal.method.lower() == "reply":
+				if cal.method and cal.method.value.lower() == "reply":
 					is_reply = True
 
 				if not is_reply:
