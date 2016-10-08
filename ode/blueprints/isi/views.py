@@ -209,6 +209,12 @@ def rsvp(param):
 	if not recipient:
 		abort(404)
 
+	# FIXME: Connect to LDAP with privileged credentials
+	#  Necessary in case the recipient was an LDAP user
+	#  Make sure that this is not used outside this context!
+	ldc = current_app.extensions.get('ldap_conn')
+	g.ldap_conn = ldc.connect(current_app.config["ODE_BIND_DN"], current_app.config["ODE_BIND_PW"])
+
 	form = forms.EditRSVPForm()
 
 	override = False
