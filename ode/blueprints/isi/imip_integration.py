@@ -116,12 +116,23 @@ def handle_imip_response(message):
 
 	try:
 		for part in message.walk():
-			if part.get_content_type().lower() == "text/calendar" and part.get_param("method").lower() == "reply":
+			if part.get_content_type().lower() == "text/calendar":
+				is_reply = False
+
+				if part.get_param("method", "DUMMY").lower() == "reply":
+					is_reply = True
 				
 				## Simplified logic for now: If there's a vevent in there and its UID matches a recipient
 				##  accept that as a response
 
 				cal = vobject.readOne(part.get_payload(None, True))
+
+				if cal.method and cal.method.lower() == "reply":
+					is_reply = True
+
+				if not is_reply:
+					continue
+
 				uid = cal.vevent.uid.value
 
 				recipient = Recipient.query.filter(Recipient.id==uuid.UUID(uid)).first()
