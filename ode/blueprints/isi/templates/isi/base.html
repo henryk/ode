@@ -10,3 +10,55 @@
 {% endblock %}
 
 {% block title %}{% block titleinner %}{% endblock %} &mdash; ISI{% endblock %}
+
+{% macro select2_recipients_raw(mailing_lists, target_field='recipients_raw', include_script=False) %}
+	{% if include_script %}<script src="{{url_for('static', filename='select2/select2.full.min.js')}}"></script>{% endif %}
+	<script>
+	$(function(){
+		var seen = { {% for list in mailing_lists %} {{list.dn|tojson|safe}}: true, {% endfor %} }
+		var recipients = $('#{{target_field}} > li input').map(function(i, obj){return $(obj).val()}).get().filter(function(i){return !!i;});
+		var additional_recipients = recipients.filter(function(i){return !seen.hasOwnProperty(i)});
+		replace_with_select2('{{target_field}}');
+
+		$('#{{target_field}}').select2({
+			theme: 'bootstrap',
+			width: "100%",
+			tags: [
+				{% for list in mailing_lists %} { "id": {{list.dn|tojson|safe}}, "text": {{list.name|force_str|tojson|safe}} }, {% endfor %}
+			].concat(additional_recipients.map(
+				function(i){
+					return { "id": i, "text": i };
+				}
+			)),
+		});
+
+		$('#{{target_field}}').val(recipients).trigger("change");
+		$('div[role=main] form').submit(function(){
+				var new_recipients = $('#{{target_field}}').val();
+				var new_inputs = $();
+				$.each(new_recipients, function(i, obj){
+						new_inputs = new_inputs.add( $('<input type="hidden" name="{{target_field}}-'+i+'">').val(obj) );
+				});
+				$('#{{target_field}}').replaceWith(new_inputs);
+		});
+
+	});
+	</script>
+{% endmacro %}
+
+{% macro select2_css() %}
+<link rel="stylesheet"
+			href="{{url_for('static', filename='select2/select2.min.css')}}">
+<link rel="stylesheet"
+			href="{{url_for('static', filename='select2/select2-bootstrap.min.css')}}">
+{% endmacro %}
+
+{% macro ckeditor_text_html(target_field='text_html', include_script=False) %}
+	{% if include_script %}<script src="{{url_for('.static', filename='isi/ckeditor/ckeditor.js')}}"></script>{% endif %}
+	<script>
+	$(function(){
+		CKEDITOR.config.height="30em";
+		CKEDITOR.replace({{target_field|tojson}});
+	});
+	</script>
+{% endmacro %}

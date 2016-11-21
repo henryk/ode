@@ -135,52 +135,19 @@
 
 {% block styles %}
 {{super()}}
-<link rel="stylesheet"
-			href="{{url_for('static', filename='select2/select2.min.css')}}">
-<link rel="stylesheet"
-			href="{{url_for('static', filename='select2/select2-bootstrap.min.css')}}">
+{{select2_css()}}
 {% endblock %}
 
 
 {% block scripts %}
 {{super()}}
-<script src="{{url_for('.static', filename='isi/ckeditor/ckeditor.js')}}"></script>
-<script src="{{url_for('static', filename='select2/select2.full.min.js')}}"></script>
+{{select2_recipients_raw(mailing_lists=mailing_lists,include_script=True)}}
+{{ckeditor_text_html(include_script=True)}}
 <script src="{{url_for('static', filename='momentjs_2016-09-24/moment-with-locales.min.js')}}"></script>
 <script src="{{url_for('static', filename='momentjs_2016-09-24/moment-timezone-with-data.js')}}"></script>
 <script src="{{url_for('static', filename='tablesorter_2016-09-08/jquery.tablesorter.min.js')}}"></script> 
 <script>
 $(function(){
-	CKEDITOR.config.height="30em";
-	CKEDITOR.replace('text_html');
-
-	var seen = { {% for list in mailing_lists %} {{list.dn|tojson|safe}}: true, {% endfor %} }
-	var recipients = $('#recipients_raw > li input').map(function(i, obj){return $(obj).val()}).get().filter(function(i){return !!i;});
-	var additional_recipients = recipients.filter(function(i){return !seen.hasOwnProperty(i)});
-	replace_with_select2('recipients_raw');
-
-	$('#recipients_raw').select2({
-		theme: 'bootstrap',
-		width: "100%",
-		tags: [
-			{% for list in mailing_lists %} { "id": {{list.dn|tojson|safe}}, "text": {{list.name|force_str|tojson|safe}} }, {% endfor %}
-		].concat(additional_recipients.map(
-			function(i){
-				return { "id": i, "text": i };
-			}
-		)),
-	});
-
-	$('#recipients_raw').val(recipients).trigger("change");
-	$('div[role=main] form').submit(function(){
-			var new_recipients = $('#recipients_raw').val();
-			var new_inputs = $();
-			$.each(new_recipients, function(i, obj){
-					new_inputs = new_inputs.add( $('<input type="hidden" name="recipients_raw-'+i+'">').val(obj) );
-			});
-			$('#recipients_raw').replaceWith(new_inputs);
-	});
-
 	$("table.sortable").tablesorter({
 		headerTemplate: '{icon}{content}',
 	});
