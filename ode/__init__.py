@@ -76,7 +76,7 @@ def create_app(configuration="ode.config.Config", **kwargs):
 
 	@app.before_request
 	def set_tz():
-		g.timezone = pytz.timezone(current_app.config.get("DISPLAY_TIMEZONE", "UTF"))
+		g.timezone = pytz.timezone(current_app.config.get("DISPLAY_TIMEZONE", "UTC"))
 
 	@app.template_filter()
 	def timestamp(value):

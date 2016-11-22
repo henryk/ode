@@ -21,6 +21,7 @@ class EditInvitationForm(Form):
 	subject = StringField( _('Subject'), validators=[DataRequired()])
 	recipients_raw = FieldList(StringField( _("Initial recipients") ))
 	sender = TextField( _('Sender'), validators=[DataRequired()])
+	owners = FieldList(StringField( _("Owners") ))
 	text_html = TextField( _('Invitation text'), widget=TextArea())
 
 	save = SubmitField( _('Save') )
@@ -29,6 +30,7 @@ class EditInvitationForm(Form):
 	def __init__(self, *args, **kwargs):
 		super(EditInvitationForm, self).__init__(*args, **kwargs)
 		self.recipients_raw.label.text = _("Recipients")  # This should not just be the titlecased version of the variable name
+		self.owners.label.text = _("Owners")
 
 def get_SendInvitationForm(recipients_):
 	choices = [ (str(r.id), r.to_unicode) for r in recipients_ if r.state in (r.state.NEW, r.state.DESELECTED) ]

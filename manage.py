@@ -22,5 +22,11 @@ def mm_sync():
 	from ode.blueprints.amu import tasks
 	tasks.sync_mailing_lists.apply_async()
 
+@manager.command
+def run_isi_midnight():
+	"Run the ISI midnight task"
+	from ode.blueprints.isi import tasks
+	tasks.refresh_midnight.apply_async()
+
 if __name__ == "__main__":
 	manager.run()

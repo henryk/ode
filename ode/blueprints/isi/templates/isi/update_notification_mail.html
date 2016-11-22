@@ -1,0 +1,35 @@
+{% extends "isi/base.html" %}
+{% block titleinner %}{{_("Responses to invitation")}}: '{{invitation.subject}}'{% endblock %}
+
+{% block navbar %}{% endblock %}
+{% block flashes %}{% endblock %}
+{% block online_only_scripts %}{% endblock %}
+
+{% block inner %}
+	<h2>{{_("Responses to invitation")}}: '{{invitation.subject}}'</h2>
+	<p>{% trans subject = invitation.subject %}There have been changes in the attendance list for '{{subject}}'. You're receiving this mail, because you are listed as an owner of this invitation. Following is the full attendance list as of now.{% endtrans %}</p>
+	<table class="table table-striped rsvp-list sortable">
+		<thead>
+			<tr>
+				<th class="rsvp-yes"><span class="glyphicon glyphicon-ok-sign"></span><span class="sr-only">{{_("Yes")}}</span></th>
+				<th class="rsvp-unknown"><span class="glyphicon glyphicon-question-sign"></span><span class="sr-only">{{_("Unknown")}}</span></th>
+				<th class="rsvp-no"><span class="glyphicon glyphicon-remove-sign"></span><span class="sr-only">{{_("No")}}</span></th>
+				<th>{{_("Recipient")}}</th>
+				<th colspan="3" class="col-xs-2" style="white-space: nowrap">{{_("Last responded")}}</th>
+			</tr>
+		</thead>
+		{% for recipient in invitation.relevant_recipients %}
+			{% if not recipient.parent %}
+				{{ output_recipient(recipient, output_links=False) }}
+			{% endif %}
+		{% endfor %}
+		<tfoot>
+			<tr>
+				<th class="rsvp-yes">{{ invitation.rsvp_yes|length }}</th>
+				<th class="rsvp-unknown">{{ invitation.rsvp_unknown|length }}</th>
+				<th class="rsvp-no">{{ invitation.rsvp_no|length }}</th>
+				<td></td><td></td><td></td><td></td>
+			</tr>
+		</tfoot>
+	</table>
+{% endblock %}

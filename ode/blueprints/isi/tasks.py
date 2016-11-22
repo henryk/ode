@@ -3,6 +3,7 @@ from __future__ import absolute_import
 from ode import cel, db, create_signer
 from .model import Invitation, Recipient, Source
 from .imip_integration import send_imip_invitation
+from .notifications import send_update_notification
 from flask import current_app, url_for, render_template_string
 
 import datetime, vobject, flanker.addresslib.address
@@ -60,3 +61,17 @@ def send_one_mail(recipient_id):
 def refresh_1minute():
 	for k,v in current_app.config["ISI_EVENT_SOURCES"].items():
 		Source.refresh(k, v)
+
+@cel.task
+def refresh_midnight():
+	sources = Source.query.all()
+	now = datetime.datetime.utcnow()
+
+	for s in sources:
+		for e in s.events:
+			if e.upstream_event:
+				continue
+
+			if e in s.current_events:
+				for i in e.child_invitations:
+					send_update_notification(i, now)

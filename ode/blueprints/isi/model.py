@@ -69,6 +69,7 @@ class Invitation(db.Model):
 	sender = db.Column(db.String)
 	recipients_raw = db.Column(Json())
 	recipients = relationship('Recipient', backref=backref('invitation'), cascade='all, delete-orphan')
+	owners = db.Column(Json(), nullable=False, default=[])
 
 	state = db.Column(EnumType(InvitationState, name="invitation_state"), default=InvitationState.PREPARING)
 

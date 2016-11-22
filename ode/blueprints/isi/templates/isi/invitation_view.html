@@ -1,64 +1,6 @@
 {% extends "isi/base.html" %}
 {% block titleinner %}{{_("Invitation view/edit")}}: '{{invitation.event.summary}}'{% endblock %}
 
-{% macro output_recipient(recipient, extra_classes="", nesting=0) %}
-	<tr class="{{extra_classes}}">
-		{% if recipient.accept == recipient.accept.YES %}
-			<td class="rsvp-yes"><span class="glyphicon glyphicon-ok"></span><span class="sr-only">[[{{_("Yes")}}]]</span></td>
-		{% else %}
-			<td class="rsvp-yes"><a href="{{url_for('.recipient_set', recipient_id=recipient.id, state_yes=1, csrf_token=form.csrf_token.current_token)}}"><span class="glyphicon glyphicon-ok" aria-hidden="true" title="{{_("Mark recipient as 'Yes'")}}"></span><span class="sr-only">{{_("Set Yes")}}</span></a></td>
-		{% endif %}
-		{% if recipient.accept == recipient.accept.UNKNOWN %}
-			<td class="rsvp-yes"><span class="glyphicon glyphicon-question-sign"></span><span class="sr-only">[[{{_("Unknown")}}]]</span></td>
-		{% else %}
-			<td></td>
-		{% endif %}
-		{% if recipient.accept == recipient.accept.NO %}
-			<td class="rsvp-no"><span class="glyphicon glyphicon-remove"></span><span class="sr-only">[[{{_("No")}}]]</span></td>
-		{% else %}
-			<td class="rsvp-no"><a href="{{url_for('.recipient_set', recipient_id=recipient.id, state_no=1, csrf_token=form.csrf_token.current_token)}}"><span class="glyphicon glyphicon-remove" aria-hidden="true" title="{{_("Mark recipient as 'No'")}}"></span><span class="sr-only">{{_("Set No")}}</span></a></td>
-		{% endif %}
-		<td>
-			{% for i in range(nesting) -%}
-				&nbsp;&nbsp;&nbsp;
-			{%- endfor -%}
-			{%- if recipient.parent -%}
-				<span class="glyphicon glyphicon-plus" aria-hidden="true"></span><span class="sr-only">+</span>&nbsp;
-			{%- endif -%}
-			{{recipient.to_unicode}}
-		</td>
-		{% set timestamp = recipient.accept_time|timestamp or '' %}
-		<td data-text="{{timestamp}}">
-			{% if recipient.accept_type == recipient.accept_type.LINK %}
-				<span class="glyphicon glyphicon-link" aria-hidden="true"
-					title="{{_("Recipient responded via link")}}"></span>
-				<span class="sr-only">{{_("Responded via link")}}:</span>
-			{% elif recipient.accept_type == recipient.accept_type.EMAIL %}
-				<span class="glyphicon glyphicon-envelope" aria-hidden="true"
-					title="{{_("Recipient responded via mail")}}"></span>
-				<span class="sr-only">{{_("Responded via mail")}}:</span>
-			{% elif recipient.accept_type == recipient.accept_type.MANUAL %}
-				<span class="glyphicon glyphicon-pencil" aria-hidden="true"
-					title="{{_("Recipient state manually set")}}"></span>
-				<span class="sr-only">{{_("Manually set")}}:</span>
-			{% else %}
-			{% endif %}
-		</td>
-		<td style="text-align: left; white-space: nowrap">
-			{% if recipient.accept_time %}
-				<span class="datetime-relative" data-timestamp="{{timestamp}}"></span>
-			{% endif %}
-		</td>
-		<td style="text-align: right; white-space: nowrap">
-			{% if recipient.accept_time %}
-				<span class="datetime-formatted" data-timestamp="{{timestamp}}">{{recipient.accept_time|dateformat}} {{recipient.accept_time|strfdatetime("%H:%M")}} {{recipient.accept_time|timeformat(format="z")}}</span>
-			{% endif %}
-		</td>
-	</tr>
-	{% for child in recipient.children %}
-		{{ output_recipient(child, "tablesorter-childRow", nesting+1)}}
-	{% endfor %}
-{% endmacro %}
 
 {% block inner %}
 	{% macro is_preparing(yes='', no='') -%}
@@ -124,6 +66,7 @@
 				<div role="tabpanel" class="tab-pane" id="options">
 					{{wtf.form_field(form.recipients_raw, form_type='horizontal')}}
 					{{wtf.form_field(form.sender, form_type='horizontal')}}
+					{{wtf.form_field(form.owners, form_type='horizontal')}}
 				</div>
 			</div>
 		</div>
@@ -142,6 +85,7 @@
 {% block scripts %}
 {{super()}}
 {{select2_recipients_raw(mailing_lists=mailing_lists,include_script=True)}}
+{{select2_recipients_raw(mailing_lists=[],target_field='owners')}}
 {{ckeditor_text_html(include_script=True)}}
 <script src="{{url_for('static', filename='momentjs_2016-09-24/moment-with-locales.min.js')}}"></script>
 <script src="{{url_for('static', filename='momentjs_2016-09-24/moment-timezone-with-data.js')}}"></script>
