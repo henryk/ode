@@ -2,6 +2,7 @@ from __future__ import absolute_import
 
 from kombu import Exchange, Queue
 from datetime import timedelta
+from celery.schedules import crontab
 
 class Config(object):
 	DEBUG = False
@@ -40,6 +41,11 @@ class Config(object):
 		'refresh-isi-1minute': {
 			'task': 'ode.blueprints.isi.tasks.refresh_1minute',
 			'schedule': timedelta(seconds=60),
+			'args': (),
+		},
+		'refresh-isi-midnight': {
+			'task': 'ode.blueprints.isi.tasks.refresh_midnight',
+			'schedule': crontab(minute=1, hour=0),
 			'args': (),
 		},
 		'sync-mailing-lists-5minute': {
