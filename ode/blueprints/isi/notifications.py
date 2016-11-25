@@ -14,7 +14,7 @@ def send_update_notification(invitation, now):
 	# a status change has happened in the last day (24*60*60 + 15 seconds)
 	cutoff_time = now - datetime.timedelta(seconds=24*60*60 + 15)
 
-	have_change = any(recipient.accept_time >= cutoff_time for recipient in invitation.recipients)
+	have_change = any(recipient.accept_time and (recipient.accept_time >= cutoff_time) for recipient in invitation.recipients)
 	if have_change:
 		sender_address = flanker.addresslib.address.parse(invitation.sender)
 		recipients = [flanker.addresslib.address.parse(r).full_spec() for r in invitation.owners]
