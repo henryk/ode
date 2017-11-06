@@ -89,7 +89,7 @@ class ActiveModuleBrand(Subgroup):
 class ODENavbar(Navbar):
 	def __init__(self, *args):
 		super(ODENavbar, self).__init__(None, *args)
-		self.items = (ActiveModuleBrand(),) + self.items + language_chooser() + (UserMenu(),)
+		self.items = (ActiveModuleBrand(),) + tuple(self.items) + language_chooser() + (UserMenu(),)
 
 class ODENavbarRenderer(BootstrapRenderer):
 
