@@ -25,3 +25,4 @@ supervisor
 imapclient
 Flask-Babel
 filelock
+passlib

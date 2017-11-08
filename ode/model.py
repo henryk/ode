@@ -1,21 +1,17 @@
 from ode import config_get, ldap
 from flask import current_app
 from ldap3 import STRING_TYPES
+from passlib.hash import sha512_crypt
 import re, flanker.addresslib.address
 
-# Hashes the password value into an {SSHA} password upon setting
-class LDAPSSHAPasswordAttribute(ldap.Attribute):
+# Hashes the password value into a {CRYPT} SHA-512 password upon setting
+class LDAPCRYPTSHA512PasswordAttribute(ldap.Attribute):
 	def __setattr__(self, key, value):
 		if key in ['value', '_init']:
 			if isinstance(value, STRING_TYPES) and not value.startswith("{"):
-				import sha, os
-				from base64 import b64encode
-				salt = os.urandom(16)
-				ctx = sha.new( value )
-				ctx.update( salt )
-				value = "{SSHA}" + b64encode( ctx.digest() + salt )
+				value = "{CRYPT}" + sha512_crypt.hash(value)
 
-		super(LDAPSSHAPasswordAttribute, self).__setattr__(key, value)
+		super(LDAPCRYPTSHA512PasswordAttribute, self).__setattr__(key, value)
 
 class User(ldap.Entry):
 	object_classes = ['inetOrgPerson', 'CC-person']
@@ -25,7 +21,7 @@ class User(ldap.Entry):
 	userid = ldap.Attribute('uid')
 	surname = ldap.Attribute('sn')
 	givenname = ldap.Attribute('givenName')
-	password = LDAPSSHAPasswordAttribute('userPassword')
+	password = LDAPCRYPTSHA512PasswordAttribute('userPassword')
 
 	mail = ldap.Attribute('CC-preferredMail')
 	_aliases = ldap.Attribute('CC-mailAlias')
