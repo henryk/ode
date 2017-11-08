@@ -1,8 +1,8 @@
 {% extends "amu/base.html" %}
-{% block titleinner %}{{_("Create new mailing list")}} {% endblock %}
+{% block titleinner %}{{_("Create new alias")}} {% endblock %}
 
 {% block inner %}
-  <h2>{{_("Create new mailing list")}}</h2>
+  <h2>{{_("Create new alias")}}</h2>
 
   {{ wtf.quick_form(form, method="POST", form_type="horizontal", enctype="multipart/form-data") }}
   
@@ -21,7 +21,11 @@ var all_groups = [
 		[{{group.dn|tojson|safe}}, {{group.name|force_str|tojson|safe}} ],
 	{% endfor %}
 ];
-var all_aliases = [];
-amu_list_enhancements("list_members");
+var all_aliases = [
+	{% for alias in alias_list %}
+		[{{alias.dn|tojson|safe}}, {{alias.name|force_str|tojson|safe}} ],
+	{% endfor %}
+];
+amu_list_enhancements("members");
 </script>
 {% endblock %}

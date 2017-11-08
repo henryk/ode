@@ -105,3 +105,23 @@ def get_NewMailingListForm(user_list, group_list):
 		submit = SubmitField(_('Create!'))
 	
 	return EditMailingListForm
+
+def get_EditAliasForm(user_list, group_list, alias_list):
+	class EditAliasForm(Form):
+		members = FieldList(StringField(''))
+
+		update = SubmitField(_('Update!'))
+
+		delete_confirm = BooleanField(_('Confirm deletion'))
+		delete = SubmitField(_('Delete!'))
+	return EditAliasForm
+
+def get_NewAliasForm(user_list, group_list, alias_list):
+	class EditAliasForm(Form):
+		name = StringField(_('Alias Name'), validators=[DataRequired()])
+
+		members = FieldList(StringField(''))
+
+		submit = SubmitField(_('Create!'))
+	
+	return EditAliasForm

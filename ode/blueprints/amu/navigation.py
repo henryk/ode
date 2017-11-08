@@ -20,8 +20,9 @@ def amu_navbar():
 				View(_('Groups'), '.groups'),
 				View(_('New group'), '.new_group'),
 				View(_('Mailing Lists'), '.mailing_lists'),
-				View(_('Aliases'), '.aliases'),
 				#View(_('New mailing list'), '.new_mailing_list'),
+				View(_('Aliases'), '.aliases'),
+				View(_('New Alias'), '.new_alias'),
 			] )
 	return ODENavbar(*e)
 

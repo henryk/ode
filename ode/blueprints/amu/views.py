@@ -316,4 +316,53 @@ def alias(cn):
 	alias = Alias.query.filter("name: %s" % cn).first()
 	if not alias:
 		abort(404)
-	return "Not Implemented"
+
+	user_list = User.query.all()
+	group_list = Group.query.all()
+	alias_list = Alias.query.all()
+	form = forms.get_EditAliasForm(user_list, group_list, alias_list)(obj=alias)
+
+	if request.method == 'POST' and form.validate_on_submit():
+		if form.update.data:
+			alias.set_members(form.members.data)
+
+			if alias.save():
+				flash(_("Successfully saved"), category="success")
+				return redirect(url_for('.alias', cn=alias.name))
+			else:
+				flash(_("Saving was unsuccessful"), category="danger")
+
+		elif form.delete.data:
+			if form.delete_confirm.data:
+				## Warning: flask_ldapconn doesn't give any status, so we implement this from scratch here
+				if alias.connection.connection.delete(alias.dn):
+					flash(_("Alias deleted"), category="success")
+					return redirect(url_for('.aliases'))
+				else:
+					flash(_("Deletion was unsuccessful"), category="danger")
+			else:
+				flash(_("Please confirm alias deletion"), category="danger")
+
+	form.delete_confirm.data = False # Always reset this
+	return render_template('amu/alias.html', alias=alias, group_list=group_list, user_list=user_list, alias_list=alias_list, form=form)
+
+@blueprint.route("/alias/_new", methods=['GET','POST'])
+@login_required
+def new_alias():
+	user_list = User.query.all()
+	group_list = Group.query.all()
+	alias_list = Alias.query.all()
+	form = forms.get_NewAliasForm(user_list, group_list, alias_list)()
+
+	if request.method == 'POST' and form.validate_on_submit():
+		if form.submit.data:
+			alias = Alias()
+			alias.name = form.name.data
+			alias.members = form.members.data
+
+			if alias.save():
+				flash(_("Alias created"), category="success")
+				return redirect(url_for('.alias', cn=alias.name))
+			else:
+				flash(_("Error while creating Alias"), category="danger")
+	return render_template('amu/new_alias.html', group_list=group_list, user_list=user_list, alias_list=alias_list, form=form)

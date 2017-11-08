@@ -169,23 +169,25 @@ function amu_user_enhancements(password_is_required) {
 
 };
 
-function amu_mailing_list_enhancements() {
+function amu_list_enhancements(target) {
     var seen = {};
-    var tags = all_groups.map(
-            function(i){
+    var tags = (all_groups.map(function(i){
                 seen[i[0]] = true;
                 return { "id": i[0], text: i18n.gettext("Group") + ": "+i[1] };
-            }).concat(all_users.map(
-                function(i){
+            })).concat(
+                all_users.map(function(i){
                     seen[i[0]] = true;
                     return { "id": i[0], text: i18n.gettext("User") + ": "+i[1] };
-                })
-    );
+            })).concat(
+                all_aliases.map(function(i){
+                    seen[i[0]] = true;
+                    return { "id": i[0], text: i18n.gettext("Alias") + ": "+i[1] };
+            }));
     $(function(){
-        var list_members = $('#list_members > li input').map(function(i, obj){return $(obj).val()}).get();
+        var list_members = $('#' + target +' > li input').map(function(i, obj){return $(obj).val()}).get();
         var additional_members = list_members.filter(function(i){return !seen.hasOwnProperty(i)});
-        replace_with_select2('list_members');
-        $('#list_members').select2({
+        replace_with_select2(target);
+        $('#' + target).select2({
             theme: 'bootstrap',
             tags: tags.concat(additional_members.map(
                 function(i){
@@ -194,14 +196,14 @@ function amu_mailing_list_enhancements() {
             )),
         });
 
-        $('#list_members').val(list_members).trigger("change");
+        $('#' + target).val(list_members).trigger("change");
         $('div[role=main] > form').submit(function(){
-            var new_members = $('#list_members').val();
+            var new_members = $('#' + target).val();
             var new_inputs = $();
             $.each(new_members, function(i, obj){
-                new_inputs = new_inputs.add( $('<input type="hidden" name="list_members-'+i+'">').val(obj) );
+                new_inputs = new_inputs.add( $('<input type="hidden" name="'+target+'-'+i+'">').val(obj) );
             });
-            $('#list_members').replaceWith(new_inputs);
+            $('#'+target).replaceWith(new_inputs);
         });
     });
 };

@@ -21,6 +21,7 @@ var all_groups = [
 		[{{group.dn|tojson|safe}}, {{group.name|force_str|tojson|safe}} ],
 	{% endfor %}
 ];
-amu_mailing_list_enhancements();
+var all_aliases = [];
+amu_list_enhancements("list_members");
 </script>
 {% endblock %}
