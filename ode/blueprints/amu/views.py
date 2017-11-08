@@ -309,3 +309,11 @@ def new_mailing_list():
 def aliases():
 	aliases = Alias.query.all()
 	return render_template('amu/aliases.html', aliases=aliases)
+
+@blueprint.route("/alias/<string:cn>", methods=['GET','POST'])
+@login_required
+def alias(cn):
+	alias = Alias.query.filter("name: %s" % cn).first()
+	if not alias:
+		abort(404)
+	return "Not Implemented"
