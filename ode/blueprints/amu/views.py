@@ -1,7 +1,7 @@
 from flask import current_app, render_template, request, redirect, url_for, session, g, flash, abort
 
 from ode import config_get, session_box, login_required
-from ode.model import User, Group, MailingList
+from ode.model import User, Group, MailingList, Alias
 from . import blueprint, forms, mail, tasks, mailman_integration
 
 from flask_babel import _
@@ -303,3 +303,9 @@ def new_mailing_list():
 			else:
 				flash(_("Error while creating mailing list"), category="danger")
 	return render_template('amu/new_mailing_list.html', group_list=group_list, user_list=user_list, form=form)
+
+@blueprint.route("/alias/")
+@login_required
+def aliases():
+	aliases = Alias.query.all()
+	return render_template('amu/aliases.html', aliases=aliases)

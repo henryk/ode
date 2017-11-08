@@ -13,6 +13,13 @@ class LDAPCRYPTSHA512PasswordAttribute(ldap.Attribute):
 
 		super(LDAPCRYPTSHA512PasswordAttribute, self).__setattr__(key, value)
 
+class Alias(ldap.Entry):
+	object_classes = ['groupOfNames']
+	entry_rdn = ['cn', 'base_dn']
+
+	name = ldap.Attribute('cn')
+	members = ldap.Attribute('member')
+
 class User(ldap.Entry):
 	object_classes = ['inetOrgPerson', 'CC-person']
 	entry_rdn = ['uid', 'base_dn']
@@ -254,6 +261,7 @@ def initialize(app):
 	User.base_dn = config_get("ODE_USER_BASE", config=app.config)
 	Group.base_dn = config_get("ODE_GROUP_BASE", config=app.config)
 	MailingList.base_dn = config_get("ODE_MAILING_LIST_BASE", config=app.config)
+	Alias.base_dn = config_get("ODE_ALIAS_BASE", config=app.config)
 
 	def re_to_format(r):
 		return re.sub('(^\^)|(\$$)', '', re.sub( '\(\?P<([^>]+)>[^)]+\)', '%(\\1)s', re.sub('\\\\(.)', '\\1', r)) )

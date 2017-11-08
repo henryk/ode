@@ -4,6 +4,7 @@ ODE_BASE_DN = "dc=example,dc=com"
 ODE_USER_BASE = "ou=Users,%(ODE_BASE_DN)s"
 ODE_GROUP_BASE = "ou=Groups,%(ODE_BASE_DN)s"
 ODE_MAILING_LIST_BASE = "ou=Mailing Lists,%(ODE_BASE_DN)s"
+ODE_ALIAS_BASE = "ou=Aliases,%(ODE_BASE_DN)s"
 ODE_USER_DN = "uid=%(username)s,ou=Users,%(ODE_BASE_DN)s"
 ODE_ALLOW_DIRECT_DN = True
 

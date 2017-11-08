@@ -1,0 +1,23 @@
+{% extends "amu/base.html" %}
+{% block titleinner %}{{_("Alias list")}}{% endblock %}
+
+{% block inner %}
+  <h2>{{_("Alias list")}}</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>{{_("Name")}}</th>
+        <th>{{_("Members")}}</th>
+      </tr>
+    </thead>
+    {% for alias in aliases %}
+      <tr data-href="{{url_for('.alias',cn=alias.name)}}">
+        <td><a href="{{url_for('.alias',cn=alias.name)}}">{{alias.name}}</a></td>
+        <td>
+          {{ alias.members|join(', ') }}
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+  
+{% endblock %}
