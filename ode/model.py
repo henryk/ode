@@ -18,7 +18,7 @@ class Alias(ldap.Entry):
 	entry_rdn = ['cn', 'base_dn']
 
 	name = ldap.Attribute('cn')
-	members = ldap.Attribute('member')
+	members = ldap.Attribute('member', default=[])
 
 	def set_members(self, new_members):
 		self.members = list(new_members)
