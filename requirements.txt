@@ -7,7 +7,10 @@ flask-bootstrap
 flask-nav
 enum34
 pytest
-Flask-LDAPConn
+## FUTURE: Flask-LDAPConn>=0.7.0
+## FUTURE: ldap3>=2.0.7
+Flask-LDAPConn<0.7.0
+ldap3<2.0
 pynacl
 Flask-Mail
 Flask-Migrate

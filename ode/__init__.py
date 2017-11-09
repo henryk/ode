@@ -18,11 +18,6 @@ from flask_babel import _, format_datetime
 
 import pytz, os, os.path, datetime
 
-try:
-	from ldap3 import LDAPBindError
-except ImportError: # Seems this moved around at some point
-	from ldap3.core.exceptions import LDAPBindError
-
 try: 
 	from flask_debugtoolbar import DebugToolbarExtension
 	debug_toolbar = DebugToolbarExtension()
@@ -174,6 +169,7 @@ def _connect_and_load_ldap(password):
 	done = False
 	ldc = current_app.extensions.get('ldap_conn')
 
+	from ldap3.core.exceptions import LDAPBindError
 	from ode.model import User
 
 	if "binddn" in session:
@@ -241,6 +237,8 @@ def authenticate_url(value, salt="next redirect", fallback=Ellipsis):
 def _login_required_int(needs_admin, f):
 	@wraps(f)
 	def decorated_function(*args, **kwargs):
+
+		from ldap3.core.exceptions import LDAPBindError
 
 		password = session_box.retrieve_unboxed("password", None)
 		if "username" in session and password is not None:
