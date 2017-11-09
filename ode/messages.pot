@@ -1,627 +1,706 @@
 # Translations template for PROJECT.
-# Copyright (C) 2016 ORGANIZATION
+# Copyright (C) 2017 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2016-09-17 01:19+0200\n"
+"POT-Creation-Date: 2017-11-09 13:39+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.3.4\n"
+"Generated-By: Babel 2.5.1\n"
 
-#: ode/__init__.py:225
+#: __init__.py:210
+msgid "Unknown user"
+msgstr ""
+
+#: __init__.py:247
 msgid "Invalid credentials"
 msgstr ""
 
-#: ode/blueprints/amu/forms.py:35 ode/blueprints/amu/forms.py:56 ode/forms.py:8
+#: blueprints/amu/forms.py:35 blueprints/amu/forms.py:56 forms.py:8
 msgid "Username"
 msgstr ""
 
-#: ode/blueprints/amu/forms.py:55 ode/forms.py:9
+#: blueprints/amu/forms.py:55 forms.py:9
 msgid "Password"
 msgstr ""
 
-#: ode/forms.py:10
+#: forms.py:10
 msgid "Log in!"
 msgstr ""
 
-#: ode/navigation.py:28
+#: navigation.py:32
 #, python-format
 msgid "Logged in as %s"
 msgstr ""
 
-#: ode/blueprints/amu/templates/amu/self.html:2 ode/navigation.py:29
+#: blueprints/amu/templates/amu/self.html:2 navigation.py:33
 msgid "My profile"
 msgstr ""
 
-#: ode/navigation.py:30
+#: navigation.py:34
 msgid "Log out"
 msgstr ""
 
-#: ode/navigation.py:34
+#: navigation.py:38
 msgid "Not logged in"
 msgstr ""
 
-#: ode/blueprints/amu/forms.py:16 ode/blueprints/amu/forms.py:29
-#: ode/blueprints/amu/forms.py:50
+#: blueprints/amu/forms.py:16 blueprints/amu/forms.py:29
+#: blueprints/amu/forms.py:50
 msgid "Given Name"
 msgstr ""
 
-#: ode/blueprints/amu/forms.py:17 ode/blueprints/amu/forms.py:30
-#: ode/blueprints/amu/forms.py:51
+#: blueprints/amu/forms.py:17 blueprints/amu/forms.py:30
+#: blueprints/amu/forms.py:51
 msgid "Last Name"
 msgstr ""
 
-#: ode/blueprints/amu/forms.py:18 ode/blueprints/amu/forms.py:31
-#: ode/blueprints/amu/forms.py:52
+#: blueprints/amu/forms.py:18 blueprints/amu/forms.py:31
+#: blueprints/amu/forms.py:52
 msgid "Preferred E-Mail address"
 msgstr ""
 
-#: ode/blueprints/amu/forms.py:19 ode/blueprints/amu/forms.py:32
+#: blueprints/amu/forms.py:19 blueprints/amu/forms.py:32
 msgid "Generate and send new password to user"
 msgstr ""
 
-#: ode/blueprints/amu/forms.py:22 ode/blueprints/amu/forms.py:36
-#: ode/blueprints/amu/forms.py:57
+#: blueprints/amu/forms.py:22 blueprints/amu/forms.py:36
+#: blueprints/amu/forms.py:57
 msgid "Full Name"
 msgstr ""
 
-#: ode/blueprints/amu/forms.py:24 ode/blueprints/amu/forms.py:42
-#: ode/blueprints/amu/forms.py:71 ode/blueprints/amu/forms.py:92
+#: blueprints/amu/forms.py:24 blueprints/amu/forms.py:42
+#: blueprints/amu/forms.py:71 blueprints/amu/forms.py:92
+#: blueprints/amu/forms.py:113
 msgid "Update!"
 msgstr ""
 
-#: ode/blueprints/amu/forms.py:34
+#: blueprints/amu/forms.py:34
 msgid "New Password"
 msgstr ""
 
-#: ode/blueprints/amu/forms.py:38 ode/blueprints/amu/forms.py:59
+#: blueprints/amu/forms.py:38 blueprints/amu/forms.py:59
 msgid "E-Mail aliases"
 msgstr ""
 
-#: ode/blueprints/amu/forms.py:40 ode/blueprints/amu/forms.py:61
-#: ode/blueprints/amu/navigation.py:20
-#: ode/blueprints/amu/templates/amu/users.html:12
+#: blueprints/amu/forms.py:40 blueprints/amu/forms.py:61
+#: blueprints/amu/navigation.py:20 blueprints/amu/templates/amu/users.html:12
 msgid "Groups"
 msgstr ""
 
-#: ode/blueprints/amu/forms.py:44 ode/blueprints/amu/forms.py:73
-#: ode/blueprints/amu/forms.py:94
+#: blueprints/amu/forms.py:44 blueprints/amu/forms.py:73
+#: blueprints/amu/forms.py:94 blueprints/amu/forms.py:115
 msgid "Confirm deletion"
 msgstr ""
 
-#: ode/blueprints/amu/forms.py:45 ode/blueprints/amu/forms.py:74
-#: ode/blueprints/amu/forms.py:95
+#: blueprints/amu/forms.py:45 blueprints/amu/forms.py:74
+#: blueprints/amu/forms.py:95 blueprints/amu/forms.py:116
 msgid "Delete!"
 msgstr ""
 
-#: ode/blueprints/amu/forms.py:53
+#: blueprints/amu/forms.py:53
 msgid "Generate password and send to user"
 msgstr ""
 
-#: ode/blueprints/amu/forms.py:63 ode/blueprints/amu/forms.py:83
-#: ode/blueprints/amu/forms.py:105
+#: blueprints/amu/forms.py:63 blueprints/amu/forms.py:83
+#: blueprints/amu/forms.py:105 blueprints/amu/forms.py:125
 msgid "Create!"
 msgstr ""
 
-#: ode/blueprints/amu/forms.py:69 ode/blueprints/amu/forms.py:81
-#: ode/blueprints/amu/templates/amu/groups.html:10
-#: ode/blueprints/amu/templates/amu/mailing_lists.html:10
+#: blueprints/amu/forms.py:69 blueprints/amu/forms.py:81
+#: blueprints/amu/templates/amu/aliases.html:10
+#: blueprints/amu/templates/amu/groups.html:10
+#: blueprints/amu/templates/amu/mailing_lists.html:10
 msgid "Members"
 msgstr ""
 
-#: ode/blueprints/amu/forms.py:79
+#: blueprints/amu/forms.py:79
 msgid "Group Name"
 msgstr ""
 
-#: ode/blueprints/amu/forms.py:90 ode/blueprints/amu/forms.py:103
+#: blueprints/amu/forms.py:90 blueprints/amu/forms.py:103
 msgid "Import"
 msgstr ""
 
-#: ode/blueprints/amu/forms.py:90 ode/blueprints/amu/forms.py:103
+#: blueprints/amu/forms.py:90 blueprints/amu/forms.py:103
 msgid "Text files"
 msgstr ""
 
-#: ode/blueprints/amu/forms.py:100
+#: blueprints/amu/forms.py:100
 msgid "Mailing List Name"
 msgstr ""
 
-#: ode/blueprints/amu/navigation.py:18
+#: blueprints/amu/forms.py:121
+msgid "Alias Name"
+msgstr ""
+
+#: blueprints/amu/navigation.py:18
 msgid "Users"
 msgstr ""
 
-#: ode/blueprints/amu/navigation.py:19
+#: blueprints/amu/navigation.py:19
 msgid "New user"
 msgstr ""
 
-#: ode/blueprints/amu/navigation.py:21
+#: blueprints/amu/navigation.py:21
 msgid "New group"
 msgstr ""
 
-#: ode/blueprints/amu/navigation.py:22
+#: blueprints/amu/navigation.py:22
 msgid "Mailing Lists"
 msgstr ""
 
-#: ode/blueprints/amu/views.py:17
+#: blueprints/amu/navigation.py:24
+msgid "Aliases"
+msgstr ""
+
+#: blueprints/amu/navigation.py:25
+msgid "New Alias"
+msgstr ""
+
+#: blueprints/amu/views.py:17
 msgid "User confirmation mail sent"
 msgstr ""
 
-#: ode/blueprints/amu/views.py:20
+#: blueprints/amu/views.py:20
 msgid "Couldn't send mail to user"
 msgstr ""
 
-#: ode/blueprints/amu/views.py:42 ode/blueprints/amu/views.py:118
-#: ode/blueprints/amu/views.py:183 ode/blueprints/amu/views.py:261
+#: blueprints/amu/views.py:42 blueprints/amu/views.py:118
+#: blueprints/amu/views.py:183 blueprints/amu/views.py:261
+#: blueprints/amu/views.py:330
 msgid "Successfully saved"
 msgstr ""
 
-#: ode/blueprints/amu/views.py:52 ode/blueprints/amu/views.py:126
-#: ode/blueprints/amu/views.py:186 ode/blueprints/amu/views.py:265
+#: blueprints/amu/views.py:52 blueprints/amu/views.py:126
+#: blueprints/amu/views.py:186 blueprints/amu/views.py:265
+#: blueprints/amu/views.py:333
 msgid "Saving was unsuccessful"
 msgstr ""
 
-#: ode/blueprints/amu/views.py:120
+#: blueprints/amu/views.py:120
 msgid "Some or all of the group changes were not successful"
 msgstr ""
 
-#: ode/blueprints/amu/views.py:131
+#: blueprints/amu/views.py:131
 msgid "User deleted"
 msgstr ""
 
-#: ode/blueprints/amu/views.py:134 ode/blueprints/amu/views.py:195
-#: ode/blueprints/amu/views.py:274
+#: blueprints/amu/views.py:134 blueprints/amu/views.py:195
+#: blueprints/amu/views.py:274 blueprints/amu/views.py:342
 msgid "Deletion was unsuccessful"
 msgstr ""
 
-#: ode/blueprints/amu/views.py:136
+#: blueprints/amu/views.py:136
 msgid "Please confirm user deletion"
 msgstr ""
 
-#: ode/blueprints/amu/views.py:153
+#: blueprints/amu/views.py:153
 msgid "User created"
 msgstr ""
 
-#: ode/blueprints/amu/views.py:155
+#: blueprints/amu/views.py:155
 msgid "Some or all of the groups could not be assigned"
 msgstr ""
 
-#: ode/blueprints/amu/views.py:161
+#: blueprints/amu/views.py:161
 msgid "Error while creating user"
 msgstr ""
 
-#: ode/blueprints/amu/views.py:192
+#: blueprints/amu/views.py:192
 msgid "Group deleted"
 msgstr ""
 
-#: ode/blueprints/amu/views.py:197
+#: blueprints/amu/views.py:197
 msgid "Please confirm group deletion"
 msgstr ""
 
-#: ode/blueprints/amu/views.py:214
+#: blueprints/amu/views.py:214
 msgid "Group created"
 msgstr ""
 
-#: ode/blueprints/amu/views.py:217
+#: blueprints/amu/views.py:217
 msgid "Error while creating group"
 msgstr ""
 
-#: ode/blueprints/amu/views.py:231
+#: blueprints/amu/views.py:231
 #, python-format
 msgid "Conflict while syncing mailing list '%s', please resolve manually"
 msgstr ""
 
-#: ode/blueprints/amu/views.py:233
+#: blueprints/amu/views.py:233
 #, python-format
 msgid ""
 "Mailing list '%s' exists in LDAP, but not in Mailman. Please create in "
 "Mailman."
 msgstr ""
 
-#: ode/blueprints/amu/views.py:255 ode/blueprints/amu/views.py:295
+#: blueprints/amu/views.py:255 blueprints/amu/views.py:295
 #, python-format
 msgid "Invalid format, did not import: %s"
 msgstr ""
 
-#: ode/blueprints/amu/views.py:258 ode/blueprints/amu/views.py:298
+#: blueprints/amu/views.py:258 blueprints/amu/views.py:298
 #, python-format
 msgid "Already existing, did not import: %s"
 msgstr ""
 
-#: ode/blueprints/amu/views.py:271
+#: blueprints/amu/views.py:271
 msgid "Mailing list deleted"
 msgstr ""
 
-#: ode/blueprints/amu/views.py:276
+#: blueprints/amu/views.py:276
 msgid "Please confirm mailing list deletion"
 msgstr ""
 
-#: ode/blueprints/amu/views.py:301
+#: blueprints/amu/views.py:301
 msgid "Mailing list created"
 msgstr ""
 
-#: ode/blueprints/amu/views.py:304
+#: blueprints/amu/views.py:304
 msgid "Error while creating mailing list"
 msgstr ""
 
-#: ode/blueprints/amu/static/amu/amu-scripts.js:24
+#: blueprints/amu/views.py:339
+msgid "Alias deleted"
+msgstr ""
+
+#: blueprints/amu/views.py:344
+msgid "Please confirm alias deletion"
+msgstr ""
+
+#: blueprints/amu/views.py:364
+msgid "Alias created"
+msgstr ""
+
+#: blueprints/amu/views.py:367
+msgid "Error while creating Alias"
+msgstr ""
+
+#: blueprints/amu/static/amu/amu-scripts.js:24
 msgid "less than a second"
 msgstr ""
 
-#: ode/blueprints/amu/static/amu/amu-scripts.js:25
+#: blueprints/amu/static/amu/amu-scripts.js:25
 #, python-format
 msgid "%d second"
 msgid_plural "%d seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ode/blueprints/amu/static/amu/amu-scripts.js:26
+#: blueprints/amu/static/amu/amu-scripts.js:26
 #, python-format
 msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ode/blueprints/amu/static/amu/amu-scripts.js:27
+#: blueprints/amu/static/amu/amu-scripts.js:27
 #, python-format
 msgid "%d hour"
 msgid_plural "%d hours"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ode/blueprints/amu/static/amu/amu-scripts.js:28
+#: blueprints/amu/static/amu/amu-scripts.js:28
 #, python-format
 msgid "%d day"
 msgid_plural "%d days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ode/blueprints/amu/static/amu/amu-scripts.js:29
+#: blueprints/amu/static/amu/amu-scripts.js:29
 #, python-format
 msgid "%d month"
 msgid_plural "%d months"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ode/blueprints/amu/static/amu/amu-scripts.js:30
+#: blueprints/amu/static/amu/amu-scripts.js:30
 #, python-format
 msgid "%d year"
 msgid_plural "%d years"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ode/blueprints/amu/static/amu/amu-scripts.js:31
+#: blueprints/amu/static/amu/amu-scripts.js:31
 msgid "centuries"
 msgstr ""
 
-#: ode/blueprints/amu/static/amu/amu-scripts.js:86
+#: blueprints/amu/static/amu/amu-scripts.js:86
 msgid "Generate!"
 msgstr ""
 
-#: ode/blueprints/amu/static/amu/amu-scripts.js:132
+#: blueprints/amu/static/amu/amu-scripts.js:132
 msgid "Crack time approximately: "
 msgstr ""
 
-#: ode/blueprints/amu/static/amu/amu-scripts.js:177
-#: ode/blueprints/amu/templates/amu/group.html:2
-#: ode/blueprints/amu/templates/amu/group.html:5
+#: blueprints/amu/static/amu/amu-scripts.js:176
+#: blueprints/amu/templates/amu/group.html:2
+#: blueprints/amu/templates/amu/group.html:5
 msgid "Group"
 msgstr ""
 
-#: ode/blueprints/amu/static/amu/amu-scripts.js:181
-#: ode/blueprints/amu/templates/amu/self.html:5
-#: ode/blueprints/amu/templates/amu/user.html:2
-#: ode/blueprints/amu/templates/amu/user.html:5
+#: blueprints/amu/static/amu/amu-scripts.js:180
+#: blueprints/amu/templates/amu/self.html:5
+#: blueprints/amu/templates/amu/user.html:2
+#: blueprints/amu/templates/amu/user.html:5
 msgid "User"
 msgstr ""
 
-#: ode/blueprints/amu/templates/amu/groups.html:2
-#: ode/blueprints/amu/templates/amu/groups.html:5
-msgid "Group list"
+#: blueprints/amu/static/amu/amu-scripts.js:184
+#: blueprints/amu/templates/amu/alias.html:2
+#: blueprints/amu/templates/amu/alias.html:5
+msgid "Alias"
 msgstr ""
 
-#: ode/blueprints/amu/templates/amu/groups.html:9
-#: ode/blueprints/amu/templates/amu/mailing_lists.html:9
-#: ode/blueprints/amu/templates/amu/users.html:10
+#: blueprints/amu/templates/amu/aliases.html:2
+#: blueprints/amu/templates/amu/aliases.html:5
+msgid "Alias list"
+msgstr ""
+
+#: blueprints/amu/templates/amu/aliases.html:9
+#: blueprints/amu/templates/amu/groups.html:9
+#: blueprints/amu/templates/amu/mailing_lists.html:9
+#: blueprints/amu/templates/amu/users.html:10
 msgid "Name"
 msgstr ""
 
-#: ode/blueprints/amu/templates/amu/mailing_list.html:2
-#: ode/blueprints/amu/templates/amu/mailing_list.html:5
+#: blueprints/amu/templates/amu/groups.html:2
+#: blueprints/amu/templates/amu/groups.html:5
+msgid "Group list"
+msgstr ""
+
+#: blueprints/amu/templates/amu/mailing_list.html:2
+#: blueprints/amu/templates/amu/mailing_list.html:5
 msgid "Mailing list"
 msgstr ""
 
-#: ode/blueprints/amu/templates/amu/mailing_lists.html:2
-#: ode/blueprints/amu/templates/amu/mailing_lists.html:5
+#: blueprints/amu/templates/amu/mailing_lists.html:2
+#: blueprints/amu/templates/amu/mailing_lists.html:5
 msgid "Mailing list list"
 msgstr ""
 
-#: ode/blueprints/amu/templates/amu/mailing_lists.html:16
+#: blueprints/amu/templates/amu/mailing_lists.html:16
 msgid "total"
 msgstr ""
 
-#: ode/blueprints/amu/templates/amu/mailing_lists.html:22
+#: blueprints/amu/templates/amu/mailing_lists.html:22
 #, python-format
 msgid "%(num)d Group"
 msgid_plural "%(num)d Groups"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ode/blueprints/amu/templates/amu/mailing_lists.html:26
+#: blueprints/amu/templates/amu/mailing_lists.html:26
 #, python-format
 msgid "%(num)d member"
 msgid_plural "%(num)d members"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ode/blueprints/amu/templates/amu/mailing_lists.html:32
+#: blueprints/amu/templates/amu/mailing_lists.html:32
 #, python-format
 msgid "%(num)d User"
 msgid_plural "%(num)d Users"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ode/blueprints/amu/templates/amu/mailing_lists.html:42
+#: blueprints/amu/templates/amu/mailing_lists.html:42
 #, python-format
 msgid "%(num)d Additional address"
 msgid_plural "%(num)d Additional addresses"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ode/blueprints/amu/templates/amu/new_group.html:2
-#: ode/blueprints/amu/templates/amu/new_group.html:5
+#: blueprints/amu/templates/amu/new_alias.html:2
+#: blueprints/amu/templates/amu/new_alias.html:5
+msgid "Create new alias"
+msgstr ""
+
+#: blueprints/amu/templates/amu/new_group.html:2
+#: blueprints/amu/templates/amu/new_group.html:5
 msgid "Create new group"
 msgstr ""
 
-#: ode/blueprints/amu/templates/amu/new_mailing_list.html:2
-#: ode/blueprints/amu/templates/amu/new_mailing_list.html:5
+#: blueprints/amu/templates/amu/new_mailing_list.html:2
+#: blueprints/amu/templates/amu/new_mailing_list.html:5
 msgid "Create new mailing list"
 msgstr ""
 
-#: ode/blueprints/amu/templates/amu/new_user.html:2
-#: ode/blueprints/amu/templates/amu/new_user.html:5
+#: blueprints/amu/templates/amu/new_user.html:2
+#: blueprints/amu/templates/amu/new_user.html:5
 msgid "Create new user"
 msgstr ""
 
-#: ode/blueprints/amu/templates/amu/users.html:2
-#: ode/blueprints/amu/templates/amu/users.html:5
+#: blueprints/amu/templates/amu/users.html:2
+#: blueprints/amu/templates/amu/users.html:5
 msgid "User list"
 msgstr ""
 
-#: ode/blueprints/amu/templates/amu/users.html:11
+#: blueprints/amu/templates/amu/users.html:11
 msgid "E-Mail"
 msgstr ""
 
-#: ode/blueprints/isi/forms.py:10
+#: blueprints/isi/forms.py:10
 msgid "Refresh!"
 msgstr ""
 
-#: ode/blueprints/isi/forms.py:21 ode/blueprints/isi/forms.py:40
+#: blueprints/isi/forms.py:21 blueprints/isi/forms.py:42
 msgid "Subject"
 msgstr ""
 
-#: ode/blueprints/isi/forms.py:22
+#: blueprints/isi/forms.py:22
 msgid "Initial recipients"
 msgstr ""
 
-#: ode/blueprints/isi/forms.py:23 ode/blueprints/isi/forms.py:38
+#: blueprints/isi/forms.py:23 blueprints/isi/forms.py:40
 msgid "Sender"
 msgstr ""
 
-#: ode/blueprints/isi/forms.py:24 ode/blueprints/isi/forms.py:41
-#: ode/blueprints/isi/templates/isi/invitation_view.html:72
+#: blueprints/isi/forms.py:24 blueprints/isi/forms.py:33
+msgid "Owners"
+msgstr ""
+
+#: blueprints/isi/forms.py:25 blueprints/isi/forms.py:43
+#: blueprints/isi/templates/isi/invitation_view.html:21
 msgid "Invitation text"
 msgstr ""
 
-#: ode/blueprints/isi/forms.py:26
-#: ode/blueprints/isi/templates/isi/invitation_view.html:123
+#: blueprints/isi/forms.py:27
+#: blueprints/isi/templates/isi/invitation_view.html:73
 msgid "Save"
 msgstr ""
 
-#: ode/blueprints/isi/forms.py:27 ode/blueprints/isi/forms.py:44
+#: blueprints/isi/forms.py:28 blueprints/isi/forms.py:46
 msgid "Send"
 msgstr ""
 
-#: ode/blueprints/isi/forms.py:31
+#: blueprints/isi/forms.py:32
 msgid "Recipients"
 msgstr ""
 
-#: ode/blueprints/isi/forms.py:43
+#: blueprints/isi/forms.py:45
 msgid "Abort & Back"
 msgstr ""
 
-#: ode/blueprints/isi/navigation.py:18
-#: ode/blueprints/isi/templates/isi/event_list.html:2
-#: ode/blueprints/isi/templates/isi/event_list.html:46
+#: blueprints/isi/navigation.py:18
+#: blueprints/isi/templates/isi/event_list.html:2
+#: blueprints/isi/templates/isi/event_list.html:46
 msgid "Event list"
 msgstr ""
 
-#: ode/blueprints/isi/views.py:135
+#: blueprints/isi/notifications.py:24
+#, python-format
+msgid "Updates for '%s'"
+msgstr ""
+
+#: blueprints/isi/views.py:135
 msgid "Message away!"
 msgstr ""
 
-#: ode/blueprints/isi/views.py:166
+#: blueprints/isi/views.py:166
 #, python-format
 msgid "<h1>Invitation to '%s'</h1><p>Please come all</p>"
 msgstr ""
 
-#: ode/blueprints/isi/templates/isi/event_list.html:19
-msgid "Create invitation"
-msgstr ""
-
-#: ode/blueprints/isi/templates/isi/event_list.html:34
-msgid "invitation"
-msgstr ""
-
-#: ode/blueprints/isi/templates/isi/event_list.html:34
-msgid "Yes:"
-msgstr ""
-
-#: ode/blueprints/isi/templates/isi/event_list.html:34
-msgid "No:"
-msgstr ""
-
-#: ode/blueprints/isi/templates/isi/event_list.html:34
-msgid "Unknown:"
-msgstr ""
-
-#: ode/blueprints/isi/templates/isi/event_list.html:50
-msgid "Previous and outdated events"
-msgstr ""
-
-#: ode/blueprints/isi/templates/isi/event_view.html:2
-msgid "Event view"
-msgstr ""
-
-#: ode/blueprints/isi/templates/isi/invitation_send.html:2
-#: ode/blueprints/isi/templates/isi/invitation_send.html:6
-msgid "Sending invitation"
-msgstr ""
-
-#: ode/blueprints/isi/templates/isi/invitation_send.html:8
-msgid "Do you want to send the following mail?"
-msgstr ""
-
-#: ode/blueprints/isi/templates/isi/invitation_view.html:2
-msgid "Invitation view/edit"
-msgstr ""
-
-#: ode/blueprints/isi/templates/isi/invitation_view.html:7
-#: ode/blueprints/isi/templates/isi/invitation_view.html:87
+#: blueprints/isi/templates/isi/base.html:70
+#: blueprints/isi/templates/isi/invitation_view.html:36
+#: blueprints/isi/templates/isi/update_notification_mail.html:14
 msgid "Yes"
 msgstr ""
 
-#: ode/blueprints/isi/templates/isi/invitation_view.html:9
+#: blueprints/isi/templates/isi/base.html:74
 msgid "Mark recipient as 'Yes'"
 msgstr ""
 
-#: ode/blueprints/isi/templates/isi/invitation_view.html:9
+#: blueprints/isi/templates/isi/base.html:74
 msgid "Set Yes"
 msgstr ""
 
-#: ode/blueprints/isi/templates/isi/invitation_view.html:12
-#: ode/blueprints/isi/templates/isi/invitation_view.html:88
+#: blueprints/isi/templates/isi/base.html:81
+#: blueprints/isi/templates/isi/invitation_view.html:37
+#: blueprints/isi/templates/isi/update_notification_mail.html:15
 msgid "Unknown"
 msgstr ""
 
-#: ode/blueprints/isi/templates/isi/invitation_view.html:17
-#: ode/blueprints/isi/templates/isi/invitation_view.html:89
+#: blueprints/isi/templates/isi/base.html:86
+#: blueprints/isi/templates/isi/invitation_view.html:38
+#: blueprints/isi/templates/isi/update_notification_mail.html:16
 msgid "No"
 msgstr ""
 
-#: ode/blueprints/isi/templates/isi/invitation_view.html:19
+#: blueprints/isi/templates/isi/base.html:90
 msgid "Mark recipient as 'No'"
 msgstr ""
 
-#: ode/blueprints/isi/templates/isi/invitation_view.html:19
+#: blueprints/isi/templates/isi/base.html:90
 msgid "Set No"
 msgstr ""
 
-#: ode/blueprints/isi/templates/isi/invitation_view.html:33
+#: blueprints/isi/templates/isi/base.html:109
 msgid "Recipient responded via link"
 msgstr ""
 
-#: ode/blueprints/isi/templates/isi/invitation_view.html:34
+#: blueprints/isi/templates/isi/base.html:110
 msgid "Responded via link"
 msgstr ""
 
-#: ode/blueprints/isi/templates/isi/invitation_view.html:37
+#: blueprints/isi/templates/isi/base.html:113
 msgid "Recipient responded via mail"
 msgstr ""
 
-#: ode/blueprints/isi/templates/isi/invitation_view.html:38
+#: blueprints/isi/templates/isi/base.html:114
 msgid "Responded via mail"
 msgstr ""
 
-#: ode/blueprints/isi/templates/isi/invitation_view.html:41
+#: blueprints/isi/templates/isi/base.html:117
 msgid "Recipient state manually set"
 msgstr ""
 
-#: ode/blueprints/isi/templates/isi/invitation_view.html:42
+#: blueprints/isi/templates/isi/base.html:118
 msgid "Manually set"
 msgstr ""
 
-#: ode/blueprints/isi/templates/isi/invitation_view.html:68
+#: blueprints/isi/templates/isi/event_list.html:19
+msgid "Create invitation"
+msgstr ""
+
+#: blueprints/isi/templates/isi/event_list.html:34
+msgid "invitation"
+msgstr ""
+
+#: blueprints/isi/templates/isi/event_list.html:34
+msgid "Yes:"
+msgstr ""
+
+#: blueprints/isi/templates/isi/event_list.html:34
+msgid "No:"
+msgstr ""
+
+#: blueprints/isi/templates/isi/event_list.html:34
+msgid "Unknown:"
+msgstr ""
+
+#: blueprints/isi/templates/isi/event_list.html:50
+msgid "Previous and outdated events"
+msgstr ""
+
+#: blueprints/isi/templates/isi/event_view.html:2
+msgid "Event view"
+msgstr ""
+
+#: blueprints/isi/templates/isi/invitation_send.html:2
+#: blueprints/isi/templates/isi/invitation_send.html:6
+msgid "Sending invitation"
+msgstr ""
+
+#: blueprints/isi/templates/isi/invitation_send.html:8
+msgid "Do you want to send the following mail?"
+msgstr ""
+
+#: blueprints/isi/templates/isi/invitation_view.html:2
+msgid "Invitation view/edit"
+msgstr ""
+
+#: blueprints/isi/templates/isi/invitation_view.html:17
 msgid "Event"
 msgstr ""
 
-#: ode/blueprints/isi/templates/isi/invitation_view.html:70
+#: blueprints/isi/templates/isi/invitation_view.html:19
 msgid "Responses"
 msgstr ""
 
-#: ode/blueprints/isi/templates/isi/invitation_view.html:73
+#: blueprints/isi/templates/isi/invitation_view.html:22
 msgid "Options"
 msgstr ""
 
-#: ode/blueprints/isi/templates/isi/invitation_view.html:90
-#: ode/blueprints/isi/templates/isi/rsvp_result.html:6
+#: blueprints/isi/templates/isi/invitation_view.html:39
+#: blueprints/isi/templates/isi/rsvp_result.html:6
+#: blueprints/isi/templates/isi/update_notification_mail.html:17
 msgid "Recipient"
 msgstr ""
 
-#: ode/blueprints/isi/templates/isi/invitation_view.html:91
+#: blueprints/isi/templates/isi/invitation_view.html:40
+#: blueprints/isi/templates/isi/update_notification_mail.html:18
 msgid "Last responded"
 msgstr ""
 
-#: ode/blueprints/isi/templates/isi/invitation_view.html:124
+#: blueprints/isi/templates/isi/invitation_view.html:74
 msgid "Send …"
 msgstr ""
 
-#: ode/blueprints/isi/templates/isi/rsvp_result.html:2
+#: blueprints/isi/templates/isi/rsvp_result.html:2
 msgid "Respond to invitation"
 msgstr ""
 
-#: ode/blueprints/isi/templates/isi/rsvp_result.html:8
+#: blueprints/isi/templates/isi/rsvp_result.html:8
 msgid "Response"
 msgstr ""
 
-#: ode/blueprints/isi/templates/isi/rsvp_result.html:11
+#: blueprints/isi/templates/isi/rsvp_result.html:11
 msgid "Yes, I'm coming!"
 msgstr ""
 
-#: ode/blueprints/isi/templates/isi/rsvp_result.html:13
+#: blueprints/isi/templates/isi/rsvp_result.html:13
 msgid "No, I can't make it this time around."
 msgstr ""
 
-#: ode/blueprints/isi/templates/isi/rsvp_result.html:21
+#: blueprints/isi/templates/isi/rsvp_result.html:21
 msgid "Thank you!"
 msgstr ""
 
-#: ode/blueprints/isi/templates/isi/rsvp_result.html:23
+#: blueprints/isi/templates/isi/rsvp_result.html:23
 msgid "Your response has been recorded."
 msgstr ""
 
-#: ode/blueprints/isi/templates/isi/rsvp_result.html:26
+#: blueprints/isi/templates/isi/rsvp_result.html:26
 msgid "Change response?"
 msgstr ""
 
-#: ode/blueprints/isi/templates/isi/rsvp_result.html:28
+#: blueprints/isi/templates/isi/rsvp_result.html:28
 msgid "Your response has alread been recorded as"
 msgstr ""
 
-#: ode/blueprints/isi/templates/isi/rsvp_result.html:31
+#: blueprints/isi/templates/isi/rsvp_result.html:31
 msgid "Do you want to change your response?"
 msgstr ""
 
-#: ode/blueprints/isi/templates/isi/rsvp_result.html:38
+#: blueprints/isi/templates/isi/rsvp_result.html:38
 msgid "Unfortunately, I can't make it after all."
 msgstr ""
 
-#: ode/blueprints/isi/templates/isi/rsvp_result.html:43
+#: blueprints/isi/templates/isi/rsvp_result.html:43
 msgid "I can make it after all!"
 msgstr ""
 
-#: ode/templates/login.html:2
+#: blueprints/isi/templates/isi/update_notification_mail.html:2
+#: blueprints/isi/templates/isi/update_notification_mail.html:9
+msgid "Responses to invitation"
+msgstr ""
+
+#: blueprints/isi/templates/isi/update_notification_mail.html:10
+#, python-format
+msgid ""
+"There have been changes in the attendance list for '%(subject)s'. You're "
+"receiving this mail, because you are listed as an owner of this "
+"invitation. Following is the full attendance list as of now."
+msgstr ""
+
+#: templates/login.html:2
 msgid "Log in"
 msgstr ""
 
-#: ode/templates/login.html:5
+#: templates/login.html:5
 msgid "Please log in"
 msgstr ""
 

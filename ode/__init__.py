@@ -207,7 +207,7 @@ def _connect_and_load_ldap(password):
 	g.ldap_user = User.query.filter("userid: %s" % session["username"]).first()
 	if not g.ldap_user:
 		# Fallback case
-		g.ldap_user = User(name="Unknown user")
+		g.ldap_user = User(name=_("Unknown user"))
 
 def determine_admin_status():
 	"""Try to query a group. If that succeeds -> Admin, otherwise normal user. Cache the result in the session."""
