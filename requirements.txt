@@ -29,3 +29,6 @@ imapclient
 Flask-Babel
 filelock
 passlib
+
+# Seems to be broken
+public!=0.0.41
