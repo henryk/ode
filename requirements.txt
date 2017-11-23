@@ -31,4 +31,4 @@ filelock
 passlib
 
 # Seems to be broken
-public!=0.0.41
+public!=0.0.41,!=0.0.40
