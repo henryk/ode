@@ -65,6 +65,7 @@ def save_ldap_attributes(form, obj):
 	"""Only stores existing LDAP attributes.
 	Does not store empty attributes named 'password'.
 	Does not change existing attributes named 'userid'.
+	Sets new attributes named 'userid' to a lower-case version.
 	Does not change attributes named 'groups'.
 	Does not change attributes named 'members'.
 	For the following attributes a set_* method is called: aliases, list_members"""
@@ -80,17 +81,24 @@ def save_ldap_attributes(form, obj):
 		if name == "members": continue
 
 		try:
+			value = field.data
 			old_value = getattr(getattr(obj, name), 'value', getattr(obj, name))
-			if old_value != field.data:
+
+			if name == "userid":
+				value = value.lower()
+
+			if old_value != value:
+
 				current_app.logger.debug("Setting %s because it was %r and should be %r", name, 
-					old_value, field.data)
+					old_value, value)
+
 				setter = None
 				if name in ["aliases", "list_members"]:
 					setter = getattr(obj, "set_%s" % name, None)
 				if setter:
-					setter(field.data)
+					setter(value)
 				else:
-					setattr(obj, name, field.data)
+					setattr(obj, name, value)
 				changed = True
 
 		except LDAPEntryError as e:
