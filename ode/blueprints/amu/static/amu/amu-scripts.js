@@ -1,13 +1,16 @@
 function amu_user_enhancements(password_is_required) {
 
     $(function(){
+        var username_remove_regex = new RegExp('\\b(' + ["bgdr"].join('|') + ')\\b|\\w+\\.', 'g');
         var fullname_changed = false;
         var username_changed = false;
         var computed_fullname = function() {
             return $.trim($('#givenname').val() + " " + $('#surname').val());
         };
         var computed_username = function() {
-            return $.trim($('#givenname').val().toLowerCase());
+            var candidate = $('#givenname').val().toLowerCase();
+            candidate = $.trim( candidate.replace(username_remove_regex, "") );
+            return candidate.replace(/\s+/g, '.');
         };
         var fullname_change_handler = function() {
             if(!fullname_changed) {
