@@ -153,7 +153,11 @@ def create_invitation():
 			e = event.linked_copy()
 			i = Invitation(event=e)
 
-			tmpl = Template.query.filter(Template.category.in_(e.categories)).first()
+			if hasattr(e, "categories"):
+				tmpl = Template.query.filter(Template.category.in_(e.categories)).first()
+			else:
+				tmpl = None
+
 			if tmpl:
 				for a in ["sender", "recipients_raw"]:
 					setattr(i, a, getattr(tmpl, a))
@@ -163,7 +167,7 @@ def create_invitation():
 					)
 
 			else:
-				i.text_html = _("<h1>Invitation to '%s'</h1><p>Please come all</p>") % e.summary
+				i.text_html = _("<h1>Invitation to '%s'</h1><p>Please come all</p><ul><li><a href='{{link_yes}}'>Yes</a></li><li><a href='{{link_no}}''>No.</a></li></ul>") % e.summary
 
 			db.session.add(e)
 			db.session.add(i)

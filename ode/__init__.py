@@ -123,6 +123,10 @@ def create_app(configuration="ode.config.Config", **kwargs):
 		if lang_code and lang_code not in current_app.config['SUPPORTED_LANGUAGES'].keys():
 			return abort(404)
 
+	@app.errorhandler(404)
+	def page_not_found(e):
+		return render_template("404.html"), 404
+
 	from ode.navigation import ODENavbarRenderer
 	register_renderer(app, 'ode_navbar', ODENavbarRenderer)
 
