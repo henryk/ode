@@ -75,9 +75,9 @@ def invitation_view(invitation_id):
 
 	if invitation.state is not invitation.state.PREPARING:
 		from wtforms_components import read_only
-		read_only(form.sender)
-		read_only(form.text_html)
-		read_only(form.subject)
+		for f in [form.sender, form.text_html, form.subject]:
+			read_only(f)
+			f.validators = []
 
 	if request.method == 'POST' and form.validate_on_submit():
 		form.populate_obj(invitation)

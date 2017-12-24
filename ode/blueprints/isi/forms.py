@@ -47,9 +47,9 @@ def get_SendInvitationForm(recipients_):
 
 		def __init__(self, *args, **kwargs):
 			super(SendInvitationForm, self).__init__(*args, **kwargs)
-			read_only(self.sender)
-			read_only(self.subject)
-			read_only(self.text_html)
+			for f in [self.sender, self.subject, self.text_html]:
+				read_only(f)
+				f.validators = []
 
 	return SendInvitationForm
 
