@@ -8,6 +8,7 @@ from contextlib import contextmanager
 import requests, filelock, os.path, shelve, time, flanker.addresslib.address, enum
 
 BLACKLIST_LIST_NAMES = ["mailman"]
+BLACKLIST_EMAIL_ADDRESSES = ["root@localhost", "root@localhost.localdomain"]
 
 class SyncMessage(enum.Enum):
 	CONFLICT = "conflict"
@@ -52,7 +53,7 @@ def normalize_list(l, as_dict=False):
 	for a in l:
 		if not isinstance(a, flanker.addresslib.address.EmailAddress):
 			a = flanker.addresslib.address.parse(a)
-		if a:
+		if a and a.address.lower() not in BLACKLIST_EMAIL_ADDRESSES:
 			if as_dict:
 				retval[a.address.lower()] = a
 			else:
