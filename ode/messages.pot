@@ -1,14 +1,14 @@
 # Translations template for PROJECT.
-# Copyright (C) 2017 ORGANIZATION
+# Copyright (C) 2018 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-11-09 13:39+0100\n"
+"POT-Creation-Date: 2018-01-03 02:30+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.5.1\n"
 
-#: __init__.py:210
+#: __init__.py:214
 msgid "Unknown user"
 msgstr ""
 
-#: __init__.py:247
+#: __init__.py:252
 msgid "Invalid credentials"
 msgstr ""
 
@@ -175,189 +175,189 @@ msgstr ""
 msgid "Couldn't send mail to user"
 msgstr ""
 
-#: blueprints/amu/views.py:42 blueprints/amu/views.py:118
-#: blueprints/amu/views.py:183 blueprints/amu/views.py:261
-#: blueprints/amu/views.py:330
+#: blueprints/amu/views.py:42 blueprints/amu/views.py:126
+#: blueprints/amu/views.py:191 blueprints/amu/views.py:269
+#: blueprints/amu/views.py:338
 msgid "Successfully saved"
 msgstr ""
 
-#: blueprints/amu/views.py:52 blueprints/amu/views.py:126
-#: blueprints/amu/views.py:186 blueprints/amu/views.py:265
-#: blueprints/amu/views.py:333
+#: blueprints/amu/views.py:52 blueprints/amu/views.py:134
+#: blueprints/amu/views.py:194 blueprints/amu/views.py:273
+#: blueprints/amu/views.py:341
 msgid "Saving was unsuccessful"
 msgstr ""
 
-#: blueprints/amu/views.py:120
+#: blueprints/amu/views.py:128
 msgid "Some or all of the group changes were not successful"
 msgstr ""
 
-#: blueprints/amu/views.py:131
+#: blueprints/amu/views.py:139
 msgid "User deleted"
 msgstr ""
 
-#: blueprints/amu/views.py:134 blueprints/amu/views.py:195
-#: blueprints/amu/views.py:274 blueprints/amu/views.py:342
+#: blueprints/amu/views.py:142 blueprints/amu/views.py:203
+#: blueprints/amu/views.py:282 blueprints/amu/views.py:350
 msgid "Deletion was unsuccessful"
 msgstr ""
 
-#: blueprints/amu/views.py:136
+#: blueprints/amu/views.py:144
 msgid "Please confirm user deletion"
 msgstr ""
 
-#: blueprints/amu/views.py:153
+#: blueprints/amu/views.py:161
 msgid "User created"
 msgstr ""
 
-#: blueprints/amu/views.py:155
+#: blueprints/amu/views.py:163
 msgid "Some or all of the groups could not be assigned"
 msgstr ""
 
-#: blueprints/amu/views.py:161
+#: blueprints/amu/views.py:169
 msgid "Error while creating user"
 msgstr ""
 
-#: blueprints/amu/views.py:192
+#: blueprints/amu/views.py:200
 msgid "Group deleted"
 msgstr ""
 
-#: blueprints/amu/views.py:197
+#: blueprints/amu/views.py:205
 msgid "Please confirm group deletion"
 msgstr ""
 
-#: blueprints/amu/views.py:214
+#: blueprints/amu/views.py:222
 msgid "Group created"
 msgstr ""
 
-#: blueprints/amu/views.py:217
+#: blueprints/amu/views.py:225
 msgid "Error while creating group"
 msgstr ""
 
-#: blueprints/amu/views.py:231
+#: blueprints/amu/views.py:239
 #, python-format
 msgid "Conflict while syncing mailing list '%s', please resolve manually"
 msgstr ""
 
-#: blueprints/amu/views.py:233
+#: blueprints/amu/views.py:241
 #, python-format
 msgid ""
 "Mailing list '%s' exists in LDAP, but not in Mailman. Please create in "
 "Mailman."
 msgstr ""
 
-#: blueprints/amu/views.py:255 blueprints/amu/views.py:295
+#: blueprints/amu/views.py:263 blueprints/amu/views.py:303
 #, python-format
 msgid "Invalid format, did not import: %s"
 msgstr ""
 
-#: blueprints/amu/views.py:258 blueprints/amu/views.py:298
+#: blueprints/amu/views.py:266 blueprints/amu/views.py:306
 #, python-format
 msgid "Already existing, did not import: %s"
 msgstr ""
 
-#: blueprints/amu/views.py:271
+#: blueprints/amu/views.py:279
 msgid "Mailing list deleted"
 msgstr ""
 
-#: blueprints/amu/views.py:276
+#: blueprints/amu/views.py:284
 msgid "Please confirm mailing list deletion"
 msgstr ""
 
-#: blueprints/amu/views.py:301
+#: blueprints/amu/views.py:309
 msgid "Mailing list created"
 msgstr ""
 
-#: blueprints/amu/views.py:304
+#: blueprints/amu/views.py:312
 msgid "Error while creating mailing list"
 msgstr ""
 
-#: blueprints/amu/views.py:339
+#: blueprints/amu/views.py:347
 msgid "Alias deleted"
 msgstr ""
 
-#: blueprints/amu/views.py:344
+#: blueprints/amu/views.py:352
 msgid "Please confirm alias deletion"
 msgstr ""
 
-#: blueprints/amu/views.py:364
+#: blueprints/amu/views.py:372
 msgid "Alias created"
 msgstr ""
 
-#: blueprints/amu/views.py:367
+#: blueprints/amu/views.py:375
 msgid "Error while creating Alias"
 msgstr ""
 
-#: blueprints/amu/static/amu/amu-scripts.js:24
+#: blueprints/amu/static/amu/amu-scripts.js:27
 msgid "less than a second"
 msgstr ""
 
-#: blueprints/amu/static/amu/amu-scripts.js:25
+#: blueprints/amu/static/amu/amu-scripts.js:28
 #, python-format
 msgid "%d second"
 msgid_plural "%d seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: blueprints/amu/static/amu/amu-scripts.js:26
+#: blueprints/amu/static/amu/amu-scripts.js:29
 #, python-format
 msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] ""
 msgstr[1] ""
 
-#: blueprints/amu/static/amu/amu-scripts.js:27
+#: blueprints/amu/static/amu/amu-scripts.js:30
 #, python-format
 msgid "%d hour"
 msgid_plural "%d hours"
 msgstr[0] ""
 msgstr[1] ""
 
-#: blueprints/amu/static/amu/amu-scripts.js:28
+#: blueprints/amu/static/amu/amu-scripts.js:31
 #, python-format
 msgid "%d day"
 msgid_plural "%d days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: blueprints/amu/static/amu/amu-scripts.js:29
+#: blueprints/amu/static/amu/amu-scripts.js:32
 #, python-format
 msgid "%d month"
 msgid_plural "%d months"
 msgstr[0] ""
 msgstr[1] ""
 
-#: blueprints/amu/static/amu/amu-scripts.js:30
+#: blueprints/amu/static/amu/amu-scripts.js:33
 #, python-format
 msgid "%d year"
 msgid_plural "%d years"
 msgstr[0] ""
 msgstr[1] ""
 
-#: blueprints/amu/static/amu/amu-scripts.js:31
+#: blueprints/amu/static/amu/amu-scripts.js:34
 msgid "centuries"
 msgstr ""
 
-#: blueprints/amu/static/amu/amu-scripts.js:86
+#: blueprints/amu/static/amu/amu-scripts.js:89
 msgid "Generate!"
 msgstr ""
 
-#: blueprints/amu/static/amu/amu-scripts.js:132
+#: blueprints/amu/static/amu/amu-scripts.js:135
 msgid "Crack time approximately: "
 msgstr ""
 
-#: blueprints/amu/static/amu/amu-scripts.js:176
+#: blueprints/amu/static/amu/amu-scripts.js:179
 #: blueprints/amu/templates/amu/group.html:2
 #: blueprints/amu/templates/amu/group.html:5
 msgid "Group"
 msgstr ""
 
-#: blueprints/amu/static/amu/amu-scripts.js:180
+#: blueprints/amu/static/amu/amu-scripts.js:183
 #: blueprints/amu/templates/amu/self.html:5
 #: blueprints/amu/templates/amu/user.html:2
 #: blueprints/amu/templates/amu/user.html:5
 msgid "User"
 msgstr ""
 
-#: blueprints/amu/static/amu/amu-scripts.js:184
+#: blueprints/amu/static/amu/amu-scripts.js:187
 #: blueprints/amu/templates/amu/alias.html:2
 #: blueprints/amu/templates/amu/alias.html:5
 msgid "Alias"
@@ -455,47 +455,47 @@ msgstr ""
 msgid "Refresh!"
 msgstr ""
 
-#: blueprints/isi/forms.py:21 blueprints/isi/forms.py:42
+#: blueprints/isi/forms.py:22 blueprints/isi/forms.py:43
 msgid "Subject"
 msgstr ""
 
-#: blueprints/isi/forms.py:22
+#: blueprints/isi/forms.py:23
 msgid "Initial recipients"
 msgstr ""
 
-#: blueprints/isi/forms.py:23 blueprints/isi/forms.py:40
+#: blueprints/isi/forms.py:24 blueprints/isi/forms.py:41
 msgid "Sender"
 msgstr ""
 
-#: blueprints/isi/forms.py:24 blueprints/isi/forms.py:33
+#: blueprints/isi/forms.py:25 blueprints/isi/forms.py:34
 msgid "Owners"
 msgstr ""
 
-#: blueprints/isi/forms.py:25 blueprints/isi/forms.py:43
+#: blueprints/isi/forms.py:26 blueprints/isi/forms.py:44
 #: blueprints/isi/templates/isi/invitation_view.html:21
 msgid "Invitation text"
 msgstr ""
 
-#: blueprints/isi/forms.py:27
-#: blueprints/isi/templates/isi/invitation_view.html:73
+#: blueprints/isi/forms.py:28
+#: blueprints/isi/templates/isi/invitation_view.html:75
 msgid "Save"
 msgstr ""
 
-#: blueprints/isi/forms.py:28 blueprints/isi/forms.py:46
+#: blueprints/isi/forms.py:29 blueprints/isi/forms.py:47
 msgid "Send"
 msgstr ""
 
-#: blueprints/isi/forms.py:32
+#: blueprints/isi/forms.py:33
 msgid "Recipients"
 msgstr ""
 
-#: blueprints/isi/forms.py:45
+#: blueprints/isi/forms.py:46
 msgid "Abort & Back"
 msgstr ""
 
 #: blueprints/isi/navigation.py:18
 #: blueprints/isi/templates/isi/event_list.html:2
-#: blueprints/isi/templates/isi/event_list.html:46
+#: blueprints/isi/templates/isi/event_list.html:48
 msgid "Event list"
 msgstr ""
 
@@ -508,9 +508,12 @@ msgstr ""
 msgid "Message away!"
 msgstr ""
 
-#: blueprints/isi/views.py:166
+#: blueprints/isi/views.py:170
 #, python-format
-msgid "<h1>Invitation to '%s'</h1><p>Please come all</p>"
+msgid ""
+"<h1>Invitation to '%s'</h1><p>Please come all</p><ul><li><a "
+"href='{{link_yes}}'>Yes</a></li><li><a "
+"href='{{link_no}}'>No.</a></li></ul>"
 msgstr ""
 
 #: blueprints/isi/templates/isi/base.html:70
@@ -530,68 +533,86 @@ msgstr ""
 #: blueprints/isi/templates/isi/base.html:81
 #: blueprints/isi/templates/isi/invitation_view.html:37
 #: blueprints/isi/templates/isi/update_notification_mail.html:15
+msgid "Tentative"
+msgstr ""
+
+#: blueprints/isi/templates/isi/base.html:85
+msgid "Mark recipient as 'Tentative'"
+msgstr ""
+
+#: blueprints/isi/templates/isi/base.html:85
+msgid "Set Tentative"
+msgstr ""
+
+#: blueprints/isi/templates/isi/base.html:92
+#: blueprints/isi/templates/isi/invitation_view.html:38
+#: blueprints/isi/templates/isi/update_notification_mail.html:16
 msgid "Unknown"
 msgstr ""
 
-#: blueprints/isi/templates/isi/base.html:86
-#: blueprints/isi/templates/isi/invitation_view.html:38
-#: blueprints/isi/templates/isi/update_notification_mail.html:16
+#: blueprints/isi/templates/isi/base.html:97
+#: blueprints/isi/templates/isi/invitation_view.html:39
+#: blueprints/isi/templates/isi/update_notification_mail.html:17
 msgid "No"
 msgstr ""
 
-#: blueprints/isi/templates/isi/base.html:90
+#: blueprints/isi/templates/isi/base.html:101
 msgid "Mark recipient as 'No'"
 msgstr ""
 
-#: blueprints/isi/templates/isi/base.html:90
+#: blueprints/isi/templates/isi/base.html:101
 msgid "Set No"
 msgstr ""
 
-#: blueprints/isi/templates/isi/base.html:109
+#: blueprints/isi/templates/isi/base.html:120
 msgid "Recipient responded via link"
 msgstr ""
 
-#: blueprints/isi/templates/isi/base.html:110
+#: blueprints/isi/templates/isi/base.html:121
 msgid "Responded via link"
 msgstr ""
 
-#: blueprints/isi/templates/isi/base.html:113
+#: blueprints/isi/templates/isi/base.html:124
 msgid "Recipient responded via mail"
 msgstr ""
 
-#: blueprints/isi/templates/isi/base.html:114
+#: blueprints/isi/templates/isi/base.html:125
 msgid "Responded via mail"
 msgstr ""
 
-#: blueprints/isi/templates/isi/base.html:117
+#: blueprints/isi/templates/isi/base.html:128
 msgid "Recipient state manually set"
 msgstr ""
 
-#: blueprints/isi/templates/isi/base.html:118
+#: blueprints/isi/templates/isi/base.html:129
 msgid "Manually set"
 msgstr ""
 
-#: blueprints/isi/templates/isi/event_list.html:19
+#: blueprints/isi/templates/isi/event_list.html:20
 msgid "Create invitation"
 msgstr ""
 
-#: blueprints/isi/templates/isi/event_list.html:34
+#: blueprints/isi/templates/isi/event_list.html:36
 msgid "invitation"
 msgstr ""
 
-#: blueprints/isi/templates/isi/event_list.html:34
+#: blueprints/isi/templates/isi/event_list.html:36
 msgid "Yes:"
 msgstr ""
 
-#: blueprints/isi/templates/isi/event_list.html:34
+#: blueprints/isi/templates/isi/event_list.html:36
+msgid "Tentative:"
+msgstr ""
+
+#: blueprints/isi/templates/isi/event_list.html:36
 msgid "No:"
 msgstr ""
 
-#: blueprints/isi/templates/isi/event_list.html:34
+#: blueprints/isi/templates/isi/event_list.html:36
 msgid "Unknown:"
 msgstr ""
 
-#: blueprints/isi/templates/isi/event_list.html:50
+#: blueprints/isi/templates/isi/event_list.html:52
 msgid "Previous and outdated events"
 msgstr ""
 
@@ -624,18 +645,18 @@ msgstr ""
 msgid "Options"
 msgstr ""
 
-#: blueprints/isi/templates/isi/invitation_view.html:39
+#: blueprints/isi/templates/isi/invitation_view.html:40
 #: blueprints/isi/templates/isi/rsvp_result.html:6
-#: blueprints/isi/templates/isi/update_notification_mail.html:17
+#: blueprints/isi/templates/isi/update_notification_mail.html:18
 msgid "Recipient"
 msgstr ""
 
-#: blueprints/isi/templates/isi/invitation_view.html:40
-#: blueprints/isi/templates/isi/update_notification_mail.html:18
+#: blueprints/isi/templates/isi/invitation_view.html:41
+#: blueprints/isi/templates/isi/update_notification_mail.html:19
 msgid "Last responded"
 msgstr ""
 
-#: blueprints/isi/templates/isi/invitation_view.html:74
+#: blueprints/isi/templates/isi/invitation_view.html:76
 msgid "Send …"
 msgstr ""
 
@@ -694,6 +715,16 @@ msgid ""
 "There have been changes in the attendance list for '%(subject)s'. You're "
 "receiving this mail, because you are listed as an owner of this "
 "invitation. Following is the full attendance list as of now."
+msgstr ""
+
+#: templates/404.html:2 templates/404.html:5
+msgid "Page not found"
+msgstr ""
+
+#: templates/404.html:7
+msgid ""
+"The requested URL was not found on the server. If you entered the URL "
+"manually please check your spelling and try again."
 msgstr ""
 
 #: templates/login.html:2

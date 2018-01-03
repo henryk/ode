@@ -167,7 +167,7 @@ def create_invitation():
 					)
 
 			else:
-				i.text_html = _("<h1>Invitation to '%s'</h1><p>Please come all</p><ul><li><a href='{{link_yes}}'>Yes</a></li><li><a href='{{link_no}}''>No.</a></li></ul>") % e.summary
+				i.text_html = _("<h1>Invitation to '%s'</h1><p>Please come all</p><ul><li><a href='{{link_yes}}'>Yes</a></li><li><a href='{{link_no}}'>No.</a></li></ul>") % e.summary
 
 			db.session.add(e)
 			db.session.add(i)
