@@ -111,6 +111,8 @@ def handle_imip_response(message):
 						recipient.accept = AcceptState.YES
 					elif partstat.lower() == "declined":
 						recipient.accept = AcceptState.NO
+					elif partstat.lower() == "tentative":
+						recipient.accept = AcceptState.TENTATIVE
 					else:
 						current_app.logger.warn("Unknown partstat for %s, while handling %s: %s", cal.vevent.attendee, uid, partstat)
 						return False

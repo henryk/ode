@@ -7,6 +7,7 @@
 			<tr>
 				<th></th>
 				<th class="rsvp-yes"><span class="glyphicon glyphicon-ok-sign"></span><span class="sr-only">Yes</span></th>
+				<th class="rsvp-tentative"><span class="glyphicon glyphicon-warning-sign"></span><span class="sr-only">Tentative</span></th>
 				<th class="rsvp-unknown"><span class="glyphicon glyphicon-question-sign"></span><span class="sr-only">Unknown</span></th>
 				<th class="rsvp-no"><span class="glyphicon glyphicon-remove-sign"></span><span class="sr-only">No</span></th>
 				<th></th>
@@ -20,6 +21,7 @@
 						
 				</td>
 				<td class="rsvp-yes">{{ e.rsvp_yes|length }}</td>
+				<td class="rsvp-tentative">{{ e.rsvp_tentative|length }}</td>
 				<td class="rsvp-unknown">{{ e.rsvp_unknown|length }}</td>
 				<td class="rsvp-no">{{ e.rsvp_no|length }}</td>
 				<td>
@@ -31,7 +33,7 @@
 						<ul>
 							{% for invitation in invitations %}
 								<li>
-									<a href="{{url_for('.invitation_view', invitation_id=invitation.id)}}">{{invitation.state.value}} {{_("invitation")}}</a> ({{_("Yes:")}} {{invitation.rsvp_yes|length}}, {{_("No:")}} {{invitation.rsvp_no|length}}, {{_("Unknown:")}} {{invitation.rsvp_unknown|length}})
+									<a href="{{url_for('.invitation_view', invitation_id=invitation.id)}}">{{invitation.state.value}} {{_("invitation")}}</a> ({{_("Yes:")}} {{invitation.rsvp_yes|length}}, {{_("Tentative:")}} {{invitation.rsvp_tentative|length}}, {{_("No:")}} {{invitation.rsvp_no|length}}, {{_("Unknown:")}} {{invitation.rsvp_unknown|length}})
 								</li>
 							{% endfor %}
 						</ul>

@@ -191,6 +191,8 @@ def recipient_set(recipient_id):
 			recipient.accept = recipient.accept.YES
 		elif form.state_no.data:
 			recipient.accept = recipient.accept.NO
+		elif form.state_tentative.data:
+			recipient.accept = recipient.accept.TENTATIVE
 		recipient.accept_time = datetime.datetime.utcnow()
 		recipient.accept_type = AcceptType.MANUAL
 		db.session.commit()

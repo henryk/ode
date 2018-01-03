@@ -41,6 +41,7 @@ class AcceptState(enum.Enum):
 	UNKNOWN = "unknown"
 	YES = "yes"
 	NO = "no"
+	TENTATIVE = "tentative"
 
 class AcceptType(enum.Enum):
 	UNKNOWN = "unknown"
@@ -144,6 +145,9 @@ class Invitation(db.Model):
 	def rsvp_no(self):
 		return [r for r in self.relevant_recipients if r.accept is r.accept.NO]
 
+	@property
+	def rsvp_tentative(self):
+		return [r for r in self.relevant_recipients if r.accept is r.accept.TENTATIVE]
 
 
 
@@ -286,6 +290,10 @@ class Event(db.Model):
 	@property
 	def rsvp_no(self):
 		return [r for r in self.relevant_recipients if r.accept is r.accept.NO]
+
+	@property
+	def rsvp_tentative(self):
+		return [r for r in self.relevant_recipients if r.accept is r.accept.TENTATIVE]
 	
 	
 CURRENT_DELTA=datetime.timedelta(seconds=10)

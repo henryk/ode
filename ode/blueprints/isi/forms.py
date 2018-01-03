@@ -16,6 +16,7 @@ class CreateInvitationForm(Form):
 class SetRecipientStateForm(Form):
 	state_yes = SubmitField('')
 	state_no = SubmitField('')
+	state_tentative = SubmitField('')
 
 class EditInvitationForm(Form):
 	subject = StringField( _('Subject'), validators=[DataRequired()])

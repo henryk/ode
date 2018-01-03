@@ -12,6 +12,7 @@
 		<thead>
 			<tr>
 				<th class="rsvp-yes"><span class="glyphicon glyphicon-ok-sign"></span><span class="sr-only">{{_("Yes")}}</span></th>
+				<th class="rsvp-tentative"><span class="glyphicon glyphicon-warning-sign"></span><span class="sr-only">{{_("Tentative")}}</span></th>
 				<th class="rsvp-unknown"><span class="glyphicon glyphicon-question-sign"></span><span class="sr-only">{{_("Unknown")}}</span></th>
 				<th class="rsvp-no"><span class="glyphicon glyphicon-remove-sign"></span><span class="sr-only">{{_("No")}}</span></th>
 				<th>{{_("Recipient")}}</th>
@@ -26,6 +27,7 @@
 		<tfoot>
 			<tr>
 				<th class="rsvp-yes">{{ invitation.rsvp_yes|length }}</th>
+				<th class="rsvp-tentative">{{ invitation.rsvp_tentative|length }}</th>
 				<th class="rsvp-unknown">{{ invitation.rsvp_unknown|length }}</th>
 				<th class="rsvp-no">{{ invitation.rsvp_no|length }}</th>
 				<td></td><td></td><td></td><td></td>

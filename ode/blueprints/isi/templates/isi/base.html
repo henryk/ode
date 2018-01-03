@@ -77,8 +77,19 @@
 				{%- endif -%}
 			</td>
 		{% endif %}
+		{% if recipient.accept == recipient.accept.TENTATIVE %}
+			<td class="rsvp-tentative"><span class="glyphicon glyphicon-warning-sign"></span><span class="sr-only">[[{{_("Tentative")}}]]</span></td>
+		{% else %}
+			<td class="rsvp-tentative">
+				{%- if output_links -%}
+					<a href="{{url_for('.recipient_set', recipient_id=recipient.id, state_tentative=1, csrf_token=form.csrf_token.current_token)}}"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true" title="{{_("Mark recipient as 'Tentative'")}}"></span><span class="sr-only">{{_("Set Tentative")}}</span></a>
+				{%- else -%}
+
+				{%- endif -%}
+			</td>
+		{% endif %}
 		{% if recipient.accept == recipient.accept.UNKNOWN %}
-			<td class="rsvp-yes"><span class="glyphicon glyphicon-question-sign"></span><span class="sr-only">[[{{_("Unknown")}}]]</span></td>
+			<td class="rsvp-unknown"><span class="glyphicon glyphicon-question-sign"></span><span class="sr-only">[[{{_("Unknown")}}]]</span></td>
 		{% else %}
 			<td></td>
 		{% endif %}
