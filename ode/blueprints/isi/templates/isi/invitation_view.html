@@ -102,10 +102,18 @@ $(function(){
 	moment.tz.setDefault(user_tz);
 
 	moment.locale( {{locale|force_str|tojson}} );
+	var abbrs = {
+		CET : {{ _('CET') | tojson }},
+		CEST: {{ _('CEST') | tojson }},
+	};
+	moment.fn.zoneName = function () {
+		var abbr = this.zoneAbbr();
+		return abbrs[abbr] || abbr;
+	};
 
 	$(".datetime-formatted").each(function(){
 		var m = moment.tz(parseInt($(this).data("timestamp"))*1000, user_tz);
-		$(this).text(m.format("ll HH:mm z"));
+		$(this).text(m.format("ll HH:mm zz"));
 	})
 
 	$(".datetime-relative").each(function(){

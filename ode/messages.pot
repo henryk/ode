@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-01-03 02:30+0100\n"
+"POT-Creation-Date: 2018-01-03 03:23+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -658,6 +658,14 @@ msgstr ""
 
 #: blueprints/isi/templates/isi/invitation_view.html:76
 msgid "Send …"
+msgstr ""
+
+#: blueprints/isi/templates/isi/invitation_view.html:106
+msgid "CET"
+msgstr ""
+
+#: blueprints/isi/templates/isi/invitation_view.html:107
+msgid "CEST"
 msgstr ""
 
 #: blueprints/isi/templates/isi/rsvp_result.html:2
