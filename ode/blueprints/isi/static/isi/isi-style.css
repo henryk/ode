@@ -1,4 +1,4 @@
-.rsvp-yes, .rvsp-tentative, .rsvp-unknown, .rsvp-no { width: 2.5em; text-align: right; }
+.rsvp-yes, .rsvp-tentative, .rsvp-unknown, .rsvp-no { width: 2.5em; text-align: right; }
 .rsvp-list .rsvp-yes, .rsvp-list .rsvp-tentative, .rsvp-list .rsvp-unknown, .rsvp-list .rsvp-no { text-align: center; }
 .rsvp-list .rsvp-yes a, .rsvp-list .rsvp-tentative a, .rsvp-list .rsvp-unknown a, .rsvp-list .rsvp-no a { color: #ccc; display: block; }
 .rsvp-list .rsvp-yes a:hover, .rsvp-list .rsvp-tentative a:hover, .rsvp-list .rsvp-unknown a:hover, .rsvp-list .rsvp-no a:hover { color: #000;}
