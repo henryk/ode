@@ -30,8 +30,8 @@ class UserMenu(RightItem):
 class UserMenuLoggedIn(UserMenu, Subgroup):
 	def __init__(self):
 		super(UserMenuLoggedIn, self).__init__( _('Logged in as %s') % g.ldap_user.name,
-			View( _('My profile'), 'amu.self'),
-			View( _('Log out'), 'logout'))
+			View( _('My profile'), 'amu.self', lang_code=get_locale()),
+			View( _('Log out'), 'logout', lang_code=get_locale()))
 
 class UserMenuLoggedOut(UserMenu, Text):
 	def __init__(self):
