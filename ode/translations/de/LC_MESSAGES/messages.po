@@ -68,8 +68,8 @@ msgstr "Nachname"
 
 #: blueprints/amu/forms.py:18 blueprints/amu/forms.py:31
 #: blueprints/amu/forms.py:52
-msgid "Preferred E-Mail address"
-msgstr "Bevorzugte E-Mail-Adresse"
+msgid "Private E-Mail address"
+msgstr "Private E-Mail-Adresse"
 
 #: blueprints/amu/forms.py:19 blueprints/amu/forms.py:32
 msgid "Generate and send new password to user"
