@@ -1,10 +1,11 @@
 {% extends "bootstrap/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-{% block head %}
-<link rel="shortcut icon" 
+{% block metas %}
+{{super()}}
+<link rel="icon" 
       href="{{url_for('static', filename='icons/favicon.png')}}" type="image/png" />
-
+{% endblock %}
 
 {% block navbar %}
   {{nav.top.render(renderer='ode_navbar')}}
@@ -18,7 +19,6 @@
 <script>
 var i18n = new Jed( {{ get_js_locale_data() }} );
 </script>
-{% endblock %}
 {% endblock %}
 
 {% block styles %}
