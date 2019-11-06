@@ -1,6 +1,11 @@
 {% extends "bootstrap/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
+{% block head %}
+<link rel="shortcut icon" 
+      href="{{url_for('static', filename='icons/favicon')}}" type="image/png" />
+
+
 {% block navbar %}
   {{nav.top.render(renderer='ode_navbar')}}
 {% endblock %}
@@ -20,6 +25,7 @@ var i18n = new Jed( {{ get_js_locale_data() }} );
 {{super()}}
 <link rel="stylesheet"
       href="{{url_for('static', filename='ode-style.css')}}">
+{% endblock %}
 {% endblock %}
 
 
