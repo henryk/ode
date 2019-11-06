@@ -35,7 +35,7 @@ def get_EditUserForm(group_list):
 		userid = HiddenField(_('Username'), validators=[DataRequired()])
 		name = StringField(_('Full Name'), validators=[DataRequired()])
 
-		aliases = StringField(_('E-Mail aliases'))
+		aliases = StringField(_('Additional E-Mail addresses'))
 
 		groups = MultiCheckboxField(_('Groups'), choices = [ (_G.dn,_G.name) for _G in group_list ] )
 
@@ -56,7 +56,7 @@ def get_NewUserForm(group_list):
 		userid = StringField(_('Username'), validators=[DataRequired()])
 		name = StringField(_('Full Name'), validators=[DataRequired()])
 
-		aliases = StringField(_('E-Mail aliases'))
+		aliases = StringField(_('Additional E-Mail addresses'))
 
 		groups = MultiCheckboxField(_('Groups'), choices = [ (_G.dn,_G.name) for _G in group_list ] )
 

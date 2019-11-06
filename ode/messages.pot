@@ -89,7 +89,7 @@ msgid "New Password"
 msgstr ""
 
 #: blueprints/amu/forms.py:38 blueprints/amu/forms.py:59
-msgid "E-Mail aliases"
+msgid "Additional E-Mail addresses"
 msgstr ""
 
 #: blueprints/amu/forms.py:40 blueprints/amu/forms.py:61
