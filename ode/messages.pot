@@ -66,7 +66,7 @@ msgstr ""
 
 #: blueprints/amu/forms.py:18 blueprints/amu/forms.py:31
 #: blueprints/amu/forms.py:52
-msgid "Preferred E-Mail address"
+msgid "Private E-Mail address"
 msgstr ""
 
 #: blueprints/amu/forms.py:19 blueprints/amu/forms.py:32

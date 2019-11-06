@@ -15,7 +15,7 @@ class MultiCheckboxField(SelectMultipleField):
 class EditSelfForm(Form):
 	givenname = StringField(_("Given Name"), validators=[DataRequired()])
 	surname = StringField(_('Last Name'), validators=[DataRequired()])
-	mail = StringField(_('Preferred E-Mail address'), validators=[DataRequired(),Email()])
+	mail = StringField(_('Private E-Mail address'), validators=[DataRequired(),Email()])
 	send_password = BooleanField(_('Generate and send new password to user'))
 
 	password = StringField('New Password')
@@ -28,7 +28,7 @@ def get_EditUserForm(group_list):
 	class EditUserForm(Form):
 		givenname = StringField(_('Given Name'), validators=[DataRequired()])
 		surname = StringField(_('Last Name'), validators=[DataRequired()])
-		mail = StringField(_('Preferred E-Mail address'), validators=[DataRequired(),Email()])
+		mail = StringField(_('Private E-Mail address'), validators=[DataRequired(),Email()])
 		send_password = BooleanField(_('Generate and send new password to user'))
 
 		password = StringField(_('New Password'))
@@ -49,7 +49,7 @@ def get_NewUserForm(group_list):
 	class NewUserForm(Form):
 		givenname = StringField(_('Given Name'), validators=[DataRequired()])
 		surname = StringField(_('Last Name'), validators=[DataRequired()])
-		mail = StringField(_('Preferred E-Mail address'), validators=[DataRequired(),Email()])
+		mail = StringField(_('Private E-Mail address'), validators=[DataRequired(),Email()])
 		send_password = BooleanField(_('Generate password and send to user'), default=True)
 
 		password = StringField(_('Password'), validators=[DataRequired()])
