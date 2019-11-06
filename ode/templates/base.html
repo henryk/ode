@@ -20,13 +20,14 @@
 var i18n = new Jed( {{ get_js_locale_data() }} );
 </script>
 {% endblock %}
+{% endblock %}
 
 {% block styles %}
 {{super()}}
 <link rel="stylesheet"
       href="{{url_for('static', filename='ode-style.css')}}">
 {% endblock %}
-{% endblock %}
+
 
 
 {% block content %}
