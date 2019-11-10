@@ -1,6 +1,12 @@
 {% extends "bootstrap/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
+{% block metas %}
+{{super()}}
+<link rel="icon" 
+      href="{{url_for('static', filename='icons/favicon.png')}}" type="image/png" />
+{% endblock %}
+
 {% block navbar %}
   {{nav.top.render(renderer='ode_navbar')}}
 {% endblock %}
@@ -21,6 +27,7 @@ var i18n = new Jed( {{ get_js_locale_data() }} );
 <link rel="stylesheet"
       href="{{url_for('static', filename='ode-style.css')}}">
 {% endblock %}
+
 
 
 {% block content %}
