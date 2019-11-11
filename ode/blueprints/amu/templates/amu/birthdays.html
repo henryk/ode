@@ -1,0 +1,60 @@
+{% extends "amu/base.html" %}
+{% block titleinner %}{{_("Birthdays")}}{% endblock %}
+
+{% block inner %}
+<h2>{{_("Birthdays")}}</h2>
+
+<!-- ical downloaden -->
+<a href="{{url_for('.birthdays_file')}}" download>{{_("Create and download ical file for all users with birthday data.")}}</a>
+
+<!-- group filter -->
+<ul class="list-inline">
+    <li class="list-inline-item"><a href="{{url_for('.birthdays')}}">{{_("Show all")}}</a></li>
+    {% for group in group_list %}
+    <li class="list-inline-item"><a href="{{url_for('.birthdays', gname=group.name)}}">{{group.name}}</a></li>
+    {% endfor %}
+</ul>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>{{_("Name")}}</th>
+            <th>{{_("Date of birth")}}</th>
+            <th>{{_("Age after birthday")}}</th>
+            <th>{{_("Groups")}}</th>
+        </tr>
+    </thead>
+    {% for user in user_list %}
+    {% if not s_group or user.dn in s_group.members %}
+    <tr data-href="#">
+        <td><a href="{{url_for('.user',uid=user.userid)}}">{{user.name}}</a></td>
+        <td>
+            {% if user.birthdate %}
+            {% set date = user.birthdate.strftime("%Y-%m-%d") %}
+            {{date}}
+            {% if date == today %}
+            <strong>{{_("Today is the birthday of this user")}}</strong>
+            {% endif %}
+            {% else %}
+            <strong>-</strong>
+            {% endif %}
+        </td>
+        <td>
+            {% if user.age != None%}
+            {{user.age + 1}}
+            {% else %}
+            <strong>-</strong>
+            {% endif %}
+        </td>
+        <td>
+            {% for group in group_list %}
+            {% if user.dn in group.members %}
+            <a href="{{url_for('.group',cn=group.name)}}">{{group.name}}</a>
+            {% endif %}
+            {% endfor %}
+        </td>
+    </tr>
+    {% endif %}
+    {% endfor %}
+</table>
+{% endblock %}

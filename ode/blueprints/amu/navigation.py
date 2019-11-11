@@ -23,6 +23,7 @@ def amu_navbar():
 				#View(_('New mailing list'), '.new_mailing_list'),
 				View(_('Aliases'), '.aliases'),
 				View(_('New Alias'), '.new_alias'),
+				View(_('Birthday Lists'), '.birthdays'),
 			] )
 	return ODENavbar(*e)
 
