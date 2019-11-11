@@ -33,6 +33,8 @@ class User(ldap.Entry):
 	givenname = ldap.Attribute('givenName')
 	password = LDAPCRYPTSHA512PasswordAttribute('userPassword')
 
+	birthdate = ldap.Attribute('CC-birthDate', default="")
+
 	mail = ldap.Attribute('CC-preferredMail')
 	_aliases = ldap.Attribute('CC-mailAlias')
 	groups = ldap.Attribute('memberOf')

@@ -5,6 +5,8 @@ from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, PasswordField, SubmitField, HiddenField, SelectMultipleField, BooleanField, widgets, FieldList, TextField
 from wtforms.validators import DataRequired, Email
 
+from custom_validators import ISODate
+
 from flask_babel import _
 
 class MultiCheckboxField(SelectMultipleField):
@@ -17,6 +19,8 @@ class EditSelfForm(Form):
 	surname = StringField(_('Last Name'), validators=[DataRequired()])
 	mail = StringField(_('Private E-Mail address'), validators=[DataRequired(),Email()])
 	send_password = BooleanField(_('Generate and send new password to user'))
+
+	
 
 	password = StringField('New Password')
 	name = StringField(_('Full Name'), validators=[DataRequired()])
@@ -34,6 +38,10 @@ def get_EditUserForm(group_list):
 		password = StringField(_('New Password'))
 		userid = HiddenField(_('Username'), validators=[DataRequired()])
 		name = StringField(_('Full Name'), validators=[DataRequired()])
+
+		#(v1) birthdate = StringField(_('Date of Birth'))
+		#(v2) birthdate = DateField(_('Date of Birth'))
+		birthdate = StringField(_('Date of Birth'), validators=[ISODate])
 
 		aliases = StringField(_('Additional E-Mail addresses'))
 
