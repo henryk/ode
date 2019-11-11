@@ -4,6 +4,28 @@ from ldap3 import STRING_TYPES
 from passlib.hash import sha512_crypt
 import re, flanker.addresslib.address
 
+import datetime
+
+# Convert between strings and dates
+class DateStringConverter(ldap.Attribute):
+	@property
+	def value(self):
+		if len(self.__dict__['values']) == 1:
+			return datetime.datetime.strptime(self.values[0], '%Y-%m-%d').date()
+
+		return None
+
+	def strftime(self, format):
+		return self.value.strftime(format)
+
+	def __setattr__(self, key, value):
+		if key in ['value', '_init']:
+			if isinstance(value, datetime.date):
+				value = value.strftime('%Y-%m-%d')
+
+		super(DateStringConverter, self).__setattr__(key, value)
+
+
 # Hashes the password value into a {CRYPT} SHA-512 password upon setting
 class LDAPCRYPTSHA512PasswordAttribute(ldap.Attribute):
 	def __setattr__(self, key, value):
@@ -33,7 +55,8 @@ class User(ldap.Entry):
 	givenname = ldap.Attribute('givenName')
 	password = LDAPCRYPTSHA512PasswordAttribute('userPassword')
 
-	birthdate = ldap.Attribute('CC-birthDate', default="")
+	#birthdate = ldap.Attribute('CC-birthDate', default="")
+	birthdate = DateStringConverter('CC-birthDate', default="")
 
 	mail = ldap.Attribute('CC-preferredMail')
 	_aliases = ldap.Attribute('CC-mailAlias')

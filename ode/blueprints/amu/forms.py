@@ -6,8 +6,11 @@ from wtforms import StringField, PasswordField, SubmitField, HiddenField, Select
 from wtforms.validators import DataRequired, Email
 
 from custom_validators import ISODate
+from wtforms.fields.html5 import DateField
 
 from flask_babel import _
+
+from datetime import date
 
 class MultiCheckboxField(SelectMultipleField):
 	widget = widgets.ListWidget(prefix_label=False)
@@ -39,9 +42,8 @@ def get_EditUserForm(group_list):
 		userid = HiddenField(_('Username'), validators=[DataRequired()])
 		name = StringField(_('Full Name'), validators=[DataRequired()])
 
-		#(v1) birthdate = StringField(_('Date of Birth'))
-		#(v2) birthdate = DateField(_('Date of Birth'))
-		birthdate = StringField(_('Date of Birth'), validators=[ISODate])
+		#birthdate = StringField(_('Date of Birth'), validators=[ISODate]) 
+		birthdate = DateField(_('Date of Birth'), format='%Y-%m-%d')
 
 		aliases = StringField(_('Additional E-Mail addresses'))
 
