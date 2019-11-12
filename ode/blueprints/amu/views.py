@@ -374,3 +374,16 @@ def new_alias():
 			else:
 				flash(_("Error while creating Alias"), category="danger")
 	return render_template('amu/new_alias.html', group_list=group_list, user_list=user_list, alias_list=alias_list, form=form)
+
+@blueprint.route("/birthdays/")
+@login_required
+def birthdays():
+	user_list = User.query.all()
+	gname = request.args.get('gname')
+	group_list = Group.query.all()
+	s_group_list = group_list
+	if gname:
+		s_group_list = Group.query.filter("name: %s" % gname).all()
+	
+	print(type(gname))
+	return render_template('amu/birthdays.html', user_list=user_list, group_list=group_list, s_group_list=s_group_list)

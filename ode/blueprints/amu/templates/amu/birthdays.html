@@ -1,0 +1,50 @@
+{% extends "amu/base.html" %}
+{% block titleinner %}{{_("Birthdays")}}{% endblock %}
+
+{% block inner %}
+  <h2>{{_("Birthdays")}}</h2>
+
+  <!-- group filter -->
+  <ul class="list-inline">
+      <li class="list-inline-item"><a href="{{url_for('.birthdays')}}">{{_("Alle anzeigen")}}</a></li>
+        {% for group in group_list %}
+            <li class="list-inline-item"><a href="{{url_for('.birthdays', gname=group.name)}}">{{group.name}}</a></li>
+        {% endfor %}
+  </ul>
+  
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>{{_("Name")}}</th>
+        <th>{{_("Date of birth")}}</th>
+        <th>{{_("Age after birthday")}}</th>
+        <th>{{_("Groups")}}</th>
+      </tr>
+    </thead>
+    {% for user in user_list %}
+
+    {% for group in s_group_list %}
+    {% if user.dn in group.members%}
+
+        <tr data-href="#">
+            <td><a href="{{url_for('.user',uid=user.userid)}}">{{user.name}}</a></td>
+            
+            <td></td>
+            <td>
+                {% for group in group_list %}
+                    {% if user.dn in group.members %}
+                        <a href="{{url_for('.group',cn=group.name)}}">{{group.name}}</a>
+                    {% endif %}
+                {% endfor %}
+            </td>
+        </tr>
+    {% endif %}
+    {% endfor %}
+
+    {% endfor %}
+
+  </table>
+
+
+
+{% endblock %}

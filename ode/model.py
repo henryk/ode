@@ -11,7 +11,12 @@ class DateStringConverter(ldap.Attribute):
 	@property
 	def value(self):
 		if len(self.__dict__['values']) == 1:
-			return datetime.datetime.strptime(self.values[0], '%Y-%m-%d').date()
+			print(self.values[0])
+			print(self.values)
+			print(len(self.values))
+			if self.values == ['']:
+				self.values[0] = "3000-01-01"
+				return datetime.datetime.strptime(self.values[0], '%Y-%m-%d').date()
 
 		return None
 
