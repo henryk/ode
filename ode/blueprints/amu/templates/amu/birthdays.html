@@ -29,7 +29,14 @@
         <tr data-href="#">
             <td><a href="{{url_for('.user',uid=user.userid)}}">{{user.name}}</a></td>
             
-            <td>{{user.birthdate.strftime("%Y-%m-%d")}}</td>
+            <td>
+                {% if user.birthdate.strftime("%Y-%m-%d") != '' %}
+                    {{user.birthdate.strftime("%Y-%m-%d")}}
+                {% else %}
+                    {{_("No birthday added")}}
+                {% endif %}
+                
+            </td>
             <td>00</td>
             <td>
                 {% for group in group_list %}

@@ -10,22 +10,27 @@ import datetime
 class DateStringConverter(ldap.Attribute):
 	@property
 	def value(self):
+		print("---------------------------VALUE")
 		if len(self.__dict__['values']) == 1:
 			print(self.values[0])
 			print(self.values)
 			print(len(self.values))
-			if self.values == ['']:
-				self.values[0] = "3000-01-01"
+			if self.values[0]:
 				return datetime.datetime.strptime(self.values[0], '%Y-%m-%d').date()
 
 		return None
 
 	def strftime(self, format):
-		return self.value.strftime(format)
+		print("---------------------------STRFTIME")
+		if self.value != '' and self.value != None:
+			return self.value.strftime(format)
+		return ''
 
 	def __setattr__(self, key, value):
+		print("---------------------------SETATTR")
 		if key in ['value', '_init']:
 			if isinstance(value, datetime.date):
+				print(value)
 				value = value.strftime('%Y-%m-%d')
 
 		super(DateStringConverter, self).__setattr__(key, value)
