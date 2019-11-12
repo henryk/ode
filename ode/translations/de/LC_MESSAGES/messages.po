@@ -7,17 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-11-11 15:00+0100\n"
-"PO-Revision-Date: 2019-11-11 15:04+0100\n"
+"POT-Creation-Date: 2019-11-12 16:32+0100\n"
+"PO-Revision-Date: 2019-11-12 16:35+0100\n"
 "Last-Translator: Henryk Plötz <henryk@ploetzli.ch>\n"
 "Language: de\n"
 "Language-Team: de <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.7.0\n"
-"X-Generator: Poedit 2.2.4\n"
 
 #: __init__.py:214
 msgid "Unknown user"
@@ -27,11 +26,11 @@ msgstr "Unbekannter Benutzer"
 msgid "Invalid credentials"
 msgstr "Benutzername/Passwort ungültig"
 
-#: blueprints/amu/forms.py:39 blueprints/amu/forms.py:64 forms.py:8
+#: blueprints/amu/forms.py:42 blueprints/amu/forms.py:66 forms.py:8
 msgid "Username"
 msgstr "Benutzername"
 
-#: blueprints/amu/forms.py:63 forms.py:9
+#: blueprints/amu/forms.py:65 forms.py:9
 msgid "Password"
 msgstr "Passwort"
 
@@ -60,96 +59,98 @@ msgstr "Nicht angemeldet"
 msgid "Incorrect data format, should be YYYY-MM-DD."
 msgstr "Falsches Datumsformat, es sollte YYYY-MM-DD entsprechen."
 
-#: blueprints/amu/forms.py:18 blueprints/amu/forms.py:33
-#: blueprints/amu/forms.py:58
+#: blueprints/amu/forms.py:21 blueprints/amu/forms.py:36
+#: blueprints/amu/forms.py:60
 msgid "Given Name"
 msgstr "Vorname"
 
-#: blueprints/amu/forms.py:19 blueprints/amu/forms.py:34
-#: blueprints/amu/forms.py:59
+#: blueprints/amu/forms.py:22 blueprints/amu/forms.py:37
+#: blueprints/amu/forms.py:61
 msgid "Last Name"
 msgstr "Nachname"
 
-#: blueprints/amu/forms.py:20 blueprints/amu/forms.py:35
-#: blueprints/amu/forms.py:60
+#: blueprints/amu/forms.py:23 blueprints/amu/forms.py:38
+#: blueprints/amu/forms.py:62
 msgid "Private E-Mail address"
 msgstr "Private E-Mail-Adresse"
 
-#: blueprints/amu/forms.py:21 blueprints/amu/forms.py:36
+#: blueprints/amu/forms.py:24 blueprints/amu/forms.py:39
 msgid "Generate and send new password to user"
 msgstr "Neues Passwort erzeugen und dem Benutzer zuschicken"
 
-#: blueprints/amu/forms.py:26 blueprints/amu/forms.py:40
-#: blueprints/amu/forms.py:65
+#: blueprints/amu/forms.py:29 blueprints/amu/forms.py:43
+#: blueprints/amu/forms.py:67
 msgid "Full Name"
 msgstr "Vollständiger Name"
 
-#: blueprints/amu/forms.py:28 blueprints/amu/forms.py:50
-#: blueprints/amu/forms.py:79 blueprints/amu/forms.py:100
-#: blueprints/amu/forms.py:121
+#: blueprints/amu/forms.py:31 blueprints/amu/forms.py:52
+#: blueprints/amu/forms.py:81 blueprints/amu/forms.py:102
+#: blueprints/amu/forms.py:123
 msgid "Update!"
 msgstr "Aktualisieren!"
 
-#: blueprints/amu/forms.py:38
+#: blueprints/amu/forms.py:41
 msgid "New Password"
 msgstr "Neues Passwort"
 
-#: blueprints/amu/forms.py:44
+#: blueprints/amu/forms.py:46
 msgid "Date of Birth"
 msgstr "Geburtsdatum"
 
-#: blueprints/amu/forms.py:46 blueprints/amu/forms.py:67
+#: blueprints/amu/forms.py:48 blueprints/amu/forms.py:69
 msgid "Additional E-Mail addresses"
 msgstr "Zusätzliche E-Mail-Adressen"
 
-#: blueprints/amu/forms.py:48 blueprints/amu/forms.py:69
-#: blueprints/amu/navigation.py:20 blueprints/amu/templates/amu/users.html:12
+#: blueprints/amu/forms.py:50 blueprints/amu/forms.py:71
+#: blueprints/amu/navigation.py:20
+#: blueprints/amu/templates/amu/birthdays.html:21
+#: blueprints/amu/templates/amu/users.html:12
 msgid "Groups"
 msgstr "Gruppen"
 
-#: blueprints/amu/forms.py:52 blueprints/amu/forms.py:81
-#: blueprints/amu/forms.py:102 blueprints/amu/forms.py:123
+#: blueprints/amu/forms.py:54 blueprints/amu/forms.py:83
+#: blueprints/amu/forms.py:104 blueprints/amu/forms.py:125
 msgid "Confirm deletion"
 msgstr "Löschung bestätigen"
 
-#: blueprints/amu/forms.py:53 blueprints/amu/forms.py:82
-#: blueprints/amu/forms.py:103 blueprints/amu/forms.py:124
+#: blueprints/amu/forms.py:55 blueprints/amu/forms.py:84
+#: blueprints/amu/forms.py:105 blueprints/amu/forms.py:126
 msgid "Delete!"
 msgstr "Löschen!"
 
-#: blueprints/amu/forms.py:61
+#: blueprints/amu/forms.py:63
 msgid "Generate password and send to user"
 msgstr "Passwort automatisch erzeugen und an den Benutzer senden"
 
-#: blueprints/amu/forms.py:71 blueprints/amu/forms.py:91
-#: blueprints/amu/forms.py:113 blueprints/amu/forms.py:133
+#: blueprints/amu/forms.py:73 blueprints/amu/forms.py:93
+#: blueprints/amu/forms.py:115 blueprints/amu/forms.py:135
 msgid "Create!"
 msgstr "Erzeugen!"
 
-#: blueprints/amu/forms.py:77 blueprints/amu/forms.py:89
+#: blueprints/amu/forms.py:79 blueprints/amu/forms.py:91
 #: blueprints/amu/templates/amu/aliases.html:10
 #: blueprints/amu/templates/amu/groups.html:10
 #: blueprints/amu/templates/amu/mailing_lists.html:10
 msgid "Members"
 msgstr "Mitglieder"
 
-#: blueprints/amu/forms.py:87
+#: blueprints/amu/forms.py:89
 msgid "Group Name"
 msgstr "Gruppenname"
 
-#: blueprints/amu/forms.py:98 blueprints/amu/forms.py:111
+#: blueprints/amu/forms.py:100 blueprints/amu/forms.py:113
 msgid "Import"
 msgstr "Importieren"
 
-#: blueprints/amu/forms.py:98 blueprints/amu/forms.py:111
+#: blueprints/amu/forms.py:100 blueprints/amu/forms.py:113
 msgid "Text files"
 msgstr "Textdateien"
 
-#: blueprints/amu/forms.py:108
+#: blueprints/amu/forms.py:110
 msgid "Mailing List Name"
 msgstr "Mailing-Listen-Name"
 
-#: blueprints/amu/forms.py:129
+#: blueprints/amu/forms.py:131
 msgid "Alias Name"
 msgstr "Alias-Name"
 
@@ -176,6 +177,10 @@ msgstr "Aliase"
 #: blueprints/amu/navigation.py:25
 msgid "New Alias"
 msgstr "Neuer Alias"
+
+#: blueprints/amu/navigation.py:26
+msgid "Birthday Lists"
+msgstr "Geburtstags-Listen"
 
 #: blueprints/amu/views.py:17
 msgid "User confirmation mail sent"
@@ -255,8 +260,8 @@ msgid ""
 "Mailing list '%s' exists in LDAP, but not in Mailman. Please create in "
 "Mailman."
 msgstr ""
-"Mailing-Liste '%s' existiert in LDAP aber nicht in Mailman. Bitte in Mailman "
-"erstellen."
+"Mailing-Liste '%s' existiert in LDAP aber nicht in Mailman. Bitte in "
+"Mailman erstellen."
 
 #: blueprints/amu/views.py:263 blueprints/amu/views.py:303
 #, python-format
@@ -383,11 +388,29 @@ msgid "Alias list"
 msgstr "Alias-Liste"
 
 #: blueprints/amu/templates/amu/aliases.html:9
+#: blueprints/amu/templates/amu/birthdays.html:18
 #: blueprints/amu/templates/amu/groups.html:9
 #: blueprints/amu/templates/amu/mailing_lists.html:9
 #: blueprints/amu/templates/amu/users.html:10
 msgid "Name"
 msgstr "Name"
+
+#: blueprints/amu/templates/amu/birthdays.html:2
+#: blueprints/amu/templates/amu/birthdays.html:5
+msgid "Birthdays"
+msgstr "Geburtstage"
+
+#: blueprints/amu/templates/amu/birthdays.html:9
+msgid "Show all"
+msgstr "Alle anzeigen"
+
+#: blueprints/amu/templates/amu/birthdays.html:19
+msgid "Date of birth"
+msgstr "Geburtstag"
+
+#: blueprints/amu/templates/amu/birthdays.html:20
+msgid "Age after birthday"
+msgstr "Alter nach dem Geburtstag"
 
 #: blueprints/amu/templates/amu/groups.html:2
 #: blueprints/amu/templates/amu/groups.html:5
@@ -526,10 +549,12 @@ msgstr "Nachricht verschickt!"
 #, python-format
 msgid ""
 "<h1>Invitation to '%s'</h1><p>Please come all</p><ul><li><a "
-"href='{{link_yes}}'>Yes</a></li><li><a href='{{link_no}}'>No.</a></li></ul>"
+"href='{{link_yes}}'>Yes</a></li><li><a "
+"href='{{link_no}}'>No.</a></li></ul>"
 msgstr ""
 "<h1>Einladung zu '%s'</h1><p>Bitte kommt alle</p><ul><li><a "
-"href='{{link_yes}}'>Ja</a></li><li><a href='{{link_no}}'>Nein.</a></li></ul>"
+"href='{{link_yes}}'>Ja</a></li><li><a "
+"href='{{link_no}}'>Nein.</a></li></ul>"
 
 #: blueprints/isi/templates/isi/base.html:70
 #: blueprints/isi/templates/isi/invitation_view.html:36
@@ -728,12 +753,12 @@ msgstr "Rückmeldungen zur Einladung"
 #, python-format
 msgid ""
 "There have been changes in the attendance list for '%(subject)s'. You're "
-"receiving this mail, because you are listed as an owner of this invitation. "
-"Following is the full attendance list as of now."
+"receiving this mail, because you are listed as an owner of this "
+"invitation. Following is the full attendance list as of now."
 msgstr ""
-"Es gab Änderungen bei den Rückmeldungen zu '%(subject)s'. Du erhältst diese "
-"Mail, weil du als ein Besitzer dieser Einladung eingetragen bist. Es folgt "
-"die vollständige Rückmeldungsliste mit aktuellem Stand."
+"Es gab Änderungen bei den Rückmeldungen zu '%(subject)s'. Du erhältst "
+"diese Mail, weil du als ein Besitzer dieser Einladung eingetragen bist. "
+"Es folgt die vollständige Rückmeldungsliste mit aktuellem Stand."
 
 #: templates/404.html:2 templates/404.html:5
 msgid "Page not found"
@@ -744,9 +769,9 @@ msgid ""
 "The requested URL was not found on the server. If you entered the URL "
 "manually please check your spelling and try again."
 msgstr ""
-"Die gewünschte Seite konnte auf dem Server nicht gefunden werden. Wenn Sie "
-"die Adresse manuell eingegeben haben überprüfen Sie bitte die Schreibweise "
-"und versuchen Sie es noch einmal."
+"Die gewünschte Seite konnte auf dem Server nicht gefunden werden. Wenn "
+"Sie die Adresse manuell eingegeben haben überprüfen Sie bitte die "
+"Schreibweise und versuchen Sie es noch einmal."
 
 #: templates/login.html:2
 msgid "Log in"
@@ -763,3 +788,4 @@ msgstr "Bitte anmelden"
 
 #~ msgid "<h1>Invitation to '%s'</h1><p>Please come all</p>"
 #~ msgstr "<h1>Einladung zu '%s'</h1><p>Bitte erscheint zahlreich</p>"
+

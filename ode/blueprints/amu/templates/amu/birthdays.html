@@ -6,7 +6,7 @@
 
   <!-- group filter -->
   <ul class="list-inline">
-      <li class="list-inline-item"><a href="{{url_for('.birthdays')}}">{{_("Alle anzeigen")}}</a></li>
+      <li class="list-inline-item"><a href="{{url_for('.birthdays')}}">{{_("Show all")}}</a></li>
         {% for group in group_list %}
             <li class="list-inline-item"><a href="{{url_for('.birthdays', gname=group.name)}}">{{group.name}}</a></li>
         {% endfor %}
@@ -29,7 +29,8 @@
         <tr data-href="#">
             <td><a href="{{url_for('.user',uid=user.userid)}}">{{user.name}}</a></td>
             
-            <td></td>
+            <td>{{user.birthdate.strftime("%Y-%m-%d")}}</td>
+            <td>00</td>
             <td>
                 {% for group in group_list %}
                     {% if user.dn in group.members %}
