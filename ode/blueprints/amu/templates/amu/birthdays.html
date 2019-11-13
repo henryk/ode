@@ -22,6 +22,7 @@
         </tr>
     </thead>
     {% for user in user_list %}
+    {{ user.birthmonth }}
     {% if not s_group or user.dn in s_group.members %}
     <tr data-href="#">
         <td><a href="{{url_for('.user',uid=user.userid)}}">{{user.name}}</a></td>

@@ -379,11 +379,18 @@ def new_alias():
 @login_required
 def birthdays():
 	user_list = User.query.all()
+
+	user_dict = {}
+	for user in user_list:
+		ubd = user.birthdate.strftime("%m")
+		user_dict.update( {user : ubd} )
+
+	user_list = sorted(user_dict, key=user_dict.get)
+
 	gname = request.args.get('gname')
 	group_list = Group.query.all()
 	s_group = None
 	if gname:
 		s_group = Group.query.filter("name: %s" % gname).first()
 	
-	print(type(gname))
 	return render_template('amu/birthdays.html', user_list=user_list, group_list=group_list, s_group=s_group)

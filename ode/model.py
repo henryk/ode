@@ -10,24 +10,18 @@ import datetime
 class DateStringConverter(ldap.Attribute):
 	@property
 	def value(self):
-		print("---------------------------VALUE")
 		if len(self.__dict__['values']) == 1:
-			print(self.values[0])
-			print(self.values)
-			print(len(self.values))
 			if self.values[0]:
 				return datetime.datetime.strptime(self.values[0], '%Y-%m-%d').date()
 
 		return None
 
 	def strftime(self, format):
-		print("---------------------------STRFTIME")
 		if self.value != '' and self.value != None:
 			return self.value.strftime(format)
 		return ''
 
 	def __setattr__(self, key, value):
-		print("---------------------------SETATTR")
 		if key in ['value', '_init']:
 			if isinstance(value, datetime.date):
 				print(value)
@@ -65,7 +59,6 @@ class User(ldap.Entry):
 	givenname = ldap.Attribute('givenName')
 	password = LDAPCRYPTSHA512PasswordAttribute('userPassword')
 
-	#birthdate = ldap.Attribute('CC-birthDate', default="")
 	birthdate = DateStringConverter('CC-birthDate', default="")
 
 	mail = ldap.Attribute('CC-preferredMail')
