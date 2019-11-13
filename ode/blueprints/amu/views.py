@@ -6,6 +6,9 @@ from . import blueprint, forms, mail, tasks, mailman_integration
 
 from flask_babel import _
 
+import datetime
+from custom_calcs import calculate_age
+
 @blueprint.app_template_filter()
 def force_str(s):
 	return unicode(s)
@@ -381,16 +384,21 @@ def birthdays():
 	user_list = User.query.all()
 
 	user_dict = {}
+	user_age_dict = {}
 	for user in user_list:
-		ubd = user.birthdate.strftime("%m")
-		user_dict.update( {user : ubd} )
+		ubd = user.birthdate
+		age = calculate_age(ubd)
+		user_age_dict.update( {ubd.strftime("%Y-%m-%d") : age} )
+		user_dict.update( {user : ubd.strftime("%m")} )
 
 	user_list = sorted(user_dict, key=user_dict.get)
 
+	today = datetime.datetime.today().strftime('%Y-%m-%d')
 	gname = request.args.get('gname')
+
 	group_list = Group.query.all()
 	s_group = None
 	if gname:
 		s_group = Group.query.filter("name: %s" % gname).first()
 	
-	return render_template('amu/birthdays.html', user_list=user_list, group_list=group_list, s_group=s_group)
+	return render_template('amu/birthdays.html', user_list=user_list, group_list=group_list, s_group=s_group, today=today, user_age_dict=user_age_dict)
