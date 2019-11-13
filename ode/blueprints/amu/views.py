@@ -381,9 +381,9 @@ def birthdays():
 	user_list = User.query.all()
 	gname = request.args.get('gname')
 	group_list = Group.query.all()
-	s_group_list = group_list
+	s_group = None
 	if gname:
-		s_group_list = Group.query.filter("name: %s" % gname).all()
+		s_group = Group.query.filter("name: %s" % gname).first()
 	
 	print(type(gname))
-	return render_template('amu/birthdays.html', user_list=user_list, group_list=group_list, s_group_list=s_group_list)
+	return render_template('amu/birthdays.html', user_list=user_list, group_list=group_list, s_group=s_group)
