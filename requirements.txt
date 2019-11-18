@@ -30,6 +30,7 @@ imapclient
 Flask-Babel
 filelock
 passlib
+icalendar==4.0.3
 
 # Seems to be broken
 public!=0.0.41,!=0.0.40
