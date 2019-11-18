@@ -23,8 +23,6 @@ class EditSelfForm(Form):
 	mail = StringField(_('Private E-Mail address'), validators=[DataRequired(),Email()])
 	send_password = BooleanField(_('Generate and send new password to user'))
 
-	
-
 	password = StringField('New Password')
 	name = StringField(_('Full Name'), validators=[DataRequired()])
 
@@ -42,7 +40,6 @@ def get_EditUserForm(group_list):
 		userid = HiddenField(_('Username'), validators=[DataRequired()])
 		name = StringField(_('Full Name'), validators=[DataRequired()])
 
-		#birthdate = StringField(_('Date of Birth'), validators=[ISODate]) 
 		birthdate = DateField(_('Date of Birth'), format='%Y-%m-%d')
 
 		aliases = StringField(_('Additional E-Mail addresses'))
@@ -65,6 +62,8 @@ def get_NewUserForm(group_list):
 		password = StringField(_('Password'), validators=[DataRequired()])
 		userid = StringField(_('Username'), validators=[DataRequired()])
 		name = StringField(_('Full Name'), validators=[DataRequired()])
+
+		birthdate = DateField(_('Date of Birth'), format='%Y-%m-%d')
 
 		aliases = StringField(_('Additional E-Mail addresses'))
 
