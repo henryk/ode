@@ -1,4 +1,4 @@
-from flask import current_app, render_template, request, redirect, url_for, session, g, flash, abort
+from flask import current_app, render_template, request, redirect, url_for, session, g, flash, abort, make_response
 
 from ode import config_get, session_box, login_required
 from ode.model import User, Group, MailingList, Alias
@@ -7,7 +7,7 @@ from . import blueprint, forms, mail, tasks, mailman_integration
 from flask_babel import _
 
 import datetime
-from custom_calcs import calculate_age
+from birthday_functions import calculate_age, create_ical
 
 @blueprint.app_template_filter()
 def force_str(s):
@@ -394,11 +394,27 @@ def birthdays():
 	user_list = sorted(user_dict, key=user_dict.get)
 
 	today = datetime.datetime.today().strftime('%Y-%m-%d')
-	gname = request.args.get('gname')
 
+	gname = request.args.get('gname')
 	group_list = Group.query.all()
+
 	s_group = None
 	if gname:
 		s_group = Group.query.filter("name: %s" % gname).first()
 	
 	return render_template('amu/birthdays.html', user_list=user_list, group_list=group_list, s_group=s_group, today=today, user_age_dict=user_age_dict)
+
+@blueprint.route("/birthdays.ics/")
+@login_required
+def birthdays_file():
+	user_list = User.query.all()
+	group_list = Group.query.all()
+	ical_str = create_ical(user_list, group_list)
+
+	response = make_response(ical_str, 200)
+	response.headers['Content-type'] = 'text/calender'
+	response.headers['Content-Disposition'] = 'attachment; filename=ode_birthdays.ics'
+
+	return response
+
+

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-11-12 16:32+0100\n"
+"POT-Creation-Date: 2019-11-18 12:47+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -102,7 +102,7 @@ msgstr ""
 
 #: blueprints/amu/forms.py:50 blueprints/amu/forms.py:71
 #: blueprints/amu/navigation.py:20
-#: blueprints/amu/templates/amu/birthdays.html:21
+#: blueprints/amu/templates/amu/birthdays.html:24
 #: blueprints/amu/templates/amu/users.html:12
 msgid "Groups"
 msgstr ""
@@ -181,122 +181,122 @@ msgstr ""
 msgid "Birthday Lists"
 msgstr ""
 
-#: blueprints/amu/views.py:17
+#: blueprints/amu/views.py:20
 msgid "User confirmation mail sent"
 msgstr ""
 
-#: blueprints/amu/views.py:20
+#: blueprints/amu/views.py:23
 msgid "Couldn't send mail to user"
 msgstr ""
 
-#: blueprints/amu/views.py:42 blueprints/amu/views.py:126
-#: blueprints/amu/views.py:191 blueprints/amu/views.py:269
-#: blueprints/amu/views.py:338
+#: blueprints/amu/views.py:45 blueprints/amu/views.py:129
+#: blueprints/amu/views.py:194 blueprints/amu/views.py:272
+#: blueprints/amu/views.py:341
 msgid "Successfully saved"
 msgstr ""
 
-#: blueprints/amu/views.py:52 blueprints/amu/views.py:134
-#: blueprints/amu/views.py:194 blueprints/amu/views.py:273
-#: blueprints/amu/views.py:341
+#: blueprints/amu/views.py:55 blueprints/amu/views.py:137
+#: blueprints/amu/views.py:197 blueprints/amu/views.py:276
+#: blueprints/amu/views.py:344
 msgid "Saving was unsuccessful"
 msgstr ""
 
-#: blueprints/amu/views.py:128
+#: blueprints/amu/views.py:131
 msgid "Some or all of the group changes were not successful"
 msgstr ""
 
-#: blueprints/amu/views.py:139
+#: blueprints/amu/views.py:142
 msgid "User deleted"
 msgstr ""
 
-#: blueprints/amu/views.py:142 blueprints/amu/views.py:203
-#: blueprints/amu/views.py:282 blueprints/amu/views.py:350
+#: blueprints/amu/views.py:145 blueprints/amu/views.py:206
+#: blueprints/amu/views.py:285 blueprints/amu/views.py:353
 msgid "Deletion was unsuccessful"
 msgstr ""
 
-#: blueprints/amu/views.py:144
+#: blueprints/amu/views.py:147
 msgid "Please confirm user deletion"
 msgstr ""
 
-#: blueprints/amu/views.py:161
+#: blueprints/amu/views.py:164
 msgid "User created"
 msgstr ""
 
-#: blueprints/amu/views.py:163
+#: blueprints/amu/views.py:166
 msgid "Some or all of the groups could not be assigned"
 msgstr ""
 
-#: blueprints/amu/views.py:169
+#: blueprints/amu/views.py:172
 msgid "Error while creating user"
 msgstr ""
 
-#: blueprints/amu/views.py:200
+#: blueprints/amu/views.py:203
 msgid "Group deleted"
 msgstr ""
 
-#: blueprints/amu/views.py:205
+#: blueprints/amu/views.py:208
 msgid "Please confirm group deletion"
 msgstr ""
 
-#: blueprints/amu/views.py:222
+#: blueprints/amu/views.py:225
 msgid "Group created"
 msgstr ""
 
-#: blueprints/amu/views.py:225
+#: blueprints/amu/views.py:228
 msgid "Error while creating group"
 msgstr ""
 
-#: blueprints/amu/views.py:239
+#: blueprints/amu/views.py:242
 #, python-format
 msgid "Conflict while syncing mailing list '%s', please resolve manually"
 msgstr ""
 
-#: blueprints/amu/views.py:241
+#: blueprints/amu/views.py:244
 #, python-format
 msgid ""
 "Mailing list '%s' exists in LDAP, but not in Mailman. Please create in "
 "Mailman."
 msgstr ""
 
-#: blueprints/amu/views.py:263 blueprints/amu/views.py:303
+#: blueprints/amu/views.py:266 blueprints/amu/views.py:306
 #, python-format
 msgid "Invalid format, did not import: %s"
 msgstr ""
 
-#: blueprints/amu/views.py:266 blueprints/amu/views.py:306
+#: blueprints/amu/views.py:269 blueprints/amu/views.py:309
 #, python-format
 msgid "Already existing, did not import: %s"
 msgstr ""
 
-#: blueprints/amu/views.py:279
+#: blueprints/amu/views.py:282
 msgid "Mailing list deleted"
 msgstr ""
 
-#: blueprints/amu/views.py:284
+#: blueprints/amu/views.py:287
 msgid "Please confirm mailing list deletion"
 msgstr ""
 
-#: blueprints/amu/views.py:309
+#: blueprints/amu/views.py:312
 msgid "Mailing list created"
 msgstr ""
 
-#: blueprints/amu/views.py:312
+#: blueprints/amu/views.py:315
 msgid "Error while creating mailing list"
 msgstr ""
 
-#: blueprints/amu/views.py:347
+#: blueprints/amu/views.py:350
 msgid "Alias deleted"
 msgstr ""
 
-#: blueprints/amu/views.py:352
+#: blueprints/amu/views.py:355
 msgid "Please confirm alias deletion"
 msgstr ""
 
-#: blueprints/amu/views.py:372
+#: blueprints/amu/views.py:375
 msgid "Alias created"
 msgstr ""
 
-#: blueprints/amu/views.py:375
+#: blueprints/amu/views.py:378
 msgid "Error while creating Alias"
 msgstr ""
 
@@ -383,7 +383,7 @@ msgid "Alias list"
 msgstr ""
 
 #: blueprints/amu/templates/amu/aliases.html:9
-#: blueprints/amu/templates/amu/birthdays.html:18
+#: blueprints/amu/templates/amu/birthdays.html:21
 #: blueprints/amu/templates/amu/groups.html:9
 #: blueprints/amu/templates/amu/mailing_lists.html:9
 #: blueprints/amu/templates/amu/users.html:10
@@ -395,16 +395,29 @@ msgstr ""
 msgid "Birthdays"
 msgstr ""
 
-#: blueprints/amu/templates/amu/birthdays.html:9
+#: blueprints/amu/templates/amu/birthdays.html:8
+msgid "Create and download ical file for all users with birthday data."
+msgstr ""
+
+#: blueprints/amu/templates/amu/birthdays.html:12
 msgid "Show all"
 msgstr ""
 
-#: blueprints/amu/templates/amu/birthdays.html:19
+#: blueprints/amu/templates/amu/birthdays.html:22
 msgid "Date of birth"
 msgstr ""
 
-#: blueprints/amu/templates/amu/birthdays.html:20
+#: blueprints/amu/templates/amu/birthdays.html:23
 msgid "Age after birthday"
+msgstr ""
+
+#: blueprints/amu/templates/amu/birthdays.html:36
+msgid "Today is the birthday of this user"
+msgstr ""
+
+#: blueprints/amu/templates/amu/birthdays.html:39
+#: blueprints/amu/templates/amu/birthdays.html:46
+msgid "No birthday added"
 msgstr ""
 
 #: blueprints/amu/templates/amu/groups.html:2

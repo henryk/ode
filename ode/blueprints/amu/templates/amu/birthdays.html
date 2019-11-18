@@ -4,6 +4,9 @@
 {% block inner %}
 <h2>{{_("Birthdays")}}</h2>
 
+<!-- ical downloaden -->
+<a href="{{url_for('.birthdays_file')}}" download>{{_("Create and download ical file for all users with birthday data.")}}</a>
+
 <!-- group filter -->
 <ul class="list-inline">
     <li class="list-inline-item"><a href="{{url_for('.birthdays')}}">{{_("Show all")}}</a></li>
