@@ -186,8 +186,10 @@ def group(cn):
 	user_list = User.query.all()
 	form = forms.get_EditGroupForm(user_list)(obj=group)
 	if request.method == 'POST' and form.validate_on_submit():
+		
 		if form.update.data:
-			if group.set_members(form.members.data):
+			changed = save_ldap_attributes(form, group)
+			if not changed or group.save():
 				flash(_("Successfully saved"), category="success")
 				return redirect(url_for('.group', cn=group.name))
 			else:

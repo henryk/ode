@@ -13,6 +13,26 @@ class LDAPCRYPTSHA512PasswordAttribute(ldap.Attribute):
 
 		super(LDAPCRYPTSHA512PasswordAttribute, self).__setattr__(key, value)
 
+class StringAttribute(ldap.Attribute):
+	@property
+	def value(self):
+		print("values: {}".format(self.__dict__['values']))
+		if len(self.__dict__['values']) == 1:
+			values = self.__dict__['values']
+			return values[0]
+
+		return None
+	
+	def __setattr__(self, key, value):
+		print("key: {}".format(key))
+		print("value: {}".format(value))
+		
+		if key in ['value', '_init']:
+			if not value[0]:
+				value=''
+
+		super(StringAttribute, self).__setattr__(key, value)
+
 class Alias(ldap.Entry):
 	object_classes = ['groupOfNames']
 	entry_rdn = ['cn', 'base_dn']
@@ -71,7 +91,8 @@ class Group(ldap.Entry):
 	entry_rdn = ['cn', 'base_dn']
 
 	name = ldap.Attribute('cn')
-	description = ldap.Attribute('CC-description')
+	description = StringAttribute('CC-description')
+	#description = ''
 
 	members = ldap.Attribute('member')
 	
