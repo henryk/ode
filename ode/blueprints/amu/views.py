@@ -1,7 +1,7 @@
 from flask import current_app, render_template, request, redirect, url_for, session, g, flash, abort
 
 from ode import config_get, session_box, login_required
-from ode.model import User, Group, MailingList, Alias
+from ode.model import User, Group, MailingList, Alias, get_titles
 from . import blueprint, forms, mail, tasks, mailman_integration
 
 from flask_babel import _
@@ -175,7 +175,7 @@ def new_user():
 def groups():
 	users = User.query.all()
 	groups = Group.query.all()
-	return render_template('amu/groups.html', users=users, groups=groups)
+	return render_template('amu/groups.html', users=users, groups=groups, titles=get_titles())
 
 @blueprint.route("/group/<string:cn>", methods=['GET','POST'])
 @login_required
@@ -208,7 +208,7 @@ def group(cn):
 				flash(_("Please confirm group deletion"), category="danger")
 
 	form.delete_confirm.data = False # Always reset this
-	return render_template('amu/group.html', group=group, form=form)
+	return render_template('amu/group.html', group=group, form=form, titles=get_titles())
 
 @blueprint.route("/group/_new", methods=['GET','POST'])
 @login_required

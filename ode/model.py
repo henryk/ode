@@ -29,6 +29,18 @@ class StringAttribute(ldap.Attribute):
 
 		super(StringAttribute, self).__setattr__(key, value)
 
+def get_titles():
+	from ode.model import Group
+
+	groupTitles = []
+	groups = Group.query.all()
+	for group in groups:
+		if group.title.value not in groupTitles and group.title.value is not '':
+			groupTitles.append(group.title.value)
+
+	groupTitles.append('')
+	return groupTitles
+
 class Alias(ldap.Entry):
 	object_classes = ['groupOfNames']
 	entry_rdn = ['cn', 'base_dn']
@@ -88,6 +100,7 @@ class Group(ldap.Entry):
 
 	name = ldap.Attribute('cn')
 	description = StringAttribute('CC-description')
+	title = StringAttribute('CC-title')
 
 	members = ldap.Attribute('member')
 	

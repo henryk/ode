@@ -3,6 +3,8 @@
 
 {% block inner %}
   <h2>{{_("Group list")}}</h2>
+  {% for title in titles %}
+  <h3 class="text-primary text-capitalize">{{title}}{% if not title %}{{_("Without grouping")}}{% endif %}</h3>
   <table class="table table-striped">
     <thead>
       <tr>
@@ -12,14 +14,17 @@
       </tr>
     </thead>
     {% for group in groups %}
+    {% if group.title.value == title %}
       <tr data-href="{{url_for('.group',cn=group.name)}}">
-        <td><a href="{{url_for('.group',cn=group.name)}}">{{group.name}}</a></td>
+        <td style="width: 32%; !important"><a href="{{url_for('.group',cn=group.name)}}">{{group.name}}</a></td>
         <td>{{group.description}}</td>
         <td>
           {% for user in users if user.dn in group.members %}{% if loop.index0 %},{% endif %} {{user.name}}{% endfor %}
         </td>
       </tr>
+    {% endif %}
     {% endfor %}
   </table>
+  {% endfor %}
   
 {% endblock %}
