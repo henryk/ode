@@ -67,12 +67,14 @@ class User(ldap.Entry):
 		return u"%s <%s>" % (self.name, self.mail)
 
 class Group(ldap.Entry):
-	object_classes = ['groupOfNames']
+	object_classes = ['groupOfNames', 'CC-describedObject']
 	entry_rdn = ['cn', 'base_dn']
 
 	name = ldap.Attribute('cn')
-	members = ldap.Attribute('member')
+	description = ldap.Attribute('CC-description')
 
+	members = ldap.Attribute('member')
+	
 	def remove_member(self, dn):
 		return self.connection.connection.modify(self.dn, {
 			"member": [

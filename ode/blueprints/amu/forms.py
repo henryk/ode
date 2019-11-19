@@ -66,6 +66,8 @@ def get_NewUserForm(group_list):
 
 def get_EditGroupForm(user_list):
 	class EditGroupForm(Form):
+		description = StringField(_('Group Description'))
+		
 		members = MultiCheckboxField(_('Members'), choices = [ (_M.dn,_M.name) for _M in user_list ] )
 
 		update = SubmitField(_('Update!'))
@@ -77,6 +79,8 @@ def get_EditGroupForm(user_list):
 def get_NewGroupForm(user_list):
 	class NewGroupForm(Form):
 		name = StringField(_('Group Name'), validators=[DataRequired()])
+
+		description = StringField(_('Group Description'))
 
 		members = MultiCheckboxField(_('Members'), choices = [ (_M.dn,_M.name) for _M in user_list ] )
 
