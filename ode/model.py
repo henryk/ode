@@ -23,11 +23,8 @@ class StringAttribute(ldap.Attribute):
 		return None
 	
 	def __setattr__(self, key, value):
-		print("key: {}".format(key))
-		print("value: {}".format(value))
-		
 		if key in ['value', '_init']:
-			if not value[0]:
+			if value[0] is None:
 				value=''
 
 		super(StringAttribute, self).__setattr__(key, value)
@@ -91,7 +88,6 @@ class Group(ldap.Entry):
 
 	name = ldap.Attribute('cn')
 	description = StringAttribute('CC-description')
-	#description = ''
 
 	members = ldap.Attribute('member')
 	
