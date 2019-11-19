@@ -29,21 +29,21 @@
     <tr data-href="#">
         <td><a href="{{url_for('.user',uid=user.userid)}}">{{user.name}}</a></td>
         <td>
-            {% if user.birthdate.strftime("%Y-%m-%d") != '' %}
+            {% if user.birthdate %}
             {% set date = user.birthdate.strftime("%Y-%m-%d") %}
             {{date}}
             {% if date == today %}
             <strong>{{_("Today is the birthday of this user")}}</strong>
             {% endif %}
             {% else %}
-            <strong>{{_("No birthday added")}}</strong>
+            <strong>-</strong>
             {% endif %}
         </td>
         <td>
             {% if user_age_dict.get(date) != None%}
-            {{user_age_dict.get(date)}}
+            {{user_age_dict.get(date) + 1}}
             {% else %}
-            <strong>{{_("No birthday added")}}</strong>
+            <strong>-</strong>
             {% endif %}
         </td>
         <td>

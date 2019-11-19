@@ -7,7 +7,7 @@ from . import blueprint, forms, mail, tasks, mailman_integration
 from flask_babel import _
 
 import datetime
-from birthday_functions import calculate_age, create_ical
+from birthday_functions import create_ical
 
 @blueprint.app_template_filter()
 def force_str(s):
@@ -387,7 +387,8 @@ def birthdays():
 	user_age_dict = {}
 	for user in user_list:
 		ubd = user.birthdate
-		age = calculate_age(ubd)
+		#age = calculate_age(ubd)
+		age = user.age
 		user_age_dict.update( {ubd.strftime("%Y-%m-%d") : age} )
 		user_dict.update( {user : ubd.strftime("%m")} )
 

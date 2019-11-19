@@ -4,17 +4,21 @@ from ldap3 import STRING_TYPES
 from passlib.hash import sha512_crypt
 import re, flanker.addresslib.address
 
-import datetime
+from datetime import datetime, date
 
 # Convert between strings and dates
 class DateStringConverter(ldap.Attribute):
 	@property
 	def value(self):
-		if len(self.__dict__['values']) == 1:
-			if self.values[0]:
-				return datetime.datetime.strptime(self.values[0], '%Y-%m-%d').date()
+		try:
+			if len(self.__dict__['values']) == 1:
+				if self.values[0]:
+					return datetime.strptime(self.values[0], '%Y-%m-%d').date()
 
-		return None
+			return None
+
+		except ValueError:
+			return None
 
 	def strftime(self, format):
 		if self.value != '' and self.value != None:
@@ -23,8 +27,7 @@ class DateStringConverter(ldap.Attribute):
 
 	def __setattr__(self, key, value):
 		if key in ['value', '_init']:
-			if isinstance(value, datetime.date):
-				print(value)
+			if isinstance(value, date):
 				value = value.strftime('%Y-%m-%d')
 
 		super(DateStringConverter, self).__setattr__(key, value)
@@ -50,6 +53,14 @@ class Alias(ldap.Entry):
 		self.members = list(new_members)
 
 class User(ldap.Entry):
+	@property
+	def age(self):
+		if not self.birthdate.value:
+			return
+
+		today = date.today()
+		return (today.year - self.birthdate.value.year - ((today.month, today.day) < (self.birthdate.value.month, self.birthdate.value.day)))
+
 	object_classes = ['inetOrgPerson', 'CC-person']
 	entry_rdn = ['uid', 'base_dn']
 
