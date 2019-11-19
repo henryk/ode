@@ -37,7 +37,7 @@ def get_EditUserForm(group_list):
 
 		aliases = StringField(_('Additional E-Mail addresses'))
 
-		groups = MultiCheckboxField(_('Groups'), choices = [ (_G.dn,_G.name) for _G in group_list ] )
+		groups = MultiCheckboxField(_('Groups'), choices = [ (_G.dn,"{} - {}".format(_G.name, _G.description)) for _G in group_list ] )
 
 		update = SubmitField(_('Update!'))
 
@@ -58,7 +58,7 @@ def get_NewUserForm(group_list):
 
 		aliases = StringField(_('Additional E-Mail addresses'))
 
-		groups = MultiCheckboxField(_('Groups'), choices = [ (_G.dn,_G.name) for _G in group_list ] )
+		groups = MultiCheckboxField(_('Groups'), choices = [ (_G.dn,"{} - {}".format(_G.name, _G.description)) for _G in group_list ] )
 
 		submit = SubmitField(_('Create!'))
 
@@ -67,7 +67,7 @@ def get_NewUserForm(group_list):
 def get_EditGroupForm(user_list):
 	class EditGroupForm(Form):
 		description = StringField(_('Group Description'))
-		
+
 		members = MultiCheckboxField(_('Members'), choices = [ (_M.dn,_M.name) for _M in user_list ] )
 
 		update = SubmitField(_('Update!'))
