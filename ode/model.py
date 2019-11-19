@@ -16,7 +16,6 @@ class LDAPCRYPTSHA512PasswordAttribute(ldap.Attribute):
 class StringAttribute(ldap.Attribute):
 	@property
 	def value(self):
-		print("values: {}".format(self.__dict__['values']))
 		if len(self.__dict__['values']) == 1:
 			values = self.__dict__['values']
 			return values[0]
