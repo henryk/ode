@@ -7,12 +7,14 @@
     <thead>
       <tr>
         <th>{{_("Name")}}</th>
+        <th>{{_("Description")}}</th>
         <th>{{_("Members")}}</th>
       </tr>
     </thead>
     {% for group in groups %}
       <tr data-href="{{url_for('.group',cn=group.name)}}">
         <td><a href="{{url_for('.group',cn=group.name)}}">{{group.name}}</a></td>
+        <td>{{group.description}}</td>
         <td>
           {% for user in users if user.dn in group.members %}{% if loop.index0 %},{% endif %} {{user.name}}{% endfor %}
         </td>
