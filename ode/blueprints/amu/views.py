@@ -189,7 +189,7 @@ def group(cn):
 		
 		if form.update.data:
 			changed = save_ldap_attributes(form, group)
-			changed_members = group.set_members(form.members.data);
+			changed_members = group.set_members(form.members.data)
 			if not changed or group.save() or changed_members:
 				flash(_("Successfully saved"), category="success")
 				return redirect(url_for('.group', cn=group.name))
