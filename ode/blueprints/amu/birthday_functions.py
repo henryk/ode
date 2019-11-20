@@ -14,7 +14,7 @@ def create_ical(user_list, group_list):
             if user.dn in group.members:
                 groups += '{} '.format(group.name)
 
-        uuid = "{}-{}@{}".format(user.name, 'amu', socket.gethostname().lower())
+        uuid = "{}-{}-{}@{}".format(user.name.replace(' ', '-'), date, 'amu', socket.gethostname().lower())
         if date != '':
             event += 'BEGIN:VEVENT\rSUMMARY:{}\rDTSTART;VALUE=DATE:{}\rUID:{}\rDESCRIPTION:{}\rPRIORITY:5\rRRULE:FREQ=YEARLY;INTERVAL=1\rEND:VEVENT\r'.format(summary, date, str(uuid), groups)
 

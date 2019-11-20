@@ -40,8 +40,8 @@
             {% endif %}
         </td>
         <td>
-            {% if user_age_dict.get(date) != None%}
-            {{user_age_dict.get(date) + 1}}
+            {% if user.age != None%}
+            {{user.age + 1}}
             {% else %}
             <strong>-</strong>
             {% endif %}

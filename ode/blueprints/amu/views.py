@@ -384,12 +384,8 @@ def birthdays():
 	user_list = User.query.all()
 
 	user_dict = {}
-	user_age_dict = {}
 	for user in user_list:
 		ubd = user.birthdate
-		#age = calculate_age(ubd)
-		age = user.age
-		user_age_dict.update( {ubd.strftime("%Y-%m-%d") : age} )
 		user_dict.update( {user : ubd.strftime("%m")} )
 
 	user_list = sorted(user_dict, key=user_dict.get)
@@ -403,7 +399,7 @@ def birthdays():
 	if gname:
 		s_group = Group.query.filter("name: %s" % gname).first()
 	
-	return render_template('amu/birthdays.html', user_list=user_list, group_list=group_list, s_group=s_group, today=today, user_age_dict=user_age_dict)
+	return render_template('amu/birthdays.html', user_list=user_list, group_list=group_list, s_group=s_group, today=today)
 
 @blueprint.route("/birthdays.ics/")
 @login_required
@@ -417,5 +413,4 @@ def birthdays_file():
 	response.headers['Content-Disposition'] = 'attachment; filename=ode_birthdays.ics'
 
 	return response
-
-
+	
