@@ -17,7 +17,7 @@
     {% if group.title.value == title %}
       <tr data-href="{{url_for('.group',cn=group.name)}}">
         <td style="width: 32%; !important"><a href="{{url_for('.group',cn=group.name)}}">{{group.name}}</a></td>
-        <td>{{group.description}}</td>
+        <td style="width: 40%; !important">{{group.description}}</td>
         <td>
           {% for user in users if user.dn in group.members %}{% if loop.index0 %},{% endif %} {{user.name}}{% endfor %}
         </td>
