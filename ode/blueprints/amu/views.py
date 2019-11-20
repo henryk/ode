@@ -226,7 +226,7 @@ def new_group():
 				return redirect(url_for('.group', cn=group.name))
 			else:
 				flash(_("Error while creating group"), category="danger")
-	return render_template('amu/new_group.html', form=form)
+	return render_template('amu/new_group.html', form=form, titles=get_titles())
 
 
 @blueprint.route("/mailing_list/")

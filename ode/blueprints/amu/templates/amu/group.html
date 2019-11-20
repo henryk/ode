@@ -3,7 +3,7 @@
 
 {% block inner %}
   <h2>{{_("Group")}} '{{group.name}}'</h2>
-  <p>{{_("Aviable Titles - ")}}{% for title in titles %}{{title}}{% if title != '' %} / {% else %}{{_('"Or create a new title below"')}}{% endif %}{% endfor %}
+  <p>{{_("Aviable Supercategories - ")}}{% for title in titles %}{{title}}{% if title != '' %} / {% else %}{{_('"Or create a new one below"')}}{% endif %}{% endfor %}
   {{ wtf.quick_form(form, method="POST", form_type="horizontal") }}
   
 {% endblock %}

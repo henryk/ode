@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-11-19 12:00+0100\n"
-"PO-Revision-Date: 2019-11-19 12:01+0100\n"
+"POT-Creation-Date: 2019-11-20 08:47+0100\n"
+"PO-Revision-Date: 2019-11-20 08:50+0100\n"
 "Last-Translator: Henryk Plötz <henryk@ploetzli.ch>\n"
 "Language: de\n"
 "Language-Team: de <LL@li.org>\n"
@@ -27,11 +27,11 @@ msgstr "Unbekannter Benutzer"
 msgid "Invalid credentials"
 msgstr "Benutzername/Passwort ungültig"
 
-#: blueprints/amu/forms.py:35 blueprints/amu/forms.py:56 forms.py:8
+#: blueprints/amu/forms.py:36 blueprints/amu/forms.py:57 forms.py:8
 msgid "Username"
 msgstr "Benutzername"
 
-#: blueprints/amu/forms.py:55 forms.py:9
+#: blueprints/amu/forms.py:56 forms.py:9
 msgid "Password"
 msgstr "Passwort"
 
@@ -56,96 +56,100 @@ msgstr "Abmelden"
 msgid "Not logged in"
 msgstr "Nicht angemeldet"
 
-#: blueprints/amu/forms.py:16 blueprints/amu/forms.py:29
-#: blueprints/amu/forms.py:50
+#: blueprints/amu/forms.py:17 blueprints/amu/forms.py:30
+#: blueprints/amu/forms.py:51
 msgid "Given Name"
 msgstr "Vorname"
 
-#: blueprints/amu/forms.py:17 blueprints/amu/forms.py:30
-#: blueprints/amu/forms.py:51
+#: blueprints/amu/forms.py:18 blueprints/amu/forms.py:31
+#: blueprints/amu/forms.py:52
 msgid "Last Name"
 msgstr "Nachname"
 
-#: blueprints/amu/forms.py:18 blueprints/amu/forms.py:31
-#: blueprints/amu/forms.py:52
+#: blueprints/amu/forms.py:19 blueprints/amu/forms.py:32
+#: blueprints/amu/forms.py:53
 msgid "Private E-Mail address"
 msgstr "Private E-Mail-Adresse"
 
-#: blueprints/amu/forms.py:19 blueprints/amu/forms.py:32
+#: blueprints/amu/forms.py:20 blueprints/amu/forms.py:33
 msgid "Generate and send new password to user"
 msgstr "Neues Passwort erzeugen und dem Benutzer zuschicken"
 
-#: blueprints/amu/forms.py:22 blueprints/amu/forms.py:36
-#: blueprints/amu/forms.py:57
+#: blueprints/amu/forms.py:23 blueprints/amu/forms.py:37
+#: blueprints/amu/forms.py:58
 msgid "Full Name"
 msgstr "Vollständiger Name"
 
-#: blueprints/amu/forms.py:24 blueprints/amu/forms.py:42
-#: blueprints/amu/forms.py:73 blueprints/amu/forms.py:96
-#: blueprints/amu/forms.py:117
+#: blueprints/amu/forms.py:25 blueprints/amu/forms.py:43
+#: blueprints/amu/forms.py:76 blueprints/amu/forms.py:101
+#: blueprints/amu/forms.py:122
 msgid "Update!"
 msgstr "Aktualisieren!"
 
-#: blueprints/amu/forms.py:34
+#: blueprints/amu/forms.py:35
 msgid "New Password"
 msgstr "Neues Passwort"
 
-#: blueprints/amu/forms.py:38 blueprints/amu/forms.py:59
+#: blueprints/amu/forms.py:39 blueprints/amu/forms.py:60
 msgid "Additional E-Mail addresses"
 msgstr "Zusätzliche E-Mail-Adressen"
 
-#: blueprints/amu/forms.py:40 blueprints/amu/forms.py:61
+#: blueprints/amu/forms.py:41 blueprints/amu/forms.py:62
 #: blueprints/amu/navigation.py:20 blueprints/amu/templates/amu/users.html:12
 msgid "Groups"
 msgstr "Gruppen"
 
-#: blueprints/amu/forms.py:44 blueprints/amu/forms.py:75
-#: blueprints/amu/forms.py:98 blueprints/amu/forms.py:119
+#: blueprints/amu/forms.py:45 blueprints/amu/forms.py:78
+#: blueprints/amu/forms.py:103 blueprints/amu/forms.py:124
 msgid "Confirm deletion"
 msgstr "Löschung bestätigen"
 
-#: blueprints/amu/forms.py:45 blueprints/amu/forms.py:76
-#: blueprints/amu/forms.py:99 blueprints/amu/forms.py:120
+#: blueprints/amu/forms.py:46 blueprints/amu/forms.py:79
+#: blueprints/amu/forms.py:104 blueprints/amu/forms.py:125
 msgid "Delete!"
 msgstr "Löschen!"
 
-#: blueprints/amu/forms.py:53
+#: blueprints/amu/forms.py:54
 msgid "Generate password and send to user"
 msgstr "Passwort automatisch erzeugen und an den Benutzer senden"
 
-#: blueprints/amu/forms.py:63 blueprints/amu/forms.py:87
-#: blueprints/amu/forms.py:109 blueprints/amu/forms.py:129
+#: blueprints/amu/forms.py:64 blueprints/amu/forms.py:92
+#: blueprints/amu/forms.py:114 blueprints/amu/forms.py:134
 msgid "Create!"
 msgstr "Erzeugen!"
 
-#: blueprints/amu/forms.py:69 blueprints/amu/forms.py:83
+#: blueprints/amu/forms.py:70 blueprints/amu/forms.py:84
+msgid "Supercategory"
+msgstr "Oberkategorie"
+
+#: blueprints/amu/forms.py:72 blueprints/amu/forms.py:88
 msgid "Group Description"
 msgstr "Gruppenbeschreibung"
 
-#: blueprints/amu/forms.py:71 blueprints/amu/forms.py:85
+#: blueprints/amu/forms.py:74 blueprints/amu/forms.py:90
 #: blueprints/amu/templates/amu/aliases.html:10
-#: blueprints/amu/templates/amu/groups.html:11
+#: blueprints/amu/templates/amu/groups.html:13
 #: blueprints/amu/templates/amu/mailing_lists.html:10
 msgid "Members"
 msgstr "Mitglieder"
 
-#: blueprints/amu/forms.py:81
+#: blueprints/amu/forms.py:86
 msgid "Group Name"
 msgstr "Gruppenname"
 
-#: blueprints/amu/forms.py:94 blueprints/amu/forms.py:107
+#: blueprints/amu/forms.py:99 blueprints/amu/forms.py:112
 msgid "Import"
 msgstr "Importieren"
 
-#: blueprints/amu/forms.py:94 blueprints/amu/forms.py:107
+#: blueprints/amu/forms.py:99 blueprints/amu/forms.py:112
 msgid "Text files"
 msgstr "Textdateien"
 
-#: blueprints/amu/forms.py:104
+#: blueprints/amu/forms.py:109
 msgid "Mailing List Name"
 msgstr "Mailing-Listen-Name"
 
-#: blueprints/amu/forms.py:125
+#: blueprints/amu/forms.py:130
 msgid "Alias Name"
 msgstr "Alias-Name"
 
@@ -182,14 +186,14 @@ msgid "Couldn't send mail to user"
 msgstr "Konnte keine Mail an den Benutzer senden"
 
 #: blueprints/amu/views.py:42 blueprints/amu/views.py:126
-#: blueprints/amu/views.py:193 blueprints/amu/views.py:271
-#: blueprints/amu/views.py:340
+#: blueprints/amu/views.py:194 blueprints/amu/views.py:272
+#: blueprints/amu/views.py:341
 msgid "Successfully saved"
 msgstr "Erfolgreich gespeichert"
 
 #: blueprints/amu/views.py:52 blueprints/amu/views.py:134
-#: blueprints/amu/views.py:196 blueprints/amu/views.py:275
-#: blueprints/amu/views.py:343
+#: blueprints/amu/views.py:197 blueprints/amu/views.py:276
+#: blueprints/amu/views.py:344
 msgid "Saving was unsuccessful"
 msgstr "Speichern war nicht erfolgreich"
 
@@ -201,8 +205,8 @@ msgstr "Einige, oder alle, Gruppenänderungen konnten nicht durchgeführt werden
 msgid "User deleted"
 msgstr "Benutzer gelöscht"
 
-#: blueprints/amu/views.py:142 blueprints/amu/views.py:205
-#: blueprints/amu/views.py:284 blueprints/amu/views.py:352
+#: blueprints/amu/views.py:142 blueprints/amu/views.py:206
+#: blueprints/amu/views.py:285 blueprints/amu/views.py:353
 msgid "Deletion was unsuccessful"
 msgstr "Löschen war nicht erfolgreich"
 
@@ -222,30 +226,30 @@ msgstr "Einige, oder alle, der Gruppen konnten nicht zugewiesen werden"
 msgid "Error while creating user"
 msgstr "Fehler beim Erzeugen des Benutzers"
 
-#: blueprints/amu/views.py:202
+#: blueprints/amu/views.py:203
 msgid "Group deleted"
 msgstr "Gruppe gelöscht"
 
-#: blueprints/amu/views.py:207
+#: blueprints/amu/views.py:208
 msgid "Please confirm group deletion"
 msgstr "Bitte Gruppenlöschung bestätigen"
 
-#: blueprints/amu/views.py:224
+#: blueprints/amu/views.py:225
 msgid "Group created"
 msgstr "Gruppe erstellt"
 
-#: blueprints/amu/views.py:227
+#: blueprints/amu/views.py:228
 msgid "Error while creating group"
 msgstr "Fehler beim Erzeugen der Gruppe"
 
-#: blueprints/amu/views.py:241
+#: blueprints/amu/views.py:242
 #, python-format
 msgid "Conflict while syncing mailing list '%s', please resolve manually"
 msgstr ""
 "Konfligierende Daten beim Synchronisieren von Mailing-Liste '%s'. Bitte "
-"Konflikt manuell auflösen."
+"Konflikt manuell auflösen"
 
-#: blueprints/amu/views.py:243
+#: blueprints/amu/views.py:244
 #, python-format
 msgid ""
 "Mailing list '%s' exists in LDAP, but not in Mailman. Please create in "
@@ -254,45 +258,45 @@ msgstr ""
 "Mailing-Liste '%s' existiert in LDAP aber nicht in Mailman. Bitte in Mailman "
 "erstellen."
 
-#: blueprints/amu/views.py:265 blueprints/amu/views.py:305
+#: blueprints/amu/views.py:266 blueprints/amu/views.py:306
 #, python-format
 msgid "Invalid format, did not import: %s"
 msgstr "Ungültiges Format, wurde nicht importiert: %s"
 
-#: blueprints/amu/views.py:268 blueprints/amu/views.py:308
+#: blueprints/amu/views.py:269 blueprints/amu/views.py:309
 #, python-format
 msgid "Already existing, did not import: %s"
 msgstr "Existierte bereits, wurde nicht importiert: %s"
 
-#: blueprints/amu/views.py:281
+#: blueprints/amu/views.py:282
 msgid "Mailing list deleted"
 msgstr "Mailing-Liste gelöscht"
 
-#: blueprints/amu/views.py:286
+#: blueprints/amu/views.py:287
 msgid "Please confirm mailing list deletion"
 msgstr "Bitte Löschung der Mailing-Liste bestätigen"
 
-#: blueprints/amu/views.py:311
+#: blueprints/amu/views.py:312
 msgid "Mailing list created"
 msgstr "Mailing-Liste erzeugt"
 
-#: blueprints/amu/views.py:314
+#: blueprints/amu/views.py:315
 msgid "Error while creating mailing list"
 msgstr "Fehler beim Erzeugen der Mailing-Liste"
 
-#: blueprints/amu/views.py:349
+#: blueprints/amu/views.py:350
 msgid "Alias deleted"
 msgstr "Alias gelöscht"
 
-#: blueprints/amu/views.py:354
+#: blueprints/amu/views.py:355
 msgid "Please confirm alias deletion"
 msgstr "Bitte Löschung des Alias bestätigen"
 
-#: blueprints/amu/views.py:374
+#: blueprints/amu/views.py:375
 msgid "Alias created"
 msgstr "Alias erzeugt"
 
-#: blueprints/amu/views.py:377
+#: blueprints/amu/views.py:378
 msgid "Error while creating Alias"
 msgstr "Fehler beim Erzeugen des Alias"
 
@@ -379,18 +383,32 @@ msgid "Alias list"
 msgstr "Alias-Liste"
 
 #: blueprints/amu/templates/amu/aliases.html:9
-#: blueprints/amu/templates/amu/groups.html:9
+#: blueprints/amu/templates/amu/groups.html:11
 #: blueprints/amu/templates/amu/mailing_lists.html:9
 #: blueprints/amu/templates/amu/users.html:10
 msgid "Name"
 msgstr "Name"
+
+#: blueprints/amu/templates/amu/group.html:6
+#: blueprints/amu/templates/amu/new_group.html:6
+msgid "Aviable Supercategories - "
+msgstr "Verfügbare Oberkategorien - "
+
+#: blueprints/amu/templates/amu/group.html:6
+#: blueprints/amu/templates/amu/new_group.html:6
+msgid "\"Or create a new one below\""
+msgstr "„Oder erstelle unten eine neue“"
 
 #: blueprints/amu/templates/amu/groups.html:2
 #: blueprints/amu/templates/amu/groups.html:5
 msgid "Group list"
 msgstr "Gruppenliste"
 
-#: blueprints/amu/templates/amu/groups.html:10
+#: blueprints/amu/templates/amu/groups.html:7
+msgid "Without grouping"
+msgstr "Ohne Gruppierung"
+
+#: blueprints/amu/templates/amu/groups.html:12
 msgid "Description"
 msgstr "Beschreibung"
 

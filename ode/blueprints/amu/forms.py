@@ -67,7 +67,7 @@ def get_NewUserForm(group_list):
 
 def get_EditGroupForm(user_list):
 	class EditGroupForm(Form):
-		title = StringField(_('Title'))
+		title = StringField(_('Supercategory'))
 
 		description = StringField(_('Group Description'))
 		
@@ -81,6 +81,8 @@ def get_EditGroupForm(user_list):
 
 def get_NewGroupForm(user_list):
 	class NewGroupForm(Form):
+		title = StringField(_('Supercategory'))
+
 		name = StringField(_('Group Name'), validators=[DataRequired()])
 
 		description = StringField(_('Group Description'))
