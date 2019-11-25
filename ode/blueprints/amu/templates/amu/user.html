@@ -3,7 +3,12 @@
 
 {% block inner %}
   <h2>{{_("User")}} '{{user.name}}'</h2>
+  {% for alias in aliases %}
+  {% if user.dn in alias.members %}
+    {{user.dn}}
 
+  {% endif %}
+  {% endfor %}
   {{ wtf.quick_form(form, method="POST", form_type="horizontal") }}
   
 {% endblock %}
