@@ -51,6 +51,45 @@ class Alias(ldap.Entry):
 	def set_members(self, new_members):
 		self.members = list(new_members)
 
+class Group(ldap.Entry):
+	object_classes = ['groupOfNames', 'CC-describedObject']
+	entry_rdn = ['cn', 'base_dn']
+
+	name = ldap.Attribute('cn')
+	description = StringAttribute('CC-description')
+	title = StringAttribute('CC-title')
+
+	members = ldap.Attribute('member')
+	
+	def remove_member(self, dn):
+		return self.connection.connection.modify(self.dn, {
+			"member": [
+				("MODIFY_DELETE", [dn])
+			]
+		})
+
+	def add_member(self, dn):
+		return self.connection.connection.modify(self.dn, {
+			"member": [
+				("MODIFY_ADD", [dn])
+			]
+		})
+
+	def set_members(self, dnlist):
+		add_list = [dn for dn in dnlist if dn not in self.members]
+		del_list = [dn for dn in self.members if dn not in dnlist]
+
+		changes = []
+		if add_list: changes.append( ("MODIFY_ADD", add_list) )
+		if del_list: changes.append( ("MODIFY_DELETE", del_list) )
+
+		if not changes: 
+			return True
+
+		return self.connection.connection.modify(self.dn, {
+			"member": changes
+		})
+
 class User(ldap.Entry):
 	object_classes = ['inetOrgPerson', 'CC-person']
 	entry_rdn = ['uid', 'base_dn']
@@ -94,44 +133,7 @@ class User(ldap.Entry):
 	def mail_form(self):
 		return u"%s <%s>" % (self.name, self.mail)
 
-class Group(ldap.Entry):
-	object_classes = ['groupOfNames', 'CC-describedObject']
-	entry_rdn = ['cn', 'base_dn']
 
-	name = ldap.Attribute('cn')
-	description = StringAttribute('CC-description')
-	title = StringAttribute('CC-title')
-
-	members = ldap.Attribute('member')
-	
-	def remove_member(self, dn):
-		return self.connection.connection.modify(self.dn, {
-			"member": [
-				("MODIFY_DELETE", [dn])
-			]
-		})
-
-	def add_member(self, dn):
-		return self.connection.connection.modify(self.dn, {
-			"member": [
-				("MODIFY_ADD", [dn])
-			]
-		})
-
-	def set_members(self, dnlist):
-		add_list = [dn for dn in dnlist if dn not in self.members]
-		del_list = [dn for dn in self.members if dn not in dnlist]
-
-		changes = []
-		if add_list: changes.append( ("MODIFY_ADD", add_list) )
-		if del_list: changes.append( ("MODIFY_DELETE", del_list) )
-
-		if not changes: 
-			return True
-
-		return self.connection.connection.modify(self.dn, {
-			"member": changes
-		})
 
 class MailingList(ldap.Entry):
 	object_classes = ['CC-mailingList']

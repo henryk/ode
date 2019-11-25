@@ -44,6 +44,26 @@ def get_EditUserForm(group_list):
 
 		delete_confirm = BooleanField(_('Confirm deletion'))
 		delete = SubmitField(_('Delete!'))
+	
+	# get group titles
+	titles = []
+	for group in group_list:
+		if str(group.title) not in titles and not str(group.title) is "":
+			titles.append(str(group.title))
+	titles.append("")
+	print(titles)
+
+	# create form fields
+	for title in titles:
+		print(title)
+		fieldDescription = title
+		if title == "":
+			fieldDescription = "Without Grouping"
+			print(fieldDescription)
+		test = MultiCheckboxField((fieldDescription), choices = [ (_G.dn,"{} - {}".format(_G.name, _G.description)) for _G in group_list if str(_G.title) == title] )
+		
+		setattr(EditUserForm, "group_{}".format(title), test)
+	
 	return EditUserForm
 
 def get_NewUserForm(group_list):
