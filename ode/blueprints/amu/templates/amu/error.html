@@ -1,0 +1,9 @@
+{% extends "amu/base.html" %}
+{% block titleinner %}{{_("ERROR")}}{% endblock %}
+
+{% block inner %}
+  <h2 class="text-danger">{{message}}</h2>
+  <h3>{{_("Infos for the developer:")}}</h3>
+  <p>{{exception}}</p>
+  <p>{{args}}</p>
+{% endblock %}
