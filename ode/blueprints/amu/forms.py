@@ -8,9 +8,17 @@ from wtforms.validators import DataRequired, Email
 from flask_babel import _
 from ode.model import get_titles
 
+from wtforms.utils import unset_value
+
 class MultiCheckboxField(SelectMultipleField):
 	widget = widgets.ListWidget(prefix_label=False)
 	option_widget = widgets.CheckboxInput()
+
+	def process(self, formdata, data=unset_value):
+		print("process-----------------------------------------------------------")
+		print(formdata)
+		print(data)
+		print("end-----------------------------------------------------------")
 
 
 class EditSelfForm(Form):
@@ -40,6 +48,17 @@ def get_EditUserForm(group_list):
 
 		groups = MultiCheckboxField(_('Groups'), choices = [ (_G.dn,"{} - {}".format(_G.name, _G.description)) for _G in group_list ] )
 
+		def assign_groups(self, user):
+			for name in dir(self):
+				if name.startswith("groups_Tester"):
+					print("------------------------------------------------------------")
+					field = getattr(self, name)
+					
+
+					
+					print("------------------------------------------------------------\r\r\r")
+					
+
 		update = SubmitField(_('Update!'))
 
 		delete_confirm = BooleanField(_('Confirm deletion'))
@@ -51,7 +70,6 @@ def get_EditUserForm(group_list):
 		if str(group.title) not in titles and not str(group.title) is "":
 			titles.append(str(group.title))
 	titles.append("")
-	print(titles)
 
 	# create form fields
 	for title in titles:
@@ -62,7 +80,7 @@ def get_EditUserForm(group_list):
 			print(fieldDescription)
 		test = MultiCheckboxField((fieldDescription), choices = [ (_G.dn,"{} - {}".format(_G.name, _G.description)) for _G in group_list if str(_G.title) == title] )
 		
-		setattr(EditUserForm, "group_{}".format(title), test)
+		setattr(EditUserForm, "groups_{}".format(title), test)
 	
 	return EditUserForm
 
