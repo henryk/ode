@@ -15,13 +15,18 @@
     {% endfor %}
 </ul>
 
-<table class="table table-striped">
+<div class="form-group" style="margin-bottom: 20px;">
+  <label>{{_("Filter list")}}:</label>
+  <input id='search_input' onkeyup='searchTable()' type="text" class="form-control" id="usr" autofocus>
+</div>
+
+<table class="table table-striped search_table">
     <thead>
-        <tr>
-            <th>{{_("Name")}}</th>
-            <th>{{_("Date of birth")}}</th>
-            <th>{{_("Age after birthday")}}</th>
-            <th>{{_("Groups")}}</th>
+        <tr class="no_filter" style="cursor: pointer;">
+            <th onclick="sortTable(0, 0)">{{_("Name")}}</th>
+            <th onclick="sortTable(1, 0)">{{_("Date of birth")}}</th>
+            <th onclick="sortTable(2, 0)">{{_("Age after birthday")}}</th>
+            <th onclick="sortTable(3, 0)">{{_("Groups")}}</th>
         </tr>
     </thead>
     {% for user in user_list %}
@@ -57,4 +62,9 @@
     {% endif %}
     {% endfor %}
 </table>
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+<script src="{{url_for('.static', filename='amu/table_functions.js')}}"></script>
 {% endblock %}
