@@ -11,9 +11,9 @@
 
 <table class="table table-striped search_table">
   <thead>
-    <tr class="no_filter">
-      <th>{{_("Name")}}</th>
-      <th>{{_("Members")}}</th>
+    <tr class="no_filter" style="cursor: pointer;">
+      <th onclick="sortTable(0, 0)">{{_("Name")}}</th>
+      <th onclick="sortTable(0, 0)">{{_("Members")}}</th>
     </tr>
   </thead>
   {% for alias in aliases %}
@@ -30,5 +30,5 @@
 
 {% block scripts %}
 {{super()}}
-<script src="{{url_for('.static', filename='amu/mark.js')}}"></script>
+<script src="{{url_for('.static', filename='amu/table_functions.js')}}"></script>
 {% endblock %}
