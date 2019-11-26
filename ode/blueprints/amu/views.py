@@ -148,7 +148,22 @@ def user(uid):
 
 	form.password.data = '' # Must manually delete this, since the password is not returned
 	form.delete_confirm.data = False # Always reset this
-	return render_template('amu/user.html', user=user, form=form)
+
+	#get aliase
+	aliases = Alias.query.all()
+
+	alias_dict = {}
+	for alias in aliases:
+		member_list = []
+		for member in alias.members:
+			if member.split(",")[1][3:] == "Users":
+				member_list.append(str(member.split(",")[0][4:]))
+		alias_dict[alias] = member_list
+	print(alias_dict)
+
+
+
+	return render_template('amu/user.html', user=user, form=form, aliases=aliases)
 
 @blueprint.route("/user/_new", methods=['GET','POST'])
 @login_required
