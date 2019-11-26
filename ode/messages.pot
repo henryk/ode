@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-11-26 10:09+0100\n"
+"POT-Creation-Date: 2019-11-26 16:48+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -106,8 +106,8 @@ msgstr ""
 
 #: blueprints/amu/forms.py:47 blueprints/amu/forms.py:70
 #: blueprints/amu/navigation.py:20
-#: blueprints/amu/templates/amu/birthdays.html:24
-#: blueprints/amu/templates/amu/users.html:12
+#: blueprints/amu/templates/amu/birthdays.html:29
+#: blueprints/amu/templates/amu/users.html:18
 msgid "Groups"
 msgstr ""
 
@@ -135,8 +135,8 @@ msgid "Group Description"
 msgstr ""
 
 #: blueprints/amu/forms.py:80 blueprints/amu/forms.py:94
-#: blueprints/amu/templates/amu/aliases.html:10
-#: blueprints/amu/templates/amu/groups.html:11
+#: blueprints/amu/templates/amu/aliases.html:16
+#: blueprints/amu/templates/amu/groups.html:17
 #: blueprints/amu/templates/amu/mailing_lists.html:10
 msgid "Members"
 msgstr ""
@@ -390,11 +390,18 @@ msgstr ""
 msgid "Alias list"
 msgstr ""
 
-#: blueprints/amu/templates/amu/aliases.html:9
-#: blueprints/amu/templates/amu/birthdays.html:21
-#: blueprints/amu/templates/amu/groups.html:9
+#: blueprints/amu/templates/amu/aliases.html:8
+#: blueprints/amu/templates/amu/birthdays.html:19
+#: blueprints/amu/templates/amu/groups.html:8
+#: blueprints/amu/templates/amu/users.html:8
+msgid "Filter list"
+msgstr ""
+
+#: blueprints/amu/templates/amu/aliases.html:15
+#: blueprints/amu/templates/amu/birthdays.html:26
+#: blueprints/amu/templates/amu/groups.html:15
 #: blueprints/amu/templates/amu/mailing_lists.html:9
-#: blueprints/amu/templates/amu/users.html:10
+#: blueprints/amu/templates/amu/users.html:16
 msgid "Name"
 msgstr ""
 
@@ -411,15 +418,15 @@ msgstr ""
 msgid "Show all"
 msgstr ""
 
-#: blueprints/amu/templates/amu/birthdays.html:22
+#: blueprints/amu/templates/amu/birthdays.html:27
 msgid "Date of birth"
 msgstr ""
 
-#: blueprints/amu/templates/amu/birthdays.html:23
+#: blueprints/amu/templates/amu/birthdays.html:28
 msgid "Age after birthday"
 msgstr ""
 
-#: blueprints/amu/templates/amu/birthdays.html:36
+#: blueprints/amu/templates/amu/birthdays.html:41
 msgid "Today is the birthday of this user"
 msgstr ""
 
@@ -428,7 +435,7 @@ msgstr ""
 msgid "Group list"
 msgstr ""
 
-#: blueprints/amu/templates/amu/groups.html:10
+#: blueprints/amu/templates/amu/groups.html:16
 msgid "Description"
 msgstr ""
 
@@ -503,7 +510,7 @@ msgstr ""
 msgid "User list"
 msgstr ""
 
-#: blueprints/amu/templates/amu/users.html:11
+#: blueprints/amu/templates/amu/users.html:17
 msgid "E-Mail"
 msgstr ""
 
