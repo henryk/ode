@@ -2,21 +2,33 @@
 {% block titleinner %}{{_("User")}} '{{user.name}}'{% endblock %}
 
 {% block inner %}
-  <h2>{{_("User")}} '{{user.name}}'</h2>
+<h2>{{_("User")}} '{{user.name}}'</h2>
+
+{{ wtf.quick_form(form, method="POST", form_type="horizontal") }}
+
+<!-- alias table -->
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>{{_("The user is assigned to the following aliases")}}</th>
+    </tr>
+  </thead>
   {% for alias in aliases %}
   {% if user.dn in alias.members %}
-    {{user.dn}}
 
+  <tr data-href="{{url_for('.alias',cn=alias.name)}}">
+    <td><a href="{{url_for('.alias',cn=alias.name)}}">{{alias.name}}</a></td>
+  </tr>
   {% endif %}
   {% endfor %}
-  {{ wtf.quick_form(form, method="POST", form_type="horizontal") }}
-  
+</table>
+
 {% endblock %}
 
 {% block scripts %}
 {{super()}}
 <script>
-amu_user_enhancements(false);
+  amu_user_enhancements(false);
 </script>
 <script src="{{url_for('.static',filename='amu/wordlist/words_de.js')}}"></script>
 {{ load_zxcvbn(true) }}
