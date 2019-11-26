@@ -2,24 +2,35 @@
 {% block titleinner %}{{_("Group list")}}{% endblock %}
 
 {% block inner %}
-  <h2>{{_("Group list")}}</h2>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>{{_("Name")}}</th>
-        <th>{{_("Description")}}</th>
-        <th>{{_("Members")}}</th>
-      </tr>
-    </thead>
-    {% for group in groups %}
-      <tr data-href="{{url_for('.group',cn=group.name)}}">
-        <td><a href="{{url_for('.group',cn=group.name)}}">{{group.name}}</a></td>
-        <td>{{group.description}}</td>
-        <td>
-          {% for user in users if user.dn in group.members %}{% if loop.index0 %},{% endif %} {{user.name}}{% endfor %}
-        </td>
-      </tr>
-    {% endfor %}
-  </table>
-  
+<h2>{{_("Group list")}}</h2>
+
+<div class="form-group" style="margin-bottom: 20px;">
+  <label>{{_("Filter list")}}:</label>
+  <input id='search_input' onkeyup='searchTable()' type="text" class="form-control" id="usr" autofocus>
+</div>
+
+<table class="table table-striped search_table">
+  <thead>
+    <tr class="no_filter">
+      <th>{{_("Name")}}</th>
+      <th>{{_("Description")}}</th>
+      <th>{{_("Members")}}</th>
+    </tr>
+  </thead>
+  {% for group in groups %}
+  <tr data-href="{{url_for('.group',cn=group.name)}}">
+    <td><a href="{{url_for('.group',cn=group.name)}}">{{group.name}}</a></td>
+    <td>{{group.description}}</td>
+    <td>
+      {% for user in users if user.dn in group.members %}{% if loop.index0 %},{% endif %} {{user.name}}{% endfor %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+<script src="{{url_for('.static', filename='amu/mark.js')}}"></script>
 {% endblock %}

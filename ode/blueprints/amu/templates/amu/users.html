@@ -5,13 +5,13 @@
 <h2>{{_("User list")}}</h2>
 
 <div class="form-group" style="margin-bottom: 20px;">
-  <label for="usr">{{_("Filter list")}}:</label>
+  <label>{{_("Filter list")}}:</label>
   <input id='search_input' onkeyup='searchTable()' type="text" class="form-control" id="usr" autofocus>
 </div>
 
-<table id="search_table" class="table table-striped search_table">
+<table class="table table-striped search_table">
   <thead>
-    <tr>
+    <tr class="no_filter">
       <th>uid</th>
       <th>{{_("Name")}}</th>
       <th>{{_("E-Mail")}}</th>

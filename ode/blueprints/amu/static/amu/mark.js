@@ -8,7 +8,9 @@ function searchTable() {
     for (table of tables) {
         c_tr = table.getElementsByTagName("tr");
         for (item of c_tr) {
-            tr.push(item)
+            if (!item.classList.contains('no_filter')) {
+                tr.push(item)
+            }
         }
     }
 

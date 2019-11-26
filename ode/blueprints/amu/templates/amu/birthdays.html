@@ -15,9 +15,14 @@
     {% endfor %}
 </ul>
 
-<table class="table table-striped">
+<div class="form-group" style="margin-bottom: 20px;">
+  <label>{{_("Filter list")}}:</label>
+  <input id='search_input' onkeyup='searchTable()' type="text" class="form-control" id="usr" autofocus>
+</div>
+
+<table class="table table-striped search_table">
     <thead>
-        <tr>
+        <tr class="no_filter">
             <th>{{_("Name")}}</th>
             <th>{{_("Date of birth")}}</th>
             <th>{{_("Age after birthday")}}</th>
@@ -57,4 +62,9 @@
     {% endif %}
     {% endfor %}
 </table>
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+<script src="{{url_for('.static', filename='amu/mark.js')}}"></script>
 {% endblock %}
