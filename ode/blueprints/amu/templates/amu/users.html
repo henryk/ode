@@ -2,31 +2,41 @@
 {% block titleinner %}{{_("User list")}}{% endblock %}
 
 {% block inner %}
-  <h2>{{_("User list")}}</h2>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>uid</th>
-        <th>{{_("Name")}}</th>
-        <th>{{_("E-Mail")}}</th>
-        <th>{{_("Groups")}}</th>
-      </tr>
-    </thead>
-    {% for user in users %}
-      <tr data-href="{{url_for('.user',uid=user.userid)}}">
-        <td><a href="{{url_for('.user',uid=user.userid)}}">{{user.userid}}</a></td>
-        <td>{{user.name}}</td>
-        <td>{{user.mail}}</td>
-        <td>
-          {% for group in groups %}
-            {% if user.dn in group.members %}
-              {{group.name}}
-            {% endif %}
-          {% endfor %}
-        </td>
-      </tr>
-    {% endfor %}
-  </table>
-  
+<h2>{{_("User list")}}</h2>
+
+<div class="form-group" style="margin-bottom: 20px;">
+  <label for="usr">{{_("Filter list")}}:</label>
+  <input id='search_input' onkeyup='searchTable()' type="text" class="form-control" id="usr" autofocus>
+</div>
+
+<table id="search_table" class="table table-striped search_table">
+  <thead>
+    <tr>
+      <th>uid</th>
+      <th>{{_("Name")}}</th>
+      <th>{{_("E-Mail")}}</th>
+      <th>{{_("Groups")}}</th>
+    </tr>
+  </thead>
+  {% for user in users %}
+  <tr data-href="{{url_for('.user',uid=user.userid)}}">
+    <td><a href="{{url_for('.user',uid=user.userid)}}">{{user.userid}}</a></td>
+    <td>{{user.name}}</td>
+    <td>{{user.mail}}</td>
+    <td>
+      {% for group in groups %}
+      {% if user.dn in group.members %}
+      {{group.name}}
+      {% endif %}
+      {% endfor %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
 {% endblock %}
 
+{% block scripts %}
+{{super()}}
+<script src="{{url_for('.static', filename='amu/mark.js')}}"></script>
+{% endblock %}
