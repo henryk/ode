@@ -109,7 +109,7 @@ function amu_user_enhancements(password_is_required) {
         
         } // end-if password generation is available
 
-        $('#password').attr("autocomplete", "off");
+        $('#password').attr("autocomplete", "new-password");
 
         var meter_inserted = false;
         $('#password').bind("change keyup paste input", function(){
