@@ -97,6 +97,7 @@ function amu_user_enhancements(password_is_required) {
                     $('#password').prop('type', 'password');
                     generate_password(false);
                 } else {
+                    $('#password').val("").change();
                     $('#password').prop('type', 'text');
                 }
             };
