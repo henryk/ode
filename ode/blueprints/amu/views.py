@@ -237,16 +237,23 @@ def new_group():
 def mailing_lists():
 	lists = MailingList.query.all()
 
-	sync_problems = []
-	with mailman_integration.sync_state() as state:
-		for ln, problems in state["sync_problems"].items():
-			for problem in problems:
-				if problem is mailman_integration.SyncMessage.CONFLICT:
-					flash( _("Conflict while syncing mailing list '%s', please resolve manually") % ln, category='danger' )
-				elif problem is mailman_integration.SyncMessage.ON_LDAP_NOT_ON_MM:
-					flash( _("Mailing list '%s' exists in LDAP, but not in Mailman. Please create in Mailman." % ln), category='warning' )
+	try:
+		sync_problems = []
+		with mailman_integration.sync_state() as state:
+			for ln, problems in state["sync_problems"].items():
+				for problem in problems:
+					if problem is mailman_integration.SyncMessage.CONFLICT:
+						flash( _("Conflict while syncing mailing list '%s', please resolve manually") % ln, category='danger' )
+					elif problem is mailman_integration.SyncMessage.ON_LDAP_NOT_ON_MM:
+						flash( _("Mailing list '%s' exists in LDAP, but not in Mailman. Please create in Mailman." % ln), category='warning' )
 
-	return render_template('amu/mailing_lists.html', lists=lists)
+		return render_template('amu/mailing_lists.html', lists=lists)
+
+	except KeyError as ex:
+		message = _("Mailing lists are currently not activated.")
+		exception = _("Exception: {}.".format(type(ex).__name__))
+		args = _("Arguments: {}.".format(ex.args))
+		return render_template('amu/error.html', message=message, exception=exception, args=args)
 
 
 @blueprint.route("/mailing_list/<string:cn>", methods=['GET','POST'])
