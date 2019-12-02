@@ -58,9 +58,6 @@ function amu_user_enhancements(password_is_required) {
         if(typeof window.crypto !== 'undefined' && typeof window.crypto.getRandomValues !== 'undefined') {
             var password_generated = false;
             var generate_password = function(do_focus) {
-                if(password_generated) {
-                    return
-                };
                 var array = new Uint32Array(5);
                 crypto.getRandomValues(array);
                 var pass = "";
@@ -94,13 +91,13 @@ function amu_user_enhancements(password_is_required) {
                 });
             }
 
-
             var update_password_visibility = function() {
                 $('#password').removeAttr('type');
                 if($('#send_password').prop('checked')) {
                     $('#password').prop('type', 'password');
                     generate_password(false);
                 } else {
+                    $('#password').val("").change();
                     $('#password').prop('type', 'text');
                 }
             };
