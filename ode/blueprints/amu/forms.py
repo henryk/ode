@@ -62,7 +62,7 @@ def get_NewUserForm(group_list):
 
 		aliases = StringField(_('Additional E-Mail addresses'))
 
-		groups = MultiCheckboxField(_('Groups'), choices = [ (_G.dn,"{} - {}".format(_G.name, _G.description)) for _G in group_list ] )
+		groups = MultiCheckboxField(_('Groups'), choices = [ (_G.dn,"{},   {} in {}".format(_G.name, _G.description, _G.title)) for _G in sort_group_by_title(group_list) ] )
 
 		submit = SubmitField(_('Create!'))
 
