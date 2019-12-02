@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-11-20 08:47+0100\n"
-"PO-Revision-Date: 2019-11-20 08:50+0100\n"
+"POT-Creation-Date: 2019-12-02 11:38+0100\n"
+"PO-Revision-Date: 2019-12-02 11:40+0100\n"
 "Last-Translator: Henryk Plötz <henryk@ploetzli.ch>\n"
 "Language: de\n"
 "Language-Team: de <LL@li.org>\n"
@@ -27,11 +27,11 @@ msgstr "Unbekannter Benutzer"
 msgid "Invalid credentials"
 msgstr "Benutzername/Passwort ungültig"
 
-#: blueprints/amu/forms.py:36 blueprints/amu/forms.py:57 forms.py:8
+#: blueprints/amu/forms.py:38 blueprints/amu/forms.py:60 forms.py:8
 msgid "Username"
 msgstr "Benutzername"
 
-#: blueprints/amu/forms.py:56 forms.py:9
+#: blueprints/amu/forms.py:59 forms.py:9
 msgid "Password"
 msgstr "Passwort"
 
@@ -56,102 +56,110 @@ msgstr "Abmelden"
 msgid "Not logged in"
 msgstr "Nicht angemeldet"
 
-#: blueprints/amu/forms.py:17 blueprints/amu/forms.py:30
-#: blueprints/amu/forms.py:51
+#: blueprints/amu/forms.py:19 blueprints/amu/forms.py:32
+#: blueprints/amu/forms.py:54
 msgid "Given Name"
 msgstr "Vorname"
 
-#: blueprints/amu/forms.py:18 blueprints/amu/forms.py:31
-#: blueprints/amu/forms.py:52
+#: blueprints/amu/forms.py:20 blueprints/amu/forms.py:33
+#: blueprints/amu/forms.py:55
 msgid "Last Name"
 msgstr "Nachname"
 
-#: blueprints/amu/forms.py:19 blueprints/amu/forms.py:32
-#: blueprints/amu/forms.py:53
+#: blueprints/amu/forms.py:21 blueprints/amu/forms.py:34
+#: blueprints/amu/forms.py:56
 msgid "Private E-Mail address"
 msgstr "Private E-Mail-Adresse"
 
-#: blueprints/amu/forms.py:20 blueprints/amu/forms.py:33
+#: blueprints/amu/forms.py:22 blueprints/amu/forms.py:35
 msgid "Generate and send new password to user"
 msgstr "Neues Passwort erzeugen und dem Benutzer zuschicken"
 
-#: blueprints/amu/forms.py:23 blueprints/amu/forms.py:37
-#: blueprints/amu/forms.py:58
+#: blueprints/amu/forms.py:25 blueprints/amu/forms.py:39
+#: blueprints/amu/forms.py:61
 msgid "Full Name"
 msgstr "Vollständiger Name"
 
-#: blueprints/amu/forms.py:25 blueprints/amu/forms.py:43
-#: blueprints/amu/forms.py:76 blueprints/amu/forms.py:101
-#: blueprints/amu/forms.py:122
+#: blueprints/amu/forms.py:27 blueprints/amu/forms.py:45
+#: blueprints/amu/forms.py:79 blueprints/amu/forms.py:104
+#: blueprints/amu/forms.py:125
 msgid "Update!"
 msgstr "Aktualisieren!"
 
-#: blueprints/amu/forms.py:35
+#: blueprints/amu/forms.py:37
 msgid "New Password"
 msgstr "Neues Passwort"
 
-#: blueprints/amu/forms.py:39 blueprints/amu/forms.py:60
+#: blueprints/amu/forms.py:41 blueprints/amu/forms.py:63
 msgid "Additional E-Mail addresses"
 msgstr "Zusätzliche E-Mail-Adressen"
 
-#: blueprints/amu/forms.py:41 blueprints/amu/forms.py:62
+#: blueprints/amu/forms.py:43 blueprints/amu/forms.py:65
 #: blueprints/amu/navigation.py:20 blueprints/amu/templates/amu/users.html:12
 msgid "Groups"
 msgstr "Gruppen"
 
-#: blueprints/amu/forms.py:45 blueprints/amu/forms.py:78
-#: blueprints/amu/forms.py:103 blueprints/amu/forms.py:124
+#: blueprints/amu/forms.py:47 blueprints/amu/forms.py:81
+#: blueprints/amu/forms.py:106 blueprints/amu/forms.py:127
 msgid "Confirm deletion"
 msgstr "Löschung bestätigen"
 
-#: blueprints/amu/forms.py:46 blueprints/amu/forms.py:79
-#: blueprints/amu/forms.py:104 blueprints/amu/forms.py:125
+#: blueprints/amu/forms.py:48 blueprints/amu/forms.py:82
+#: blueprints/amu/forms.py:107 blueprints/amu/forms.py:128
 msgid "Delete!"
 msgstr "Löschen!"
 
-#: blueprints/amu/forms.py:54
+#: blueprints/amu/forms.py:57
 msgid "Generate password and send to user"
 msgstr "Passwort automatisch erzeugen und an den Benutzer senden"
 
-#: blueprints/amu/forms.py:64 blueprints/amu/forms.py:92
-#: blueprints/amu/forms.py:114 blueprints/amu/forms.py:134
+#: blueprints/amu/forms.py:67 blueprints/amu/forms.py:95
+#: blueprints/amu/forms.py:117 blueprints/amu/forms.py:137
 msgid "Create!"
 msgstr "Erzeugen!"
 
-#: blueprints/amu/forms.py:70 blueprints/amu/forms.py:84
+#: blueprints/amu/forms.py:73 blueprints/amu/forms.py:87
 msgid "Supercategory"
 msgstr "Oberkategorie"
 
-#: blueprints/amu/forms.py:72 blueprints/amu/forms.py:88
+#: blueprints/amu/forms.py:75 blueprints/amu/forms.py:91
 msgid "Group Description"
 msgstr "Gruppenbeschreibung"
 
-#: blueprints/amu/forms.py:74 blueprints/amu/forms.py:90
+#: blueprints/amu/forms.py:77 blueprints/amu/forms.py:93
 #: blueprints/amu/templates/amu/aliases.html:10
 #: blueprints/amu/templates/amu/groups.html:13
 #: blueprints/amu/templates/amu/mailing_lists.html:10
 msgid "Members"
 msgstr "Mitglieder"
 
-#: blueprints/amu/forms.py:86
+#: blueprints/amu/forms.py:89
 msgid "Group Name"
 msgstr "Gruppenname"
 
-#: blueprints/amu/forms.py:99 blueprints/amu/forms.py:112
+#: blueprints/amu/forms.py:102 blueprints/amu/forms.py:115
 msgid "Import"
 msgstr "Importieren"
 
-#: blueprints/amu/forms.py:99 blueprints/amu/forms.py:112
+#: blueprints/amu/forms.py:102 blueprints/amu/forms.py:115
 msgid "Text files"
 msgstr "Textdateien"
 
-#: blueprints/amu/forms.py:109
+#: blueprints/amu/forms.py:112
 msgid "Mailing List Name"
 msgstr "Mailing-Listen-Name"
 
-#: blueprints/amu/forms.py:130
+#: blueprints/amu/forms.py:133
 msgid "Alias Name"
 msgstr "Alias-Name"
+
+#: blueprints/amu/group_titles.py:16
+msgid "(no title)"
+msgstr "(kein Titel)"
+
+#: blueprints/amu/group_titles.py:19
+msgid "(no description)"
+msgstr "(keine Beschreibung)"
 
 #: blueprints/amu/navigation.py:18
 msgid "Users"
