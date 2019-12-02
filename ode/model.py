@@ -24,8 +24,13 @@ class StringAttribute(ldap.Attribute):
 	
 	def __setattr__(self, key, value):
 		if key in ['value', '_init']:
-			if value[0] is None:
-				value=''
+			print("------------")
+			print(value)
+			print("------------")
+
+			if not (isinstance(value, STRING_TYPES)):
+				if value[0] is None:
+					value=''
 
 		super(StringAttribute, self).__setattr__(key, value)
 

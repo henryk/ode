@@ -7,19 +7,13 @@ from wtforms.validators import DataRequired, Email
 
 from flask_babel import _
 from ode.model import get_titles
+from group_titles import sort_group_by_title
 
 from wtforms.utils import unset_value
 
 class MultiCheckboxField(SelectMultipleField):
 	widget = widgets.ListWidget(prefix_label=False)
 	option_widget = widgets.CheckboxInput()
-
-	def process(self, formdata, data=unset_value):
-		print("process-----------------------------------------------------------")
-		print(formdata)
-		print(data)
-		print("end-----------------------------------------------------------")
-
 
 class EditSelfForm(Form):
 	givenname = StringField(_("Given Name"), validators=[DataRequired()])
@@ -46,41 +40,12 @@ def get_EditUserForm(group_list):
 
 		aliases = StringField(_('Additional E-Mail addresses'))
 
-		groups = MultiCheckboxField(_('Groups'), choices = [ (_G.dn,"{} - {}".format(_G.name, _G.description)) for _G in group_list ] )
-
-		def assign_groups(self, user):
-			for name in dir(self):
-				if name.startswith("groups_Tester"):
-					print("------------------------------------------------------------")
-					field = getattr(self, name)
-					
-
-					
-					print("------------------------------------------------------------\r\r\r")
-					
+		groups = MultiCheckboxField(_('Groups'), choices = [ (_G.dn,"{},   {} in {}".format(_G.name, _G.description, _G.title)) for _G in sort_group_by_title(group_list) ] )
 
 		update = SubmitField(_('Update!'))
 
 		delete_confirm = BooleanField(_('Confirm deletion'))
 		delete = SubmitField(_('Delete!'))
-	
-	# get group titles
-	titles = []
-	for group in group_list:
-		if str(group.title) not in titles and not str(group.title) is "":
-			titles.append(str(group.title))
-	titles.append("")
-
-	# create form fields
-	for title in titles:
-		print(title)
-		fieldDescription = title
-		if title == "":
-			fieldDescription = "Without Grouping"
-			print(fieldDescription)
-		test = MultiCheckboxField((fieldDescription), choices = [ (_G.dn,"{} - {}".format(_G.name, _G.description)) for _G in group_list if str(_G.title) == title] )
-		
-		setattr(EditUserForm, "groups_{}".format(title), test)
 	
 	return EditUserForm
 

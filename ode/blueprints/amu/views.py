@@ -115,7 +115,6 @@ def user(uid):
 		abort(404)
 	group_list = Group.query.all()
 	form = forms.get_EditUserForm(group_list)(obj=user)
-	form.assign_groups(user)
 	if request.method == 'POST' and form.validate_on_submit():
 		if form.userid.data != uid:
 			abort(400)
