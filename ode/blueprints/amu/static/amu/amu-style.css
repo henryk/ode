@@ -29,3 +29,12 @@ ul#list_members { height: auto; }
     width: 100%;
     color: black;
  }
+
+/**
+ * Tables in forms (fix)
+ */
+
+.form-control {
+    height: auto !important;
+    list-style: none !important;
+}
