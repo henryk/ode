@@ -117,7 +117,8 @@ def user(uid):
 	if not user:
 		abort(404)
 	group_list = Group.query.all()
-	form = forms.get_EditUserForm(group_list)(obj=user)
+	alias_list = Alias.query.all()
+	form = forms.get_EditUserForm(group_list, alias_list)(obj=user)
 	if request.method == 'POST' and form.validate_on_submit():
 		if form.userid.data != uid:
 			abort(400)
@@ -129,6 +130,10 @@ def user(uid):
 				flash(_("Successfully saved"), category="success")
 				if not user.save_groups(form.groups.data, group_list):
 					flash(_("Some or all of the group changes were not successful"), category="danger")
+
+				if not user.save_alias_groups(form.alias_groups.data, alias_list):
+					flash(_("Some or all of the alias changes were not successful"), category="danger")
+
 
 				mail_user_password(user, form)
 

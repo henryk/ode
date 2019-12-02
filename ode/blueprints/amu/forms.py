@@ -29,7 +29,7 @@ class EditSelfForm(Form):
 	update = SubmitField(_('Update!'))
 
 
-def get_EditUserForm(group_list):
+def get_EditUserForm(group_list, alias_list):
 	class EditUserForm(Form):
 		givenname = StringField(_('Given Name'), validators=[DataRequired()])
 		surname = StringField(_('Last Name'), validators=[DataRequired()])
@@ -45,6 +45,8 @@ def get_EditUserForm(group_list):
 		aliases = StringField(_('Additional E-Mail addresses'))
 
 		groups = MultiCheckboxField(_('Groups'), choices = [ (_G.dn,"{} - {}".format(_G.name, _G.description)) for _G in group_list ] )
+
+		alias_groups = MultiCheckboxField(_('Aliases'), choices = [ (_A.dn,"{}".format(_A.name)) for _A in alias_list ] )
 
 		update = SubmitField(_('Update!'))
 

@@ -65,6 +65,20 @@ class Alias(ldap.Entry):
 	name = ldap.Attribute('cn')
 	members = ldap.Attribute('member', default=[])
 
+	def remove_member(self, dn):
+		return self.connection.connection.modify(self.dn, {
+			"member": [
+				("MODIFY_DELETE", [dn])
+			]
+		})
+
+	def add_member(self, dn):
+		return self.connection.connection.modify(self.dn, {
+			"member": [
+				("MODIFY_ADD", [dn])
+			]
+		})
+
 	def set_members(self, new_members):
 		self.members = list(new_members)
 
@@ -91,6 +105,7 @@ class User(ldap.Entry):
 	mail = ldap.Attribute('CC-preferredMail')
 	_aliases = ldap.Attribute('CC-mailAlias')
 	groups = ldap.Attribute('memberOf')
+	alias_groups = ldap.Attribute('memberOf')
 
 	def save_groups(self, new_groups, group_list):
 		add_list = [group for group in group_list if group.dn in new_groups and self.dn not in group.members]
@@ -104,6 +119,17 @@ class User(ldap.Entry):
 			result = group.add_member(self.dn) and result
 		for group in del_list:
 			result = group.remove_member(self.dn) and result
+		return result
+
+	def save_alias_groups(self, new_alias_groups, alias_list):
+		add_list = [alias for alias in alias_list if alias.dn in new_alias_groups and self.dn not in alias.members]
+		del_list = [alias for alias in alias_list if alias.dn not in new_alias_groups and self.dn in alias.members]
+
+		result = True
+		for alias in add_list:
+			result = alias.add_member(self.dn) and result
+		for alias in del_list:
+			result = alias.remove_member(self.dn) and result
 		return result
 
 	@property
