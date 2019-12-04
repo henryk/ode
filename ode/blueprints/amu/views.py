@@ -159,9 +159,6 @@ def user(uid):
 			if member.split(",")[1][3:] == "Users":
 				member_list.append(str(member.split(",")[0][4:]))
 		alias_dict[alias] = member_list
-	print(alias_dict)
-
-
 
 	return render_template('amu/user.html', user=user, form=form, aliases=aliases)
 

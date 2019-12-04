@@ -1,54 +1,27 @@
-function sortTable(n, table_index) {
-    var table = document.getElementsByTagName("table")[table_index]
-    if (!table) {
-        return;
-    }
+function sortTable() {
+    const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
 
-    var isSwitching = true;
-    var switchCount = 0; // how many rows were switched
-    var order = "up"; // up - alphabetical / down - backward
-    while (isSwitching) {
-        isSwitching = false;
-        var rows = table.rows;
-        var canSwitch;
-        var i;
-        for (i = 1; i < (rows.length - 1); i++) {
-            canSwitch = false;
-            var a = rows[i].getElementsByTagName("td")[n];
-            var b = rows[i + 1].getElementsByTagName("td")[n];
-            if (order == "up") {
-                if (a.innerText.toUpperCase() > b.innerText.toUpperCase()) {
-                    canSwitch = true;
-                    break;
-                }
-            } else if (order == "down") {
-                if (a.innerText.toUpperCase() < b.innerText.toUpperCase()) {
-                    canSwitch = true;
-                    break;
-                }
-            }
-        }
+    const comparer = (idx, asc) => (a, b) => ((v1, v2) => 
+        v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)
+        )(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
 
-        // switch
-        if (canSwitch) {
-            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-            isSwitching = true;
-            switchCount++;
-        } else {
-            if (switchCount == 0 && order == "up") {
-                order = "down";
-                isSwitching = true;
-            }
-        }
-    }
+    document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() => {
+        const table = th.closest('table');
+        const tbody = table.getElementsByTagName('tbody')[0];
+        Array.from(tbody.querySelectorAll('tr'))
+            .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+            .forEach(tr => tbody.appendChild(tr) );
+    })));
 }
 
-function searchTable() {
+window.onload = sortTable;
+
+function searchTable(table_id = "search_table") {
     // input field
     var input = document.getElementById("search_input");
 
     // searchable table
-    var tables = document.getElementsByClassName("search_table");
+    var tables = document.getElementsByClassName(table_id);
     var tr = []
     for (table of tables) {
         c_tr = table.getElementsByTagName("tr");

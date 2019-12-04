@@ -4,18 +4,18 @@
 {% block inner %}
 <h2>{{_("User list")}}</h2>
 
-<div class="form-group" style="margin-bottom: 20px;">
+<div class="form-group">
   <label>{{_("Filter list")}}:</label>
-  <input id='search_input' onkeyup='searchTable()' type="text" class="form-control" id="usr" autofocus>
+  <input id='search_input' onkeyup='searchTable()' type="text" class="form-control" autofocus>
 </div>
 
-<table class="table table-striped search_table">
+<table id="sort_table" class="table table-striped search_table">
   <thead>
     <tr class="no_filter" style="cursor: pointer;">
-      <th onclick="sortTable(0, 0)">uid</th>
-      <th onclick="sortTable(1, 0)">{{_("Name")}}</th>
-      <th onclick="sortTable(2, 0)">{{_("E-Mail")}}</th>
-      <th onclick="sortTable(3, 0)">{{_("Groups")}}</th>
+      <th onclick="sortTable(0, 'sort_table')">uid</th>
+      <th onclick="sortTable(1, 'sort_table')">{{_("Name")}}</th>
+      <th onclick="sortTable(2, 'sort_table')">{{_("E-Mail")}}</th>
+      <th onclick="sortTable(3, 'sort_table')">{{_("Groups")}}</th>
     </tr>
   </thead>
   {% for user in users %}
