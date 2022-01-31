@@ -267,7 +267,7 @@ def initialize(app):
 	Alias.base_dn = config_get("ODE_ALIAS_BASE", config=app.config)
 
 	def re_to_format(r):
-		return re.sub(r'(^\^)|(\$$)', '', re.sub( r'\(\?P<([^>]+)>[^)]+\)', '%(\\1)s', re.sub(r'\\\\(.)', '\\1', r)) )
+		return re.sub('(^\^)|(\$$)', '', re.sub( '\(\?P<([^>]+)>[^)]+\)', '%(\\1)s', re.sub('\\\\(.)', '\\1', r)) )
 
 	MailingList.USER_RE = re.compile( app.config["MAILING_LIST_MEMBER_USER_TEMPLATE"] )
 	MailingList.GROUP_RE = re.compile( app.config["MAILING_LIST_MEMBER_GROUP_TEMPLATE"] % {
