@@ -13,8 +13,8 @@
       </tr>
     </thead>
     {% for user in users %}
-      <tr data-href="{{url_for('.user',uid=user.userid)}}">
-        <td><a href="{{url_for('.user',uid=user.userid)}}">{{user.userid}}</a></td>
+      <tr data-href="{{url_for('.user',uid=user.userid)}}"{% if user.is_locked %} class="text-muted"{% endif %}>
+        <td><a href="{{url_for('.user',uid=user.userid)}}">{{user.userid}}</a>{% if user.is_locked %} <span class="label label-default">{{_("locked")}}</span>{% endif %}</td>
         <td>{{user.name}}</td>
         <td>{{user.mail}}</td>
         <td>

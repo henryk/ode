@@ -39,6 +39,8 @@ def get_EditUserForm(group_list):
 
 		groups = MultiCheckboxField(_('Groups'), choices = [ (_G.dn,_G.name) for _G in group_list ] )
 
+		locked = BooleanField(_('Account locked'))
+
 		update = SubmitField(_('Update!'))
 
 		delete_confirm = BooleanField(_('Confirm deletion'))

@@ -37,6 +37,15 @@ class User(ldap.Entry):
 	_aliases = ldap.Attribute('CC-mailAlias')
 	groups = ldap.Attribute('memberOf')
 
+	@property
+	def is_locked(self):
+		pw = self.password.value
+		if isinstance(pw, (list, tuple)):
+			pw = pw[0] if pw else None
+		if not pw:
+			return False
+		return str(pw).startswith("{CRYPT}!")
+
 	def save_groups(self, new_groups, group_list):
 		add_list = [group for group in group_list if group.dn in new_groups and self.dn not in group.members]
 		del_list = [group for group in group_list if group.dn not in new_groups and self.dn in group.members]

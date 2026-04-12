@@ -79,6 +79,7 @@ def save_ldap_attributes(form, obj):
 		if name == "userid" and getattr(obj, "userid", None): continue
 		if name == "groups": continue
 		if name == "members": continue
+		if name == "locked": continue
 
 		try:
 			value = field.data
@@ -122,6 +123,18 @@ def user(uid):
 		if form.update.data:
 			changed = save_ldap_attributes(form, user)
 
+			# Handle account lock/unlock by prepending/removing '!' in password hash
+			if form.locked.data and not user.is_locked:
+				pw = str(user.password.value if not isinstance(user.password.value, (list, tuple)) else user.password.value[0])
+				if pw.startswith("{CRYPT}"):
+					user.password.value = "{CRYPT}!" + pw[7:]
+					changed = True
+			elif not form.locked.data and user.is_locked:
+				pw = str(user.password.value if not isinstance(user.password.value, (list, tuple)) else user.password.value[0])
+				if pw.startswith("{CRYPT}!"):
+					user.password.value = "{CRYPT}" + pw[8:]
+					changed = True
+
 			if not changed or user.save():
 				flash(_("Successfully saved"), category="success")
 				if not user.save_groups(form.groups.data, group_list):
@@ -144,6 +157,7 @@ def user(uid):
 				flash(_("Please confirm user deletion"), category="danger")
 
 	form.password.data = '' # Must manually delete this, since the password is not returned
+	form.locked.data = user.is_locked
 	form.delete_confirm.data = False # Always reset this
 	return render_template('amu/user.html', user=user, form=form)
 
